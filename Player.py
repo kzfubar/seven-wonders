@@ -17,9 +17,12 @@ class Player:
         "science": 0,
         "guild": 0
     }
+    coupons = set()
     effects = []
-    left = None
-    right = None
+    neighbors = {
+        LEFT: None,
+        RIGHT: None
+    }
 
     def __init__(self, wonder: Wonder):
         print(f"creating player {wonder}")

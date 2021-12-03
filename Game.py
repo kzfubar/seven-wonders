@@ -3,6 +3,12 @@ from util import *
 
 
 class Game:
+    pass_order = {
+        1: LEFT,
+        2: RIGHT,
+        3: LEFT
+    }
+
     def __init__(self, num_players):
         print(f"creating game with {num_players}...")
 
@@ -21,8 +27,8 @@ class Game:
 
     def __set_neighbors(self):
         for a, b, c in zip([self.players[-1]] + self.players, self.players, self.players + [self.players[0]]):
-            b.left = a
-            b.right = c
+            b.neighbors[LEFT] = a
+            b.neighbors[RIGHT] = c
 
     def __deal_cards(self, age: int):
         card_list = self.__get_cards(age)
@@ -43,6 +49,7 @@ class Game:
                 action, card_index = player_input[0], int(player_input[1])
 
                 self.__take_action(player_number, action, card_index)
+            self.__pass_hands(age)
 
     def __take_action(self, player_number: int, action: str, card_index: int):
         card = self.__get_player(player_number).get_card(card_index)
@@ -72,6 +79,17 @@ class Game:
 
     def __get_player(self, player_number: int):
         return self.players[player_number]
+
+    def __pass_hands(self, age: int):
+        player_order = self.players + [self.players[0]]
+
+        if self.pass_order[age] == LEFT:
+            player_order.reverse()
+
+        temp_hand = []
+        for player in player_order:
+            player.hand, temp_hand = temp_hand, player.hand
+
 
     def play(self):
         print("starting game!")

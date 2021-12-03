@@ -64,4 +64,6 @@ def get_all_cards(num_players: int):
 
 
 ALL_WONDERS = all_wonders()
+LEFT = "left"
+RIGHT = "right"
 pprint.pprint(ALL_WONDERS)
