@@ -14,7 +14,7 @@ def give_effect(c, name, effect):
 
 
 def give_effects():
-    with open("cards2.json") as f:
+    with open("cards.json") as f:
         cards = json.load(f)
 
 
@@ -26,7 +26,7 @@ def give_effects():
         # tmp(card, 'commercial') ignore commercial b/c wacky-doodle
         give_effect(card, 'science', 'produce')
 
-    with open('cards3.json', 'w') as f:
+    with open('cards.json', 'w') as f:
         json.dump(cards, f, indent=2)
 
 
@@ -61,7 +61,7 @@ def effect_to_effects():
     for card in cards:
         tmp(card)
 
-    with open('cards2.json', 'w') as f:
+    with open('cards.json', 'w') as f:
         json.dump(cards, f, indent=2)
 
 
@@ -88,13 +88,13 @@ def modify(c):
 
 
 def modify_effects():
-    with open("cards3.json") as f:
+    with open("cards.json") as f:
         cards = json.load(f)
 
     for card in cards:
         modify(card)
 
-    with open('cards4.json', 'w') as f:
+    with open('cards.json', 'w') as f:
         json.dump(cards, f, indent=2)
 
 

@@ -1,761 +1,2100 @@
 [
-    {
-        "name": "Lumber Yard",
-        "players": [3,4],
-        "resources":["w"],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Stone Pit",
-        "players": [3,5],
-        "resources":["s"],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Clay Pool",
-        "players": [3,5],
-        "resources":["b"],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Ore Vein",
-        "players": [3,4],
-        "resources":["o"],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Tree Farm",
-        "players": [6],
-        "resources":["w","b"],
-        "cost":["c"],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Excavation",
-        "players": [4],
-        "resources":["b","s"],
-        "cost":["c"],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Clay Pit",
-        "players": [3],
-        "resources":["b","o"],
-        "cost":["c"],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Timber Yard",
-        "players": [3],
-        "resources":["w","s"],
-        "cost":["c"],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "FOrest Cave",
-        "players": [5],
-        "resources":["w","o"],
-        "cost":["c"],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Mine",
-        "players": [6],
-        "resources":["o","s"],
-        "cost":["c"],
-        "coupon":[],
-        "age":1,
-        "type": "common"
-    },
-    {
-        "name": "Loom",
-        "players": [3,6],
-        "resources":["l"],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "luxury"
-    },
-    {
-        "name": "Glassworks",
-        "players": [3,6],
-        "resources":["g"],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "luxury"
-    },
-    {
-        "name": "Press",
-        "players": [3,6],
-        "resources":["p"],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "luxury"
-    },
-    {
-        "name": "Sawmill",
-        "players": [3,4],
-        "resources":["ww"],
-        "cost":["c"],
-        "coupon":[],
-        "age":2,
-        "type": "common"
-    },
-    {
-        "name": "Quarry",
-        "players": [3,4],
-        "resources":["ss"],
-        "cost":["c"],
-        "coupon":[],
-        "age":2,
-        "type": "common"
-    },
-    {
-        "name": "Brickyard",
-        "players": [3,4],
-        "resources":["cc"],
-        "cost":["c"],
-        "coupon":[],
-        "age":2,
-        "type": "common"
-    },
-    {
-        "name": "Foundry",
-        "players": [3,4],
-        "resources":["oo"],
-        "cost":["c"],
-        "coupon":[],
-        "age":2,
-        "type": "common"
-    },
-    {
-        "name": "Loom",
-        "players": [3,5],
-        "resources":["l"],
-        "cost":[],
-        "coupon":[],
-        "age":2,
-        "type": "luxury"
-    },
-    {
-        "name": "Glassworks",
-        "players": [3,5],
-        "resources":["g"],
-        "cost":[],
-        "coupon":[],
-        "age":2,
-        "type": "luxury"
-    },
-    {
-        "name": "Press",
-        "players": [3,5],
-        "resources":["p"],
-        "cost":[],
-        "coupon":[],
-        "age":2,
-        "type": "luxury"
-    },
-    {
-        "name": "Pawnshop",
-        "players": [4,7],
-        "resources":[3],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "civilian"
-    },
-    {
-        "name": "Baths",
-        "players": [3,7],
-        "resources":[3],
-        "cost":["s"],
-        "coupon":"Aqueduct",
-        "age":1,
-        "type": "civilian"
-    },
-    {
-        "name": "Altar",
-        "players": [3,5],
-        "resources":[2],
-        "cost":[],
-        "coupon":"Temple",
-        "age":1,
-        "type": "civilian"
-    },
-    {
-        "name": "Theater",
-        "players": [3,6],
-        "resources":[2],
-        "cost":[],
-        "coupon":"Statue",
-        "age":1,
-        "type": "civilian"
-    },
-    {
-        "name": "Aqueduct",
-        "players": [3,7],
-        "resources":[5],
-        "cost":["s","s","s"],
-        "coupon":[],
-        "age":2,
-        "type": "civilian"
-    },
-    {
-        "name": "Temple",
-        "players": [3,6],
-        "resources":[4],
-        "cost":["w","b","g"],
-        "coupon":"Pantheon",
-        "age":2,
-        "type": "civilian"
-    },
-    {
-        "name": "Statue",
-        "players": [3,7],
-        "resources":[4],
-        "cost":["w","o","o"],
-        "coupon":"Gardens",
-        "age":2,
-        "type": "civilian"
-    },
-    {
-        "name": "Pantheon",
-        "players": [3,6],
-        "resources":[7],
-        "cost":["b","b","o","p","l","g"],
-        "coupon":[],
-        "age":3,
-        "type": "civilian"
-    },
-    {
-        "name": "Gardens",
-        "players": [3,4],
-        "resources":[5],
-        "cost":["w","b","b"],
-        "coupon":[],
-        "age":3,
-        "type": "civilian"
-    },
-    {
-        "name": "Town Hall",
-        "players": [3,5,6],
-        "resources":[6],
-        "cost":["g","o","s","s"],
-        "coupon":[],
-        "age":3,
-        "type": "civilian"
-    },
-    {
-        "name": "Palace",
-        "players": [3,7],
-        "resources":[8],
-        "cost":["g","p","l","l","w","o","s"],
-        "coupon":[],
-        "age":3,
-        "type": "civilian"
-    },
-    {
-        "name": "Tavern",
-        "players": [4,5,7],
-        "resources":["ccccc"],
-        "cost":[],
-        "coupon":[],
-        "age":1,
-        "type": "commercial"
-    },
-    {
-        "name": "East Trading Post",
-        "players": [3,7],
-        "resources":[],
-        "target": ["common"],
-        "cost":[],
-        "direction": ["right"],
-        "effect": ["discount"],
-        "coupon":"Forum",
-        "age":1,
-        "type": "commercial"
-    },
-    {
-        "name": "West Trading Post",
-        "players": [3,7],
-        "resources":[],
-        "target": ["common"],
-        "cost":[],
-        "direction": ["left"],
-        "effect": ["discount"],
-        "coupon":"Forum",
-        "age":1,
-        "type": "commercial"
-    },
-    {
-        "name": "Marketplace",
-        "players": [3,6],
-        "resources":[],
-        "target": ["luxury"],
-        "cost":[],
-        "direction": ["left","right"],
-        "effect": ["discount"],
-        "coupon":"Caravansery",
-        "age":1,
-        "type": "commercial"
-    },
-    {
-        "name": "Forum",
-        "players": [3,6,7],
-        "resources":["l","g","p"],
-        "cost":["b","b"],
-        "coupon":"Haven",
-        "age":2,
-        "type": "commercial"
-    },
-    {
-        "name": "Caravansery",
-        "players": [3,5,6],
-        "resources":["w","b","s","o"],
-        "cost":["w","w"],
-        "coupon":"Lighthouse",
-        "age":2,
-        "type": "commercial"
-    },
-    {
-        "name": "Vineyard",
-        "players": [3,6],
-        "resources":[1],
-        "target": ["common"],
-        "cost":[],
-        "direction": ["left","right","self"],
-        "effect": ["levy"],
-        "coupon":[],
-        "age":2,
-        "type": "commercial"
-    },
-    {
-        "name": "Bazar",
-        "players": [4,7],
-        "resources":[2],
-        "target": ["luxury"],
-        "cost":[],
-        "direction": ["left","right","self"],
-        "effect": ["levy"],
-        "coupon":[],
-        "age":2,
-        "type": "commercial"
-    },
-    {
-        "name": "Haven",
-        "players": [3,4],
-        "resources":[1,1],
-        "target": ["common"],
-        "cost":["l","o","w"],
-        "direction": ["self"],
-        "effect": ["levy", "victory"],
-        "coupon":[],
-        "age":3,
-        "type": "commercial"
-    },
-    {
-        "name": "Lighthouse",
-        "players": [3,6],
-        "resources":[1,1],
-        "target": ["commercial"],
-        "cost":["g","s"],
-        "direction": ["self"],
-        "effect": ["levy", "victory"],
-        "coupon":[],
-        "age":3,
-        "type": "commercial"
-    },
-    {
-        "name": "Chamber of Commerce",
-        "players": [4,6],
-        "resources":[2,2],
-        "target": ["luxury"],
-        "cost":["b","b","p"],
-        "direction": ["self"],
-        "effect": ["levy", "victory"],
-        "coupon":[],
-        "age":3,
-        "type": "commercial"
-    },
-    {
-        "name": "Stockade",
-        "players": [3,7],
-        "resources":[1],
-        "cost":["w"],
-        "coupon":[],
-        "age":1,
-        "type": "military"
-    },
-    {
-        "name": "Barracks",
-        "players": [3,5],
-        "resources":[1],
-        "cost":["o"],
-        "coupon":[],
-        "age":1,
-        "type": "military"
-    },
-    {
-        "name": "Guard Tower",
-        "players": [3,4],
-        "resources":[1],
-        "cost":["b"],
-        "coupon":[],
-        "age":1,
-        "type": "military"
-    },
-    {
-        "name": "Walls",
-        "players": [3,7],
-        "resources":[2],
-        "cost":["s","s","s"],
-        "coupon":"Fortifications",
-        "age":2,
-        "type": "military"
-    },
-    {
-        "name": "Training Ground",
-        "players": [4,6,7],
-        "resources":[2],
-        "cost":["w","o","o"],
-        "coupon":"Circus",
-        "age":2,
-        "type": "military"
-    },
-    {
-        "name": "Fortification",
-        "players": [3,7],
-        "resources":[3],
-        "cost":["s","o","o","o"],
-        "coupon":[],
-        "age":3,
-        "type": "military"
-    },
-    {
-        "name": "Circus",
-        "players": [4,5,6],
-        "resources":[3],
-        "cost":["s","s","s", "o"],
-        "coupon":[],
-        "age":3,
-        "type": "military"
-    },
-    {
-        "name": "Arsenal",
-        "players": [3,4,7],
-        "resources":[3],
-        "cost":["l","w","w", "o"],
-        "coupon":[],
-        "age":3,
-        "type": "military"
-    },
-    {
-        "name": "Apothecary",
-        "players": [3,5],
-        "resources":["y"],
-        "cost":["l"],
-        "coupon":["Stables", "Dispensary"],
-        "age":1,
-        "type": "science"
-    },
-    {
-        "name": "Workshop",
-        "players": [3,7],
-        "resources":["x"],
-        "cost":["g"],
-        "coupon":["Archery Range", "Laboratory"],
-        "age":1,
-        "type": "science"
-    },
-    {
-        "name": "Scriptorium",
-        "players": [3,4],
-        "resources":["z"],
-        "cost":["p"],
-        "coupon":["Courthouse", "Library"],
-        "age":1,
-        "type": "science"
-    },
-    {
-        "name": "Stables",
-        "players": [3,5],
-        "resources":[2],
-        "cost":["o","b","w"],
-        "coupon":[],
-        "age":2,
-        "type": "military"
-    },
-    {
-        "name": "Dispensary",
-        "players": [3,4],
-        "resources":["y"],
-        "cost":["o","o","g"],
-        "coupon":["Arena", "Lodge"],
-        "age":2,
-        "type": "science"
-    },
-    {
-        "name": "Archery Range",
-        "players": [3,6],
-        "resources":[2],
-        "cost":["w","w","o"],
-        "coupon":[],
-        "age":2,
-        "type": "military"
-    },
-    {
-        "name": "Laboratory",
-        "players": [3,5],
-        "resources":["x"],
-        "cost":["b","b","g"],
-        "coupon":["Siege Workshop", "Observatory"],
-        "age":2,
-        "type": "science"
-    },
-    {
-        "name": "Courthouse",
-        "players": [3,5],
-        "resources":[4],
-        "cost":["b","b","l"],
-        "coupon":[],
-        "age":2,
-        "type": "civilian"
-    },
-    {
-        "name": "Library",
-        "players": [3,6],
-        "resources":["z"],
-        "cost":["l","s","s"],
-        "coupon":["Senate", "University"],
-        "age":2,
-        "type": "science"
-    },
-    {
-        "name": "School",
-        "players": [3,7],
-        "resources":["z"],
-        "cost":["w","p"],
-        "coupon":["Academy", "Study"],
-        "age":2,
-        "type": "science"
-    },
-    {
-        "name": "Lodge",
-        "players": [3,6],
-        "resources":["y"],
-        "cost":["b","b","l","p"],
-        "coupon":[],
-        "age":3,
-        "type": "science"
-    },
-    {
-        "name": "Siege Workshop",
-        "players": [3,5],
-        "resources":[3],
-        "cost":["b","b","b","w"],
-        "coupon":[],
-        "age":3,
-        "type": "military"
-    },
-    {
-        "name": "Observatory",
-        "players": [3,7],
-        "resources":["x"],
-        "cost":["o","o","l","g"],
-        "coupon":[],
-        "age":3,
-        "type": "science"
-    },
-    {
-        "name": "Senate",
-        "players": [3,5],
-        "resources":[6],
-        "cost":["o","s","w","w"],
-        "coupon":[],
-        "age":3,
-        "type": "civilian"
-    },
-    {
-        "name": "University",
-        "players": [3,4],
-        "resources":["z"],
-        "cost":["w","w","g","p"],
-        "coupon":[],
-        "age":3,
-        "type": "science"
-    },
-    {
-        "name": "Academy",
-        "players": [3,7],
-        "resources":["y"],
-        "cost":["s","s","s","g"],
-        "coupon":[],
-        "age":3,
-        "type": "science"
-    },
-    {
-        "name": "Study",
-        "players": [3,5],
-        "resources":["x"],
-        "cost":["w","l","p"],
-        "coupon":[],
-        "age":3,
-        "type": "science"
-    },
-    {
-        "name": "Arena",
-        "players": [3,5,7],
-        "resources":[3,1],
-        "target": ["wonder_level"],
-        "cost":["o","s","s"],
-        "direction": ["self"],
-        "effect": ["levy","victory"],
-        "coupon":[],
-        "age":3,
-        "type": "commercial"
-    },
-    {
-        "name": "Workers Guild",
-        "players": [],
-        "resources":[1],
-        "target": ["common"],
-        "cost":["o","o","s","b","w"],
-        "direction": ["left","right"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Craftsmen Guild",
-        "players": [],
-        "resources":[2],
-        "target": ["luxury"],
-        "cost":["o","o","s","s"],
-        "direction": ["left","right"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Traders Guild",
-        "players": [],
-        "resources":[1],
-        "target": ["commercial"],
-        "cost":["l","p","g"],
-        "direction": ["left","right"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Philosophers Guild",
-        "players": [],
-        "resources":[1],
-        "target": ["science"],
-        "cost":["b","b","p","b","l"],
-        "direction": ["left","right"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Spies Guild",
-        "players": [],
-        "resources":[1],
-        "target": ["military"],
-        "cost":["g","b","b","b"],
-        "direction": ["left","right"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Strategists Guild",
-        "players": [],
-        "resources":[1],
-        "target": ["shame"],
-        "cost":["o","o","s","l"],
-        "direction": ["left","right"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Shipowners Guild",
-        "players": [],
-        "resources":[1],
-        "target": ["common","luxury","guild"],
-        "cost":["w","w","p","g","w"],
-        "direction": ["left","right"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Magistrates Guild",
-        "players": [],
-        "resources":[1],
-        "target": ["civilian"],
-        "cost":["l","w","s","w","w"],
-        "direction": ["left","right"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Builders Guild",
-        "players": [],
-        "resources":[1],
-        "target": ["wonder_level"],
-        "cost":["g","s","s","b","b"],
-        "direction": ["left","right","self"],
-        "effect": ["victory"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    },
-    {
-        "name": "Scientists Guild",
-        "players": [],
-        "resources":["x","y","z"],
-        "cost":["o","o","p","w","w"],
-        "direction": [],
-        "target": ["self"],
-        "effect": ["produce"],
-        "coupon":[],
-        "age":3,
-        "type": "guild"
-    }
+  {
+    "name": "Lumber Yard",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "w"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Stone Pit",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "s"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Clay Pool",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "b"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ore Vein",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "o"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Tree Farm",
+    "players": [
+      6
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "w",
+          "b"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Excavation",
+    "players": [
+      4
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "b",
+          "s"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Clay Pit",
+    "players": [
+      3
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "b",
+          "o"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Timber Yard",
+    "players": [
+      3
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "w",
+          "s"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "FOrest Cave",
+    "players": [
+      5
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "w",
+          "o"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Mine",
+    "players": [
+      6
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "o",
+          "s"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Loom",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "luxury",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "l"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Glassworks",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "luxury",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "g"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Press",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "luxury",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "p"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Sawmill",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 2,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "ww"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Quarry",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 2,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "ss"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Brickyard",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 2,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "cc"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Foundry",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "c"
+    ],
+    "coupon": [],
+    "age": 2,
+    "type": "common",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "oo"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Loom",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 2,
+    "type": "luxury",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "l"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Glassworks",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 2,
+    "type": "luxury",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "g"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Press",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 2,
+    "type": "luxury",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "p"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Pawnshop",
+    "players": [
+      4,
+      7
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Baths",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "s"
+    ],
+    "coupon": "Aqueduct",
+    "age": 1,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Altar",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [],
+    "coupon": "Temple",
+    "age": 1,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Theater",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [],
+    "coupon": "Statue",
+    "age": 1,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Aqueduct",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "s",
+      "s",
+      "s"
+    ],
+    "coupon": [],
+    "age": 2,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Temple",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [
+      "w",
+      "b",
+      "g"
+    ],
+    "coupon": "Pantheon",
+    "age": 2,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Statue",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "w",
+      "o",
+      "o"
+    ],
+    "coupon": "Gardens",
+    "age": 2,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Pantheon",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [
+      "b",
+      "b",
+      "o",
+      "p",
+      "l",
+      "g"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvvvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gardens",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "w",
+      "b",
+      "b"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Town Hall",
+    "players": [
+      3,
+      5,
+      6
+    ],
+    "cost": [
+      "g",
+      "o",
+      "s",
+      "s"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Palace",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "g",
+      "p",
+      "l",
+      "l",
+      "w",
+      "o",
+      "s"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvvvvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Tavern",
+    "players": [
+      4,
+      5,
+      7
+    ],
+    "resources": [
+      "ccccc"
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 1,
+    "type": "commercial"
+  },
+  {
+    "name": "East Trading Post",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [],
+    "coupon": "Forum",
+    "age": 1,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "discount",
+        "resources": [],
+        "target": [
+          "common"
+        ],
+        "direction": [
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "West Trading Post",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [],
+    "coupon": "Forum",
+    "age": 1,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "discount",
+        "resources": [],
+        "target": [
+          "common"
+        ],
+        "direction": [
+          "left"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Marketplace",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [],
+    "coupon": "Caravansery",
+    "age": 1,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "discount",
+        "resources": [],
+        "target": [
+          "luxury"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Forum",
+    "players": [
+      3,
+      6,
+      7
+    ],
+    "resources": [
+      "l",
+      "g",
+      "p"
+    ],
+    "cost": [
+      "b",
+      "b"
+    ],
+    "coupon": "Haven",
+    "age": 2,
+    "type": "commercial"
+  },
+  {
+    "name": "Caravansery",
+    "players": [
+      3,
+      5,
+      6
+    ],
+    "resources": [
+      "w",
+      "b",
+      "s",
+      "o"
+    ],
+    "cost": [
+      "w",
+      "w"
+    ],
+    "coupon": "Lighthouse",
+    "age": 2,
+    "type": "commercial"
+  },
+  {
+    "name": "Vineyard",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 2,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "c"
+        ],
+        "target": [
+          "common"
+        ],
+        "direction": [
+          "left",
+          "right",
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bazar",
+    "players": [
+      4,
+      7
+    ],
+    "cost": [],
+    "coupon": [],
+    "age": 2,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "cc"
+        ],
+        "target": [
+          "luxury"
+        ],
+        "direction": [
+          "left",
+          "right",
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Haven",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "l",
+      "o",
+      "w"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "c"
+        ],
+        "target": [
+          "common"
+        ],
+        "direction": [
+          "self"
+        ]
+      },
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "common"
+        ],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Lighthouse",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [
+      "g",
+      "s"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "c"
+        ],
+        "target": [
+          "commercial"
+        ],
+        "direction": [
+          "self"
+        ]
+      },
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "commercial"
+        ],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Chamber of Commerce",
+    "players": [
+      4,
+      6
+    ],
+    "cost": [
+      "b",
+      "b",
+      "p"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "cc"
+        ],
+        "target": [
+          "luxury"
+        ],
+        "direction": [
+          "self"
+        ]
+      },
+      {
+        "effect": "victory",
+        "resources": [
+          "vv"
+        ],
+        "target": [
+          "luxury"
+        ],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Stockade",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "w"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "m"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Barracks",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [
+      "o"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "m"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Guard Tower",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "b"
+    ],
+    "coupon": [],
+    "age": 1,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "m"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Walls",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "s",
+      "s",
+      "s"
+    ],
+    "coupon": "Fortifications",
+    "age": 2,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "mm"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Training Ground",
+    "players": [
+      4,
+      6,
+      7
+    ],
+    "cost": [
+      "w",
+      "o",
+      "o"
+    ],
+    "coupon": "Circus",
+    "age": 2,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "mm"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fortification",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "s",
+      "o",
+      "o",
+      "o"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "mmm"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Circus",
+    "players": [
+      4,
+      5,
+      6
+    ],
+    "cost": [
+      "s",
+      "s",
+      "s",
+      "o"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "mmm"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Arsenal",
+    "players": [
+      3,
+      4,
+      7
+    ],
+    "cost": [
+      "l",
+      "w",
+      "w",
+      "o"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "mmm"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Apothecary",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [
+      "l"
+    ],
+    "coupon": [
+      "Stables",
+      "Dispensary"
+    ],
+    "age": 1,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "y"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Workshop",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "g"
+    ],
+    "coupon": [
+      "Archery Range",
+      "Laboratory"
+    ],
+    "age": 1,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "x"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Scriptorium",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "p"
+    ],
+    "coupon": [
+      "Courthouse",
+      "Library"
+    ],
+    "age": 1,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "z"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Stables",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [
+      "o",
+      "b",
+      "w"
+    ],
+    "coupon": [],
+    "age": 2,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "mm"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dispensary",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "o",
+      "o",
+      "g"
+    ],
+    "coupon": [
+      "Arena",
+      "Lodge"
+    ],
+    "age": 2,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "y"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Archery Range",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [
+      "w",
+      "w",
+      "o"
+    ],
+    "coupon": [],
+    "age": 2,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "mm"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Laboratory",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [
+      "b",
+      "b",
+      "g"
+    ],
+    "coupon": [
+      "Siege Workshop",
+      "Observatory"
+    ],
+    "age": 2,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "x"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Courthouse",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [
+      "b",
+      "b",
+      "l"
+    ],
+    "coupon": [],
+    "age": 2,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Library",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [
+      "l",
+      "s",
+      "s"
+    ],
+    "coupon": [
+      "Senate",
+      "University"
+    ],
+    "age": 2,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "z"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "School",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "w",
+      "p"
+    ],
+    "coupon": [
+      "Academy",
+      "Study"
+    ],
+    "age": 2,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "z"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Lodge",
+    "players": [
+      3,
+      6
+    ],
+    "cost": [
+      "b",
+      "b",
+      "l",
+      "p"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "y"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Siege Workshop",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [
+      "b",
+      "b",
+      "b",
+      "w"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "military",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "mmm"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Observatory",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "o",
+      "o",
+      "l",
+      "g"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "x"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Senate",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [
+      "o",
+      "s",
+      "w",
+      "w"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "civilian",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vvvvvv"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "University",
+    "players": [
+      3,
+      4
+    ],
+    "cost": [
+      "w",
+      "w",
+      "g",
+      "p"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "z"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Academy",
+    "players": [
+      3,
+      7
+    ],
+    "cost": [
+      "s",
+      "s",
+      "s",
+      "g"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "y"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Study",
+    "players": [
+      3,
+      5
+    ],
+    "cost": [
+      "w",
+      "l",
+      "p"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "science",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "x"
+        ],
+        "target": [],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Arena",
+    "players": [
+      3,
+      5,
+      7
+    ],
+    "cost": [
+      "o",
+      "s",
+      "s"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": [
+          "ccc"
+        ],
+        "target": [
+          "wonder_level"
+        ],
+        "direction": [
+          "self"
+        ]
+      },
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "wonder_level"
+        ],
+        "direction": [
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Workers Guild",
+    "players": [],
+    "cost": [
+      "o",
+      "o",
+      "s",
+      "b",
+      "w"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "common"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Craftsmen Guild",
+    "players": [],
+    "cost": [
+      "o",
+      "o",
+      "s",
+      "s"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "vv"
+        ],
+        "target": [
+          "luxury"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Traders Guild",
+    "players": [],
+    "cost": [
+      "l",
+      "p",
+      "g"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "commercial"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Philosophers Guild",
+    "players": [],
+    "cost": [
+      "b",
+      "b",
+      "p",
+      "b",
+      "l"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "science"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Spies Guild",
+    "players": [],
+    "cost": [
+      "g",
+      "b",
+      "b",
+      "b"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "military"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Strategists Guild",
+    "players": [],
+    "cost": [
+      "o",
+      "o",
+      "s",
+      "l"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "shame"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Shipowners Guild",
+    "players": [],
+    "cost": [
+      "w",
+      "w",
+      "p",
+      "g",
+      "w"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "common",
+          "luxury",
+          "guild"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Magistrates Guild",
+    "players": [],
+    "cost": [
+      "l",
+      "w",
+      "s",
+      "w",
+      "w"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "civilian"
+        ],
+        "direction": [
+          "left",
+          "right"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Builders Guild",
+    "players": [],
+    "cost": [
+      "g",
+      "s",
+      "s",
+      "b",
+      "b"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "victory",
+        "resources": [
+          "v"
+        ],
+        "target": [
+          "wonder_level"
+        ],
+        "direction": [
+          "left",
+          "right",
+          "self"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Scientists Guild",
+    "players": [],
+    "cost": [
+      "o",
+      "o",
+      "p",
+      "w",
+      "w"
+    ],
+    "coupon": [],
+    "age": 3,
+    "type": "guild",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": [
+          "x",
+          "y",
+          "z"
+        ],
+        "target": [
+          "self"
+        ],
+        "direction": []
+      }
+    ]
+  }
 ]
