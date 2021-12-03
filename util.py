@@ -11,7 +11,7 @@ def all_cards(age: int):
 
 
 def is_resource(effect: Effect):
-    return effect.card_type == "common" or effect.card_type == "special"
+    return effect.card_type == "common" or effect.card_type == "luxury"
 
 
 all_wonders = all_wonders()

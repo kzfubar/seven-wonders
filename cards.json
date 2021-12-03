@@ -96,7 +96,7 @@
         "cost":[],
         "coupon":[],
         "age":1,
-        "type": "special"
+        "type": "luxury"
     },
     {
         "name": "Glassworks",
@@ -105,7 +105,7 @@
         "cost":[],
         "coupon":[],
         "age":1,
-        "type": "special"
+        "type": "luxury"
     },
     {
         "name": "Press",
@@ -114,7 +114,7 @@
         "cost":[],
         "coupon":[],
         "age":1,
-        "type": "special"
+        "type": "luxury"
     },
     {
         "name": "Sawmill",
@@ -159,7 +159,7 @@
         "cost":[],
         "coupon":[],
         "age":2,
-        "type": "special"
+        "type": "luxury"
     },
     {
         "name": "Glassworks",
@@ -168,7 +168,7 @@
         "cost":[],
         "coupon":[],
         "age":2,
-        "type": "special"
+        "type": "luxury"
     },
     {
         "name": "Press",
@@ -177,16 +177,7 @@
         "cost":[],
         "coupon":[],
         "age":2,
-        "type": "special"
-    },
-    {
-        "name": "Press",
-        "players": [3,5],
-        "resources":["p"],
-        "cost":[],
-        "coupon":[],
-        "age":2,
-        "type": "special"
+        "type": "luxury"
     },
     {
         "name": "Pawnshop",
@@ -324,7 +315,7 @@
         "name": "Marketplace",
         "players": [3,6],
         "resources":[],
-        "target": ["special"],
+        "target": ["luxury"],
         "cost":[],
         "direction": ["left","right"],
         "effect": ["discount"],
@@ -366,7 +357,7 @@
         "name": "Bazar",
         "players": [4,7],
         "resources":[2],
-        "target": ["special"],
+        "target": ["luxury"],
         "cost":[],
         "direction": ["left","right","self"],
         "effect": ["levy"],
@@ -402,7 +393,7 @@
         "name": "Chamber of Commerce",
         "players": [4,6],
         "resources":[2,2],
-        "target": ["special"],
+        "target": ["luxury"],
         "cost":["c","c","p"],
         "direction": ["self"],
         "effect": ["levy", "victory"],
@@ -663,7 +654,7 @@
         "name": "Craftsmen Guild",
         "players": [],
         "resources":[2],
-        "target": ["special"],
+        "target": ["luxury"],
         "cost":["o","o","s","s"],
         "direction": ["left","right"],
         "effect": ["victory"],
@@ -723,7 +714,7 @@
         "name": "Shipowners Guild",
         "players": [],
         "resources":[1],
-        "target": ["common","special","guild"],
+        "target": ["common","luxury","guild"],
         "cost":["w","w","p","g","w"],
         "direction": ["left","right"],
         "effect": ["victory"],
@@ -761,7 +752,7 @@
         "resources":["cog","compass","tablet"],
         "cost":["o","o","p","w","w"],
         "direction": [],
-        "effect": ["innovate"],
+        "effect": ["produce"],
         "coupon":[],
         "age":3,
         "type": "guild"
