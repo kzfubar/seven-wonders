@@ -4,9 +4,9 @@ from collections import Counter
 from util import *
 
 class Player:
-    hand = [Card]
-    played = [Card]
-    effects = [Effect]
+    hand = []
+    played = []
+    effects = []
     coins = 0
     shame = 0
     military_points = 0
