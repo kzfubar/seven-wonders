@@ -26,7 +26,7 @@ class Player:
     def hand_to_str(self):
         hand = ""
         for card in self.hand:
-            hand += f"{card.name}{{{card.card_type}}}, {card.effects}\n"
+            hand += f"{str(card)}\n"
         return hand
 
     def get_min_cost(self, card: Card, effects: List[Effect]):

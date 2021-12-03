@@ -20,6 +20,9 @@ class Effect:
                f"direction = {self.direction}, " \
                f"is_public = {self.is_public}}}"
 
+    def __str__(self):
+        return f"{self.effect}={self.resources} for {self.direction} on {self.target}"
+
 
 class Card:
     def __init__(self, name: str,
@@ -39,3 +42,7 @@ class Card:
                f"card_type = {self.card_type}, " \
                f"cost = {self.cost}, " \
                f"effects = {self.effects}}}"
+
+    def __str__(self):
+        effects = [str(e) for e in self.effects]
+        return f"{self.name}{{{self.card_type}}}::{effects}"

@@ -45,7 +45,7 @@ class Game:
             print(f"begin round: {i}")
             for player_number, player in enumerate(self.players):
                 print(f"Player {player_number}'s turn")
-                print(f"your hand is {player.hand_to_str()}")
+                print(f"your hand is:\n{player.hand_to_str()}")
 
     def get_cards(self, age: int):
         return [card for card in self.cards if card.age == age]
