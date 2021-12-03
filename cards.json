@@ -13,7 +13,10 @@
       {
         "effect": "produce",
         "resources": [
-          "w"
+          [
+            "w",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -36,7 +39,10 @@
       {
         "effect": "produce",
         "resources": [
-          "s"
+          [
+            "s",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -59,7 +65,10 @@
       {
         "effect": "produce",
         "resources": [
-          "b"
+          [
+            "b",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -82,7 +91,10 @@
       {
         "effect": "produce",
         "resources": [
-          "o"
+          [
+            "o",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -106,8 +118,14 @@
       {
         "effect": "produce",
         "resources": [
-          "w",
-          "b"
+          [
+            "w",
+            1
+          ],
+          [
+            "b",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -131,8 +149,14 @@
       {
         "effect": "produce",
         "resources": [
-          "b",
-          "s"
+          [
+            "b",
+            1
+          ],
+          [
+            "s",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -156,8 +180,14 @@
       {
         "effect": "produce",
         "resources": [
-          "b",
-          "o"
+          [
+            "b",
+            1
+          ],
+          [
+            "o",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -181,8 +211,14 @@
       {
         "effect": "produce",
         "resources": [
-          "w",
-          "s"
+          [
+            "w",
+            1
+          ],
+          [
+            "s",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -206,8 +242,14 @@
       {
         "effect": "produce",
         "resources": [
-          "w",
-          "o"
+          [
+            "w",
+            1
+          ],
+          [
+            "o",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -231,8 +273,14 @@
       {
         "effect": "produce",
         "resources": [
-          "o",
-          "s"
+          [
+            "o",
+            1
+          ],
+          [
+            "s",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -255,7 +303,10 @@
       {
         "effect": "produce",
         "resources": [
-          "l"
+          [
+            "l",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -278,7 +329,10 @@
       {
         "effect": "produce",
         "resources": [
-          "g"
+          [
+            "g",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -301,7 +355,10 @@
       {
         "effect": "produce",
         "resources": [
-          "p"
+          [
+            "p",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -326,7 +383,10 @@
       {
         "effect": "produce",
         "resources": [
-          "ww"
+          [
+            "w",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -351,7 +411,10 @@
       {
         "effect": "produce",
         "resources": [
-          "ss"
+          [
+            "s",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -376,7 +439,10 @@
       {
         "effect": "produce",
         "resources": [
-          "cc"
+          [
+            "c",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -401,7 +467,10 @@
       {
         "effect": "produce",
         "resources": [
-          "oo"
+          [
+            "o",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -424,7 +493,10 @@
       {
         "effect": "produce",
         "resources": [
-          "l"
+          [
+            "l",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -447,7 +519,10 @@
       {
         "effect": "produce",
         "resources": [
-          "g"
+          [
+            "g",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -470,7 +545,10 @@
       {
         "effect": "produce",
         "resources": [
-          "p"
+          [
+            "p",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -493,7 +571,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvv"
+          [
+            "v",
+            3
+          ]
         ],
         "target": [],
         "direction": [
@@ -518,7 +599,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvv"
+          [
+            "v",
+            3
+          ]
         ],
         "target": [],
         "direction": [
@@ -541,7 +625,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vv"
+          [
+            "v",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -564,7 +651,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vv"
+          [
+            "v",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -591,7 +681,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvvv"
+          [
+            "v",
+            5
+          ]
         ],
         "target": [],
         "direction": [
@@ -618,7 +711,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvv"
+          [
+            "v",
+            4
+          ]
         ],
         "target": [],
         "direction": [
@@ -645,7 +741,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvv"
+          [
+            "v",
+            4
+          ]
         ],
         "target": [],
         "direction": [
@@ -675,7 +774,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvvvvv"
+          [
+            "v",
+            7
+          ]
         ],
         "target": [],
         "direction": [
@@ -702,7 +804,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvvv"
+          [
+            "v",
+            5
+          ]
         ],
         "target": [],
         "direction": [
@@ -731,7 +836,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvvvv"
+          [
+            "v",
+            6
+          ]
         ],
         "target": [],
         "direction": [
@@ -762,7 +870,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvvvvvv"
+          [
+            "v",
+            8
+          ]
         ],
         "target": [],
         "direction": [
@@ -785,9 +896,16 @@
     "effects": [
       {
         "effect": "generate",
-        "resources": ["ccccc"],
+        "resources": [
+          [
+            "c",
+            5
+          ]
+        ],
         "target": [],
-        "direction": ["self"]
+        "direction": [
+          "self"
+        ]
       }
     ]
   },
@@ -883,9 +1001,24 @@
     "effects": [
       {
         "effect": "produce",
-        "resources": ["l", "g", "p"],
+        "resources": [
+          [
+            "l",
+            1
+          ],
+          [
+            "g",
+            1
+          ],
+          [
+            "p",
+            1
+          ]
+        ],
         "target": [],
-        "direction": ["self"]
+        "direction": [
+          "self"
+        ]
       }
     ]
   },
@@ -912,9 +1045,28 @@
     "effects": [
       {
         "effect": "produce",
-        "resources": ["w", "s", "b", "o"],
+        "resources": [
+          [
+            "w",
+            1
+          ],
+          [
+            "s",
+            1
+          ],
+          [
+            "b",
+            1
+          ],
+          [
+            "o",
+            1
+          ]
+        ],
         "target": [],
-        "direction": ["self"]
+        "direction": [
+          "self"
+        ]
       }
     ]
   },
@@ -932,7 +1084,10 @@
       {
         "effect": "generate",
         "resources": [
-          "c"
+          [
+            "c",
+            1
+          ]
         ],
         "target": [
           "common"
@@ -959,7 +1114,10 @@
       {
         "effect": "generate",
         "resources": [
-          "cc"
+          [
+            "c",
+            2
+          ]
         ],
         "target": [
           "luxury"
@@ -990,7 +1148,14 @@
       {
         "effect": "generate",
         "resources": [
-          "c"
+          [
+            "c",
+            1
+          ],
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "common"
@@ -1002,7 +1167,14 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "c",
+            1
+          ],
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "common"
@@ -1030,7 +1202,14 @@
       {
         "effect": "generate",
         "resources": [
-          "c"
+          [
+            "c",
+            1
+          ],
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "commercial"
@@ -1042,7 +1221,14 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "c",
+            1
+          ],
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "commercial"
@@ -1071,7 +1257,14 @@
       {
         "effect": "generate",
         "resources": [
-          "cc"
+          [
+            "c",
+            2
+          ],
+          [
+            "v",
+            2
+          ]
         ],
         "target": [
           "luxury"
@@ -1083,7 +1276,14 @@
       {
         "effect": "victory",
         "resources": [
-          "vv"
+          [
+            "c",
+            2
+          ],
+          [
+            "v",
+            2
+          ]
         ],
         "target": [
           "luxury"
@@ -1110,7 +1310,10 @@
       {
         "effect": "generate",
         "resources": [
-          "m"
+          [
+            "m",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1135,7 +1338,10 @@
       {
         "effect": "generate",
         "resources": [
-          "m"
+          [
+            "m",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1160,7 +1366,10 @@
       {
         "effect": "generate",
         "resources": [
-          "m"
+          [
+            "m",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1187,7 +1396,10 @@
       {
         "effect": "generate",
         "resources": [
-          "mm"
+          [
+            "m",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -1215,7 +1427,10 @@
       {
         "effect": "generate",
         "resources": [
-          "mm"
+          [
+            "m",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -1243,7 +1458,10 @@
       {
         "effect": "generate",
         "resources": [
-          "mmm"
+          [
+            "m",
+            3
+          ]
         ],
         "target": [],
         "direction": [
@@ -1272,7 +1490,10 @@
       {
         "effect": "generate",
         "resources": [
-          "mmm"
+          [
+            "m",
+            3
+          ]
         ],
         "target": [],
         "direction": [
@@ -1301,7 +1522,10 @@
       {
         "effect": "generate",
         "resources": [
-          "mmm"
+          [
+            "m",
+            3
+          ]
         ],
         "target": [],
         "direction": [
@@ -1329,7 +1553,10 @@
       {
         "effect": "produce",
         "resources": [
-          "y"
+          [
+            "y",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1357,7 +1584,10 @@
       {
         "effect": "produce",
         "resources": [
-          "x"
+          [
+            "x",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1385,7 +1615,10 @@
       {
         "effect": "produce",
         "resources": [
-          "z"
+          [
+            "z",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1412,7 +1645,10 @@
       {
         "effect": "generate",
         "resources": [
-          "mm"
+          [
+            "m",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -1442,7 +1678,10 @@
       {
         "effect": "produce",
         "resources": [
-          "y"
+          [
+            "y",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1469,7 +1708,10 @@
       {
         "effect": "generate",
         "resources": [
-          "mm"
+          [
+            "m",
+            2
+          ]
         ],
         "target": [],
         "direction": [
@@ -1499,7 +1741,10 @@
       {
         "effect": "produce",
         "resources": [
-          "x"
+          [
+            "x",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1526,7 +1771,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvv"
+          [
+            "v",
+            4
+          ]
         ],
         "target": [],
         "direction": [
@@ -1556,7 +1804,10 @@
       {
         "effect": "produce",
         "resources": [
-          "z"
+          [
+            "z",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1585,7 +1836,10 @@
       {
         "effect": "produce",
         "resources": [
-          "z"
+          [
+            "z",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1613,7 +1867,10 @@
       {
         "effect": "produce",
         "resources": [
-          "y"
+          [
+            "y",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1641,7 +1898,10 @@
       {
         "effect": "generate",
         "resources": [
-          "mmm"
+          [
+            "m",
+            3
+          ]
         ],
         "target": [],
         "direction": [
@@ -1669,7 +1929,10 @@
       {
         "effect": "produce",
         "resources": [
-          "x"
+          [
+            "x",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1697,7 +1960,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vvvvvv"
+          [
+            "v",
+            6
+          ]
         ],
         "target": [],
         "direction": [
@@ -1725,7 +1991,10 @@
       {
         "effect": "produce",
         "resources": [
-          "z"
+          [
+            "z",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1753,7 +2022,10 @@
       {
         "effect": "produce",
         "resources": [
-          "y"
+          [
+            "y",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1780,7 +2052,10 @@
       {
         "effect": "produce",
         "resources": [
-          "x"
+          [
+            "x",
+            1
+          ]
         ],
         "target": [],
         "direction": [
@@ -1808,7 +2083,14 @@
       {
         "effect": "generate",
         "resources": [
-          "ccc"
+          [
+            "c",
+            3
+          ],
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "wonder_level"
@@ -1820,7 +2102,14 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "c",
+            3
+          ],
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "wonder_level"
@@ -1848,7 +2137,10 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "common"
@@ -1876,7 +2168,10 @@
       {
         "effect": "victory",
         "resources": [
-          "vv"
+          [
+            "v",
+            2
+          ]
         ],
         "target": [
           "luxury"
@@ -1903,7 +2198,10 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "commercial"
@@ -1932,7 +2230,10 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "science"
@@ -1960,7 +2261,10 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "military"
@@ -1988,7 +2292,10 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "shame"
@@ -2017,7 +2324,10 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "common",
@@ -2048,7 +2358,10 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "civilian"
@@ -2077,7 +2390,10 @@
       {
         "effect": "victory",
         "resources": [
-          "v"
+          [
+            "v",
+            1
+          ]
         ],
         "target": [
           "wonder_level"
@@ -2107,9 +2423,18 @@
       {
         "effect": "produce",
         "resources": [
-          "x",
-          "y",
-          "z"
+          [
+            "x",
+            1
+          ],
+          [
+            "y",
+            1
+          ],
+          [
+            "z",
+            1
+          ]
         ],
         "target": [
           "self"

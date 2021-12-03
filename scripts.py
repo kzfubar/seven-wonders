@@ -17,7 +17,6 @@ def give_effects():
     with open("cards.json") as f:
         cards = json.load(f)
 
-
     for card in cards:
         give_effect(card, 'common', 'produce')
         give_effect(card, 'luxury', 'produce')
@@ -48,10 +47,10 @@ def tmp(c):
             effects.append(d)
         c['effects'] = effects
 
-        del(c['target'])
-        del(c['effect'])
-        del(c['direction'])
-        del(c['resources'])
+        del (c['target'])
+        del (c['effect'])
+        del (c['direction'])
+        del (c['resources'])
 
 
 def effect_to_effects():
@@ -98,6 +97,28 @@ def modify_effects():
         json.dump(cards, f, indent=2)
 
 
-effect_to_effects()
-give_effects()
-modify_effects()
+def to_tuple(resource_raw):
+    return resource_raw[0], len(resource_raw)
+
+
+def tuplify():
+    with open("cards.json") as f:
+        cards = json.load(f)
+
+    for card in cards:
+        r = []
+        for effect in card['effects']:
+            for resource in effect['resources']:
+                print(to_tuple(resource))
+                r.append(to_tuple(resource))
+            effect['resources'] = r
+
+    with open('cards.json', 'w') as f:
+        json.dump(cards, f, indent=2)
+
+
+# effect_to_effects()
+# give_effects()
+# modify_effects()
+
+tuplify()
