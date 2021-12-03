@@ -1,13 +1,10 @@
 import random
 
 from Player import Player
-from util import all_wonders
-from util import all_cards
+from util import *
 
 
 class Game:
-    players = []
-
     def __init__(self, num_players):
         print(f"creating game with {num_players}...")
 
@@ -16,6 +13,7 @@ class Game:
         if num_players > len(all_wonders):
             raise Exception("more players than wonders, goober!")
 
+        self.cards = get_all_cards(num_players)
         self.players = [Player(wonder) for wonder in random.sample(all_wonders, num_players)]
         self.set_neighbors()
 
@@ -29,7 +27,7 @@ class Game:
             b.right = c
 
     def deal_cards(self, age: int):
-        card_list = all_cards(age)
+        card_list = self.get_cards(age)
         random.shuffle(card_list)
 
         for i, player in enumerate(self.players):
@@ -47,3 +45,6 @@ class Game:
                 print(f"your hand is {player.hand}")
 
         print("starting game!")
+
+    def get_cards(self, age: int):
+        return [Card([], []) for _ in range(21)]

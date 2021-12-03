@@ -778,13 +778,18 @@
       5,
       7
     ],
-    "resources": [
-      "ccccc"
-    ],
     "cost": [],
     "coupon": [],
     "age": 1,
-    "type": "commercial"
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "generate",
+        "resources": ["ccccc"],
+        "target": [],
+        "direction": ["self"]
+      }
+    ]
   },
   {
     "name": "East Trading Post",
@@ -874,7 +879,15 @@
     ],
     "coupon": "Haven",
     "age": 2,
-    "type": "commercial"
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": ["l", "g", "p"],
+        "target": [],
+        "direction": ["self"]
+      }
+    ]
   },
   {
     "name": "Caravansery",
@@ -895,7 +908,15 @@
     ],
     "coupon": "Lighthouse",
     "age": 2,
-    "type": "commercial"
+    "type": "commercial",
+    "effects": [
+      {
+        "effect": "produce",
+        "resources": ["w", "s", "b", "o"],
+        "target": [],
+        "direction": ["self"]
+      }
+    ]
   },
   {
     "name": "Vineyard",
