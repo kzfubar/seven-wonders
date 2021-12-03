@@ -1,169 +1,190 @@
 [
     {
         "name": "Rhodos",
-        "resource":["o"],
+        "resources":["o"],
         "state":[
             {
                 "cost":["w","w"],
-                "resource":[ "vv"],
+                "resources":[ "vv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             },
             {
                 "cost":["b","b","b"],
-                "resource":[ "m"],
+                "resources":[ "m"],
                 "direction": ["self"],
-                "effect": "generate"
+                "effect": "generate",
+                "target": []
             },
             {
                 "cost":["o","o","o","o"],
-                "resource":[ "vvvvvv"],
+                "resources":[ "vvvvvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             }
         ]
     },
     {
         "name": "Alexandria",
-        "resource":["g"],
+        "resources":["g"],
         "state":[
             {
                 "cost":["s","s"],
-                "resource":["vv"],
+                "resources":["vv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             },
             {
                 "cost":["o","o"],
-                "resource":["b","o","w","s"],
+                "resources":["b","o","w","s"],
                 "direction": ["self"],
-                "effect": "produce"
+                "effect": "produce",
+                "target": []
             },
             {
                 "cost":["g","g"],
-                "resource":[ "vvvvvv"],
+                "resources":[ "vvvvvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             }
         ]
     },
     {
         "name": "Ephesos",
-        "resource":["p"],
+        "resources":["p"],
         "state":[
             {
                 "cost":["s","s"],
-                "resource":["vvv"],
+                "resources":["vvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             },
             {
                 "cost":["w","w"],
-                "resource":["ccccccccc"],
+                "resources":["ccccccccc"],
                 "direction": ["self"],
-                "effect": "generate"
+                "effect": "generate",
+                "target": []
             },
             {
                 "cost":["p","p"],
-                "resource":[ "vvvvvv"],
+                "resources":[ "vvvvvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             }
         ]
     },
     {
         "name": "Babylon",
-        "resource":["b"],
+        "resources":["b"],
         "state":[
             {
                 "cost":["b","b"],
-                "resource":["vvv"],
+                "resources":["vvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             },
             {
                 "cost":["w","w"],
-                "resource":["cog","tablet","compass"],
+                "resources":["cog","tablet","compass"],
                 "direction": ["self"],
-                "effect": "produce"
+                "effect": "produce",
+                "target": []
             },
             {
                 "cost":["b","b","b","b"],
-                "resource":[ "vvvvvv"],
+                "resources":[ "vvvvvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             }
         ]
     },
     {
         "name": "Olympia",
-        "resource":["w"],
+        "resources":["w"],
         "state":[
             {
                 "cost":["w","w"],
-                "resource":["vvv"],
+                "resources":["vvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             },
             {
                 "cost":["s","s"],
-                "resource":[],
+                "resources":[],
                 "direction": ["self"],
-                "effect": "free_build"
+                "effect": "free_build",
+                "target": []
             },
             {
                 "cost":["o","o"],
-                "resource":[ "vvvvvv"],
+                "resources":[ "vvvvvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             }
         ]
     },
     {
         "name": "Halicarnassus",
-        "resource":["p"],
+        "resources":["p"],
         "state":[
             {
                 "cost":["b","b"],
-                "resource":["vvv"],
+                "resources":["vvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             },
             {
                 "cost":["w","w"],
-                "resource":[],
+                "resources":[],
                 "direction": ["self"],
-                "effect": "sacrifice"
+                "effect": "sacrifice",
+                "target": []
             },
             {
                 "cost":["l","l"],
-                "resource":[ "vvvvvv"],
+                "resources":[ "vvvvvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             }
         ]
     },
     {
         "name": "Gizah",
-        "resource":["b"],
+        "resources":["b"],
         "state":[
             {
                 "cost":["s","s"],
-                "resource":["vvv"],
+                "resources":["vvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             },
             {
                 "cost":["w","w","w"],
-                "resource":["vvvvv"],
+                "resources":["vvvvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             },
             {
                 "cost":["s","s","s","s"],
-                "resource":[ "vvvvvv"],
+                "resources":[ "vvvvvv"],
                 "direction": ["self"],
-                "effect": "victory"
+                "effect": "victory",
+                "target": []
             }
         ]
     }

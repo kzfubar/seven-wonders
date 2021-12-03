@@ -5,12 +5,16 @@ import pprint
 
 
 def all_wonders():
-    return [Wonder("wonder", "resource", []) for _ in range(3)]
+    with open('wonders.json') as f:
+        data = json.load(f)
+        return [Wonder(wonder['name'], wonder['resources'], [__get_effects({"effects": [card]}) for card in wonder['state']]) for wonder in data]
+
 
 
 def __is_resource(card_raw):
-    return card_raw['type'] == "common" or card_raw['type'] == "luxury"
-
+    if 'type' in card_raw:
+        return card_raw['type'] == "common" or card_raw['type'] == "luxury"
+    return False
 
 def __get_effects(card_raw):
     effects_raw = card_raw['effects']
