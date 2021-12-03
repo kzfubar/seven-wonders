@@ -1,5 +1,7 @@
 from collections import Counter
+
 from util import *
+
 
 class Player:
     hand = []
@@ -34,5 +36,3 @@ class Player:
 
         for resource, count in Counter(card.cost).items():
             pass
-
-

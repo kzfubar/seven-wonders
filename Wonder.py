@@ -1,4 +1,5 @@
 from typing import List
+
 from Card import Card
 
 
@@ -14,10 +15,10 @@ class Wonder:
         self.resource = resource
         self.powers = powers
 
-    def get_next_power(self):
-        return self.powers[self.level]
-
     def __repr__(self):
         return f"Wonder{{name = {self.name}, " \
                f"resource = {self.resource}, " \
                f"powers = {self.powers}"
+
+    def get_next_power(self):
+        return self.powers[self.level]

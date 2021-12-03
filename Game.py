@@ -1,5 +1,3 @@
-import random
-
 from Player import Player
 from util import *
 
@@ -15,37 +13,37 @@ class Game:
 
         self.cards = get_all_cards(num_players)
         self.players = [Player(wonder) for wonder in random.sample(all_wonders, num_players)]
-        self.set_neighbors()
+        self.__set_neighbors()
 
         [print(p) for p in self.players]
 
         print("game created")
 
-    def set_neighbors(self):
+    def __set_neighbors(self):
         for a, b, c in zip([self.players[-1]] + self.players, self.players, self.players + [self.players[0]]):
             b.left = a
             b.right = c
 
-    def deal_cards(self, age: int):
-        card_list = self.get_cards(age)
+    def __deal_cards(self, age: int):
+        card_list = self.__get_cards(age)
         random.shuffle(card_list)
 
         for i, player in enumerate(self.players):
             player.hand = card_list[i * 7: (i + 1) * 7]
 
-    def play(self):
-        print("starting game!")
-        for age in range(1, 4):
-            print(f"begin age: {age}")
-            self.play_round(age)
-
-    def play_round(self, age: int):
-        self.deal_cards(age)
+    def __play_round(self, age: int):
+        self.__deal_cards(age)
         for i in range(6):
             print(f"begin round: {i}")
             for player_number, player in enumerate(self.players):
                 print(f"Player {player_number}'s turn")
                 print(f"your hand is:\n{player.hand_to_str()}")
 
-    def get_cards(self, age: int):
+    def __get_cards(self, age: int):
         return [card for card in self.cards if card.age == age]
+
+    def play(self):
+        print("starting game!")
+        for age in range(1, 4):
+            print(f"begin age: {age}")
+            self.__play_round(age)
