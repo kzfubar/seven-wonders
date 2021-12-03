@@ -5,7 +5,8 @@ def tmp(c, name, effect):
     if c['type'] == name:
         if c.get('effect') is None:
             c['effect'] = effect
-            print(c)
+            c['target'] = []
+            c['direction'] = ['self']
 
 
 with open("cards.json") as f:
