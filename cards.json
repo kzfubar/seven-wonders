@@ -1268,8 +1268,8 @@
           {
               "effect": "produce",
               "resources": [ ["x", 1], ["y", 1], ["z", 1] ],
-              "target": ["self"],
-              "direction": []
+              "target": [],
+              "direction": ["self"]
           }
       ]
   }

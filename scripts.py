@@ -106,8 +106,8 @@ def tuplify():
         cards = json.load(f)
 
     for card in cards:
-        r = []
         for effect in card['effects']:
+            r = []
             for resource in effect['resources']:
                 print(to_tuple(resource))
                 r.append(to_tuple(resource))
