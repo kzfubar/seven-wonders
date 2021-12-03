@@ -15,7 +15,8 @@ class Wonder:
     def __repr__(self):
         return f"Wonder{{name = {self.name}, " \
                f"resource = {self.resource}, " \
-               f"powers = {self.powers}"
+               f"powers = {self.powers}, " \
+               f"level = {self.level}"
 
     def get_next_power(self):
         return self.powers[self.level]
