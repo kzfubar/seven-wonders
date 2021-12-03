@@ -1,9 +1,9 @@
-from typing import List
+from typing import List, Tuple
 
 
 class Effect:
     def __init__(self, effect: str,
-                 resources: List[str],
+                 resources: List[Tuple[str, int]],
                  target: List[str],
                  direction: List[str],
                  is_public: bool):
@@ -45,4 +45,4 @@ class Card:
 
     def __str__(self):
         effects = [str(e) for e in self.effects]
-        return f"{self.name}{{{self.card_type}}}::{effects}"
+        return f"{self.name}{{{self.card_type}}}::{''.join(self.cost)}::{effects}"
