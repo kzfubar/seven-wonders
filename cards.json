@@ -635,13 +635,13 @@
       "effects": [
           {
               "effect": "generate",
-              "resources": [ ["c", 1], ["v", 1] ],
+              "resources": [ ["v", 1] ],
               "target": ["common"],
               "direction": ["self"]
           },
           {
               "effect": "victory",
-              "resources": [ ["c", 1], ["v", 1] ],
+              "resources": [ ["c", 1] ],
               "target": ["common"],
               "direction": ["self"]
           }
@@ -657,13 +657,13 @@
       "effects": [
           {
               "effect": "generate",
-              "resources": [ ["c", 1], ["v", 1] ],
+              "resources": [ ["v", 1] ],
               "target": ["commercial"],
               "direction": ["self"]
           },
           {
               "effect": "victory",
-              "resources": [ ["c", 1], ["v", 1] ],
+              "resources": [ ["c", 1]],
               "target": ["commercial"],
               "direction": ["self"]
           }
@@ -679,13 +679,13 @@
       "effects": [
           {
               "effect": "generate",
-              "resources": [ ["c", 2], ["v", 2] ],
+              "resources": [ ["c", 2] ],
               "target": ["luxury"],
               "direction": ["self"]
           },
           {
               "effect": "victory",
-              "resources": [ ["c", 2], ["v", 2] ],
+              "resources": [ ["v", 2] ],
               "target": ["luxury"],
               "direction": ["self"]
           }
@@ -1101,13 +1101,13 @@
       "effects": [
           {
               "effect": "generate",
-              "resources": [ ["c", 3], ["v", 1] ],
+              "resources": [ ["v", 1] ],
               "target": ["wonder_level"],
               "direction": ["self"]
           },
           {
               "effect": "victory",
-              "resources": [ ["c", 3], ["v", 1] ],
+              "resources": [ ["c", 3] ],
               "target": ["wonder_level"],
               "direction": ["self"]
           }
