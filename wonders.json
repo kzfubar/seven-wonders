@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Rhodos",
+        "resource":["o]",
+        "state":[
+            {
+                "cost":["w","w"],
+                "resource":[ "vvv"],
+                "direction": ["self"],
+                "effect": "victory"
+            },
+            {
+                "cost":["c","c","c"],
+                "resource":[ "mm"],
+                "direction": ["self"],
+                "effect": "generate"
+            },
+            {
+                "cost":["o","o","o","o"],
+                "resource":[ "vvvvvvv"],
+                "direction": ["self"],
+                "effect": "victory"
+            }
+        ]
+    },
+    {
+        "name": "Alexandria",
+        "resource":["g]",
+        "state":[
+            {
+                "cost":["s","s"],
+                "resource":["vvv"],
+                "direction": ["self"],
+                "effect": "victory"
+            },
+            {
+                "cost":["o","o"],
+                "resource":["cog","tablet","compass"],
+                "direction": ["self"],
+                "effect": "produce"
+            },
+            {
+                "cost":["g","g"],
+                "resource":[ "vvvvvvv"],
+                "direction": ["self"],
+                "effect": "victory"
+            }
+        ]
+    }
+]
