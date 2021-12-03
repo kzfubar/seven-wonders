@@ -47,4 +47,4 @@ class Game:
         print("starting game!")
 
     def get_cards(self, age: int):
-        return [Card([], []) for _ in range(21)]
+        return [card for card in self.cards if card.age == age]
