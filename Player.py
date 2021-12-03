@@ -32,9 +32,12 @@ class Player:
 
     def hand_to_str(self):
         hand = ""
-        for card in self.hand:
-            hand += f"{str(card)}\n"
+        for i, card in enumerate(self.hand):
+            hand += f"({i}) {str(card)}\n"
         return hand
+
+    def get_card(self, card_index):
+        return self.hand[card_index]
 
     def get_min_cost(self, card: Card, effects: List[Effect]):
         resources = [effect for effect in effects if is_resource(effect)]
