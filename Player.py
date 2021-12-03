@@ -27,11 +27,8 @@ class Player:
 
     def __repr__(self):
         return f"Player{{wonder = {self.wonder}, " \
-               f"played = {self.played}, " \
-               f"hand = {self.hand}, " \
-               f"coins = {self.coins}, " \
-               f"shame = {self.shame}, " \
-               f"military_points = {self.military_points}}}"
+               f"board = {self.board}, " \
+               f"hand = {self.hand}, "
 
     def hand_to_str(self):
         hand = ""
