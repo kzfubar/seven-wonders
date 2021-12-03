@@ -39,8 +39,31 @@ class Player:
             hand += f"({i}) {str(card)}\n"
         return hand
 
-    def get_card(self, card_index):
-        return self.hand[card_index]
+    def take_action(self, action: str, card_index: int):
+        if action == 'p':
+            self.__play(card_index)
+        elif action == 'd':
+            self.__discard(card_index)
+        elif action == 'b':
+            self.__bury(card_index)
+        else:
+            raise Exception("we currently don't handle invalid actions!")  # todo
+
+    def __play(self, card_index: int):
+        card = self.hand.pop(card_index)
+        print(f"playing {card}")
+        # todo do any action at all
+
+    def __discard(self, card_index: int):
+        card = self.hand.pop(card_index)
+        print(f"discarding {card}")
+        self.board['coins'] += 3
+
+    def __bury(self, card_index: int):
+        card = self.hand.pop(card_index)
+        print(f"burying {card}")
+        # todo do any action at all
+
 
     def get_min_cost(self, card: Card, effects: List[Effect]):
         resources = [effect for effect in effects if is_resource(effect)]

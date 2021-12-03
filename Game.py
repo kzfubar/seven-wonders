@@ -48,31 +48,8 @@ class Game:
                 player_input = input("(p)lay, (d)iscard, (b)ury a card: ")
                 action, card_index = player_input[0], int(player_input[1])
 
-                self.__take_action(player_number, action, card_index)
+                self.__get_player(player_number).take_action(action, card_index)
             self.__pass_hands(age)
-
-    def __take_action(self, player_number: int, action: str, card_index: int):
-        card = self.__get_player(player_number).get_card(card_index)
-        if action == 'p':
-            print(f"playing {card}")
-            self.__play()
-        elif action == 'd':
-            print(f"discarding {card}")
-            self.__discard()
-        elif action == 'b':
-            print(f"burying {card}")
-            self.__bury()
-        else:
-            raise Exception("we currently don't handle invalid actions!")  # todo
-
-    def __play(self):
-        pass
-
-    def __discard(self):
-        pass
-
-    def __bury(self):
-        pass
 
     def __get_cards(self, age: int):
         return [card for card in self.cards if card.age == age]
