@@ -3,11 +3,19 @@ from util import *
 
 class Player:
     hand = []
-    played = []
+    board = {
+        "shame": 0,
+        "military_points": 0,
+        "coins": 0,
+        "common": 0,
+        "luxury": 0,
+        "civilian": 0,
+        "commercial": 0,
+        "military": 0,
+        "science": 0,
+        "guild": 0
+    }
     effects = []
-    coins = 0
-    shame = 0
-    military_points = 0
     left = None
     right = None
 
