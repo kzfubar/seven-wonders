@@ -8,7 +8,7 @@ class Player:
     board = {
         "shame": 0,
         "military_points": 0,
-        "coins": 0,
+        "coins": 3,
         "common": 0,
         "luxury": 0,
         "civilian": 0,
