@@ -1,3 +1,4 @@
+import random
 from Card import *
 from Wonder import *
 import json
@@ -33,7 +34,16 @@ def get_all_cards(num_players: int):
         all_cards_raw = json.load(f)
 
     all_cards = []
+    guilds = []
     for card in all_cards_raw:
+        if card['type'] == 'guild':
+            guilds.append(Card(name=card['name'],
+                                age=card['age'],
+                                card_type=card['type'],
+                                cost=card['cost'],
+                                effects=__get_effects(card)))
+            continue
+
         for player_count in card['players']:
             if num_players >= player_count:
                 all_cards.append(Card(name=card['name'],
@@ -41,7 +51,10 @@ def get_all_cards(num_players: int):
                                       card_type=card['type'],
                                       cost=card['cost'],
                                       effects=__get_effects(card)))
-    return all_cards
+    return all_cards + random.sample(guilds, num_players + 2)
+
+
+
 
 
 pprint.pprint(get_all_cards(3))
