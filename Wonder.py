@@ -4,16 +4,13 @@ from Card import Card
 
 
 class Wonder:
-    level = 0
-
     def __init__(self, name: str,
                  resource: str,
                  powers: List[Card]):
-        print("wonder :0")
-
         self.name = name
         self.resource = resource
         self.powers = powers
+        self.level = 0
 
     def __repr__(self):
         return f"Wonder{{name = {self.name}, " \

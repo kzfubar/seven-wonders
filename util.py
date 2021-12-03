@@ -9,8 +9,15 @@ from Wonder import *
 def all_wonders():
     with open('wonders.json') as f:
         data = json.load(f)
-        return [Wonder(wonder['name'], wonder['resources'],
-                       [__get_effects({"effects": [card]}) for card in wonder['state']]) for wonder in data]
+        return [Wonder(wonder['name'],
+                       wonder['resources'],
+                       [Card(f"{wonder['name']}{i}",
+                             0,
+                             "wonder_power",
+                             card['cost'],
+                             __get_effects({"effects": [card]}))
+                        for i, card in enumerate(wonder['state'])])
+                for wonder in data]
 
 
 def __is_resource(card_raw):
@@ -56,5 +63,5 @@ def get_all_cards(num_players: int):
     return all_cards + random.sample(guilds, num_players + 2)
 
 
-pprint.pprint(get_all_cards(3))
-all_wonders = all_wonders()
+ALL_WONDERS = all_wonders()
+pprint.pprint(ALL_WONDERS)

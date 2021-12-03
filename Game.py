@@ -8,11 +8,11 @@ class Game:
 
         if num_players < 3:
             raise Exception("min players is 3, t-that's fine!")
-        if num_players > len(all_wonders):
+        if num_players > len(ALL_WONDERS):
             raise Exception("more players than wonders, goober!")
 
         self.cards = get_all_cards(num_players)
-        self.players = [Player(wonder) for wonder in random.sample(all_wonders, num_players)]
+        self.players = [Player(wonder) for wonder in random.sample(ALL_WONDERS, num_players)]
         self.__set_neighbors()
 
         [print(p) for p in self.players]
