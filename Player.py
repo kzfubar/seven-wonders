@@ -1,5 +1,3 @@
-from Card import *
-from Wonder import Wonder
 from collections import Counter
 from util import *
 
@@ -24,6 +22,12 @@ class Player:
                f"coins = {self.coins}, " \
                f"shame = {self.shame}, " \
                f"military_points = {self.military_points}}}"
+
+    def hand_to_str(self):
+        hand = ""
+        for card in self.hand:
+            hand += f"{card.name}{{{card.card_type}}}, {card.effects}\n"
+        return hand
 
     def get_min_cost(self, card: Card, effects: List[Effect]):
         resources = [effect for effect in effects if is_resource(effect)]

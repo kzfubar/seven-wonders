@@ -34,17 +34,18 @@ class Game:
             player.hand = card_list[i * 7: (i + 1) * 7]
 
     def play(self):
-        for age in range(3):
+        print("starting game!")
+        for age in range(1, 4):
+            print(f"begin age: {age}")
             self.play_round(age)
 
     def play_round(self, age: int):
         self.deal_cards(age)
         for i in range(6):
+            print(f"begin round: {i}")
             for player_number, player in enumerate(self.players):
                 print(f"Player {player_number}'s turn")
-                print(f"your hand is {player.hand}")
-
-        print("starting game!")
+                print(f"your hand is {player.hand_to_str()}")
 
     def get_cards(self, age: int):
         return [card for card in self.cards if card.age == age]
