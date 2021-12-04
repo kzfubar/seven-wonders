@@ -50,6 +50,7 @@ class Game:
 
                 self.__get_player(player_number).take_action(action, card_index)
             self.__pass_hands(age)
+        # todo calculate victory points
 
     def __get_cards(self, age: int):
         return [card for card in self.cards if card.age == age]
@@ -66,7 +67,6 @@ class Game:
         temp_hand = []
         for player in player_order:
             player.hand, temp_hand = temp_hand, player.hand
-
 
     def play(self):
         print("starting game!")
