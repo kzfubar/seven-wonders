@@ -18,7 +18,7 @@ class Game:
             raise Exception("more players than wonders, goober!")
 
         self.cards = get_all_cards(num_players)
-        self.players = [Player(wonder) for wonder in random.sample(ALL_WONDERS, num_players)]
+        self.players = [Player(str(i), wonder) for i, wonder in enumerate(random.sample(ALL_WONDERS, num_players))]
         self.__set_neighbors()
 
         [print(p) for p in self.players]
@@ -42,13 +42,14 @@ class Game:
         for i in range(6):
             print(f"begin round: {i}")
             for player_number, player in enumerate(self.players):
-                print(f"Player {player_number}'s turn")
+                print(f"{player.name}'s turn")
                 print(f"your hand is:\n{player.hand_to_str()}")
                 print(f"Bury cost: {min_cost(player.get_payment_options(player.wonder.get_next_power()))}")
+
                 player_input = input("(p)lay, (d)iscard or (b)ury a card: ")
                 action, card_index = player_input[0], int(player_input[1])
 
-                self.__get_player(player_number).take_action(action, card_index)
+                player.take_action(action, card_index)
             self.__pass_hands(age)
         # todo calculate victory points
 
