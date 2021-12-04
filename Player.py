@@ -33,7 +33,7 @@ class Player:
                f"board = {self.board}, " \
                f"hand = {self.hand}, "
 
-    def hand_to_str(self):
+    def hand_to_str(self) -> str:
         return '\n'.join(f"({i}) {str(card)} | Cost: {min_cost(self.get_payment_options(card))}"
                          for i, card in enumerate(self.hand))
 
@@ -62,10 +62,8 @@ class Player:
         print(f"burying {card}")
         # todo do any action at all
 
-
-    def get_payment_options(self, card: Card) -> List[Tuple[int]]: 
+    def get_payment_options(self, card: Card) -> List[Tuple[int, int]]:
         return [(1, 0)]
-
 
         for resource, count in Counter(card.cost).items():
             pass

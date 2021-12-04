@@ -6,7 +6,7 @@ from Card import *
 from Wonder import *
 
 
-def all_wonders():
+def all_wonders() -> List[Wonder]:
     with open('wonders.json') as f:
         data = json.load(f)
         return [Wonder(wonder['name'],
@@ -20,13 +20,13 @@ def all_wonders():
                 for wonder in data]
 
 
-def __is_resource(card_raw):
+def __is_resource(card_raw) -> bool:
     if 'type' in card_raw:
         return card_raw['type'] == "common" or card_raw['type'] == "luxury"
     return False
 
 
-def __get_effects(card_raw):
+def __get_effects(card_raw) -> List[Effect]:
     effects_raw = card_raw['effects']
     effects = []
     for effect in effects_raw:
@@ -38,7 +38,7 @@ def __get_effects(card_raw):
     return effects
 
 
-def get_all_cards(num_players: int):
+def get_all_cards(num_players: int) -> List[Card]:
     with open("cards.json", 'r') as f:
         all_cards_raw = json.load(f)
 

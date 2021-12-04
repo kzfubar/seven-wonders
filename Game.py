@@ -52,10 +52,10 @@ class Game:
             self.__pass_hands(age)
         # todo calculate victory points
 
-    def __get_cards(self, age: int):
+    def __get_cards(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
 
-    def __get_player(self, player_number: int):
+    def __get_player(self, player_number: int) -> Player:
         return self.players[player_number]
 
     def __pass_hands(self, age: int):

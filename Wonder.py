@@ -18,5 +18,5 @@ class Wonder:
                f"powers = {self.powers}, " \
                f"level = {self.level}"
 
-    def get_next_power(self):
+    def get_next_power(self) -> Card:
         return self.powers[self.level]
