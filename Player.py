@@ -34,7 +34,8 @@ class Player:
                f"hand = {self.hand}, "
 
     def hand_to_str(self):
-        return '\n'.join(f"({i}) {str(card)} Cost is: {min(a + b for a, b in self.get_payment_options(card))}" for i, card in enumerate(self.hand))
+        return '\n'.join(f"({i}) {str(card)} | Cost: {min_cost(self.get_payment_options(card))}"
+                         for i, card in enumerate(self.hand))
 
     def take_action(self, action: str, card_index: int):
         if action == 'p':

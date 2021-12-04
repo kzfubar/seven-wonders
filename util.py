@@ -63,6 +63,10 @@ def get_all_cards(num_players: int):
     return all_cards + random.sample(guilds, num_players + 2)
 
 
+def min_cost(payment_options) -> int:
+    return min(a + b for a, b in payment_options)
+
+
 ALL_WONDERS = all_wonders()
 LEFT = "left"
 RIGHT = "right"
