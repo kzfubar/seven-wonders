@@ -45,7 +45,7 @@ class Game:
                 print(f"Player {player_number}'s turn")
                 print(f"your hand is:\n{player.hand_to_str()}")
 
-                player_input = input("(p)lay, (d)iscard, (b)ury a card: ")
+                player_input = input(f"(p)lay, (d)iscard, (b)ury a card cost {min(a + b for a, b in player.get_payment_options(player.wonder.get_next_power()))}: ")
                 action, card_index = player_input[0], int(player_input[1])
 
                 self.__get_player(player_number).take_action(action, card_index)

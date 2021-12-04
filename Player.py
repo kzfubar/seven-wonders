@@ -34,10 +34,7 @@ class Player:
                f"hand = {self.hand}, "
 
     def hand_to_str(self):
-        hand = ""
-        for i, card in enumerate(self.hand):
-            hand += f"({i}) {str(card)}\n"
-        return hand
+        return '\n'.join(f"({i}) {str(card)} Cost is: {min(a + b for a, b in self.get_payment_options(card))}" for i, card in enumerate(self.hand))
 
     def take_action(self, action: str, card_index: int):
         if action == 'p':
@@ -65,8 +62,9 @@ class Player:
         # todo do any action at all
 
 
-    def get_min_cost(self, card: Card, effects: List[Effect]):
-        resources = [effect for effect in effects if is_resource(effect)]
+    def get_payment_options(self, card: Card) -> List[Tuple[int]]: 
+        return [(1, 0)]
+
 
         for resource, count in Counter(card.cost).items():
             pass
