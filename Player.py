@@ -136,21 +136,6 @@ class Player:
         vp = 0
         vp += self.board["military_points"]
         vp += self.board["coins"] // 3
-<<<<<<< HEAD
-        
-        # covers wonder, civil, and commercial cards -- need to add direction
-        for effects in self.effects["victory"]:
-            if effects.target:
-                for targets in effects.target:
-                    vp += self.board[targets] * effects.resources[0][1]
-            else:
-                vp += effects.resources[0][1]
-        
-    
-
-
-=======
         for effects in self.effects["victory"]:
             vp += effects.resources[0][1]
->>>>>>> 00315673324182a10737d6728fe63a3a6718119f
         return vp
