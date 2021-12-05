@@ -15,18 +15,18 @@ def all_wonders() -> List[Wonder]:
                              0,
                              "wonder_power",
                              card['cost'],
-                             __get_effects({"effects": [card]}))
+                             _get_effects({"effects": [card]}))
                         for i, card in enumerate(wonder['state'])])
                 for wonder in data]
 
 
-def __is_resource(card_raw) -> bool:
+def _is_resource(card_raw) -> bool:
     if 'type' in card_raw:
         return card_raw['type'] == "common" or card_raw['type'] == "luxury"
     return False
 
 
-def __get_effects(card_raw) -> List[Effect]:
+def _get_effects(card_raw) -> List[Effect]:
     effects_raw = card_raw['effects']
     effects = []
     for effect in effects_raw:
@@ -34,7 +34,7 @@ def __get_effects(card_raw) -> List[Effect]:
                               resources=effect['resources'],
                               target=effect['target'],
                               direction=effect['direction'],
-                              is_public=__is_resource(card_raw)))
+                              is_public=_is_resource(card_raw)))
     return effects
 
 
@@ -50,7 +50,7 @@ def get_all_cards(num_players: int) -> List[Card]:
                                age=card['age'],
                                card_type=card['type'],
                                cost=card['cost'],
-                               effects=__get_effects(card)))
+                               effects=_get_effects(card)))
             continue
 
         for player_count in card['players']:
@@ -59,7 +59,7 @@ def get_all_cards(num_players: int) -> List[Card]:
                                       age=card['age'],
                                       card_type=card['type'],
                                       cost=card['cost'],
-                                      effects=__get_effects(card)))
+                                      effects=_get_effects(card)))
     return all_cards + random.sample(guilds, num_players + 2)
 
 

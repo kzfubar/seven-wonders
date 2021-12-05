@@ -25,20 +25,20 @@ class Game:
 
         print("game created")
 
-    def __set_neighbors(self):
+    def _set_neighbors(self):
         for a, b, c in zip([self.players[-1]] + self.players, self.players, self.players + [self.players[0]]):
             b.neighbors[LEFT] = a
             b.neighbors[RIGHT] = c
 
-    def __deal_cards(self, age: int):
-        card_list = self.__get_cards(age)
+    def _deal_cards(self, age: int):
+        card_list = self._get_cards(age)
         random.shuffle(card_list)
 
         for i, player in enumerate(self.players):
             player.hand = card_list[i * 7: (i + 1) * 7]
 
-    def __play_round(self, age: int):
-        self.__deal_cards(age)
+    def _play_round(self, age: int):
+        self._deal_cards(age)
         for i in range(6):
             print(f"begin round: {i}")
             for player_number, player in enumerate(self.players):
@@ -50,16 +50,16 @@ class Game:
                 action, card_index = player_input[0], int(player_input[1])
 
                 player.take_action(action, card_index)
-            self.__pass_hands(age)
+            self._pass_hands(age)
         # todo calculate victory points
 
-    def __get_cards(self, age: int) -> List[Card]:
+    def _get_cards(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
 
-    def __get_player(self, player_number: int) -> Player:
+    def _get_player(self, player_number: int) -> Player:
         return self.players[player_number]
 
-    def __pass_hands(self, age: int):
+    def _pass_hands(self, age: int):
         player_order = self.players + [self.players[0]]
 
         if self.pass_order[age] == LEFT:
@@ -73,4 +73,4 @@ class Game:
         print("starting game!")
         for age in range(1, 4):
             print(f"begin age: {age}")
-            self.__play_round(age)
+            self._play_round(age)
