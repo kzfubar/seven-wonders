@@ -61,9 +61,9 @@ class Player:
     def _bury(self, card: Card):
         print(f"burying {card.name}")
         wonder_power = self.wonder.get_next_power()
-        self._activate_card(wonder_power)
+        self._play_card(wonder_power)
 
-    def _activate_card(self, card: Card):
+    def _play_card(self, card: Card):
         print(card)
         payment_options = self.get_payment_options(card)
         self._display_payment_options(payment_options)
@@ -95,21 +95,10 @@ class Player:
             pass  # todo
 
     def get_victory(self):
-        # military, treasury//3, wonder state, civilian structures, commercial effects, science
+        # todo military, treasury//3, wonder state, civilian structures, commercial effects, science
         vp = 0
         vp += self.board["military_points"]
         vp += self.board["coins"] // 3
-        
         for effects in self.effects["victory"]:
             vp += effects.resources[0][1]
-        
-    
         return vp
-
-        
-
-
-
-
-
-    
