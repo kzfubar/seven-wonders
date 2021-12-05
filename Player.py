@@ -78,6 +78,7 @@ class Player:
     def _discard(self, card: Card) -> bool:
         print(f"discarding {card}")
         self.board['coins'] += 3
+        self.hand.remove(card)
         return True
 
     def _bury(self, card: Card) -> bool:
