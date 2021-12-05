@@ -18,5 +18,9 @@ class Wonder:
                f"powers = {self.powers}, " \
                f"level = {self.level}"
 
-    def get_next_power(self) -> Card:
-        return self.powers[self.level]
+    def get_next_power(self) -> Card:  # todo we should check to make sure we can't bury if level exceeded
+        return self.powers[self.level]  # todo this will throw an exception at max level
+
+    def increment_level(self):  # todo we can check if this is incremented too much
+        self.level += 1
+
