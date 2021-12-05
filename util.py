@@ -64,7 +64,19 @@ def get_all_cards(num_players: int) -> List[Card]:
 
 
 def min_cost(payment_options) -> int:
-    return min(a + b for a, b in payment_options)
+    return min(total_payment(payment) for payment in payment_options)
+
+
+def total_payment(payment: Tuple[int, int]):
+    return left_payment(payment) + right_payment(payment)
+
+
+def left_payment(payment: Tuple[int, int]):
+    return payment[0]
+
+
+def right_payment(payment: Tuple[int, int]):
+    return payment[1]
 
 
 ALL_WONDERS = all_wonders()

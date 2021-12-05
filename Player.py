@@ -18,6 +18,7 @@ class Player:
         "science": 0,
         "guild": 0
     }
+    next_coins: int = 0
     coupons: Set[Card] = set()
     effects: Dict[str, List[Effect]] = {}
     neighbors: Dict[str, 'Player'] = {
@@ -43,6 +44,9 @@ class Player:
         if len(player_input) > 1:
             return self._take_action(action, int(player_input[1]))
         return self._take_action(action)
+
+    def handle_next_coins(self, coins: int):
+        self.next_coins += coins
 
     def _hand_to_str(self) -> str:
         return '\n'.join(f"({i}) {str(card)} | Cost: {min_cost(self._get_payment_options(card))}"
@@ -81,6 +85,7 @@ class Player:
         wonder_power = self.wonder.get_next_power()
         successfully_played = self._play_card(wonder_power)
         if successfully_played:
+            self.wonder.increment_level()
             self.hand.remove(card)
         return successfully_played
 
@@ -88,10 +93,12 @@ class Player:
         print(card)
         payment_options = self._get_payment_options(card)
         self._display_payment_options(payment_options)
-        player_input = int(input("select a payment option: "))
-        selected_option = payment_options[player_input]
-        # todo increment neighbors coins, and decrement own coins
-        # todo activate effects of card
+        player_input = input("select a payment option: ")
+        if player_input == 'q':
+            return False
+        player_input = int(player_input)
+        self._do_payment(payment_options[player_input])
+        self._activate_card(card)
         return True
 
     def _display_payment_options(self, payment_options):
@@ -115,6 +122,11 @@ class Player:
     def _handle_effect(self, effect: Effect):
         if effect.effect == "generate":
             pass  # todo
+
+    def _do_payment(self, payment: Tuple[int, int]):
+        self.neighbors[LEFT].handle_next_coins(left_payment(payment))
+        self.neighbors[RIGHT].handle_next_coins(right_payment(payment))
+        self.handle_next_coins(-1 * total_payment(payment))  # -1 for decrement own coins
 
     def get_victory(self):
         # todo military, treasury//3, wonder state, civilian structures, commercial effects, science
