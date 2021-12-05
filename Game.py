@@ -33,28 +33,12 @@ class Game:
             b.neighbors[RIGHT] = c
 
     def _deal_cards(self, age: int):
-        card_list = self.__get_cards_for_age(age)
+        card_list = self._get_cards_for_age(age)
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
             player.hand = card_list[i * 7: (i + 1) * 7]
 
-    def _play_round(self, age: int):
-        self._deal_cards(age)
-        for i in range(6):
-            print(f"begin round: {i}")
-            for player_number, player in enumerate(self.players):
-                print(f"{player.name}'s turn")
-                print(f"your hand is:\n{player.hand_to_str()}")
-                print(f"Bury cost: {min_cost(player.get_payment_options(player.wonder.get_next_power()))}")
-
-                player_input = input("(p)lay, (d)iscard or (b)ury a card: ")
-                action, card_index = player_input[0], int(player_input[1])
-
-                player.take_action(action, card_index)
-            self._pass_hands(age)
-        # todo calculate victory points
-
-    def __get_cards_for_age(self, age: int) -> List[Card]:
+    def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
 
     def _get_player(self, player_number: int) -> Player:
