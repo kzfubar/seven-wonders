@@ -6,6 +6,7 @@ from Card import *
 from Wonder import *
 
 
+# todo eventually we'll need to refactor wonder.json to allow for multi effects
 def all_wonders() -> List[Wonder]:
     with open('wonders.json') as f:
         data = json.load(f)
@@ -15,18 +16,17 @@ def all_wonders() -> List[Wonder]:
                              0,
                              "wonder_power",
                              card['cost'],
-                             __get_effects({"effects": [card]}))
+                             _get_effects({"effects": [card],
+                                           "type": "wonder"}))
                         for i, card in enumerate(wonder['state'])])
                 for wonder in data]
 
 
-def __is_resource(card_raw) -> bool:
-    if 'type' in card_raw:
-        return card_raw['type'] == "common" or card_raw['type'] == "luxury"
-    return False
+def is_resource(effect: Effect) -> bool:
+    return effect.card_type == "common" or effect.card_type == "luxury"
 
 
-def __get_effects(card_raw) -> List[Effect]:
+def _get_effects(card_raw) -> List[Effect]:
     effects_raw = card_raw['effects']
     effects = []
     for effect in effects_raw:
@@ -34,7 +34,7 @@ def __get_effects(card_raw) -> List[Effect]:
                               resources=effect['resources'],
                               target=effect['target'],
                               direction=effect['direction'],
-                              is_public=__is_resource(card_raw)))
+                              card_type=card_raw['type']))
     return effects
 
 
@@ -50,7 +50,7 @@ def get_all_cards(num_players: int) -> List[Card]:
                                age=card['age'],
                                card_type=card['type'],
                                cost=card['cost'],
-                               effects=__get_effects(card)))
+                               effects=_get_effects(card)))
             continue
 
         for player_count in card['players']:
@@ -59,12 +59,24 @@ def get_all_cards(num_players: int) -> List[Card]:
                                       age=card['age'],
                                       card_type=card['type'],
                                       cost=card['cost'],
-                                      effects=__get_effects(card)))
+                                      effects=_get_effects(card)))
     return all_cards + random.sample(guilds, num_players + 2)
 
 
 def min_cost(payment_options) -> int:
-    return min(a + b for a, b in payment_options)
+    return min(total_payment(payment) for payment in payment_options)
+
+
+def total_payment(payment: Tuple[int, int]):
+    return left_payment(payment) + right_payment(payment)
+
+
+def left_payment(payment: Tuple[int, int]):
+    return payment[0]
+
+
+def right_payment(payment: Tuple[int, int]):
+    return payment[1]
 
 
 ALL_WONDERS = all_wonders()
