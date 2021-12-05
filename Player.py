@@ -1,5 +1,5 @@
 from collections import Counter
-from typing import Dict
+from typing import Dict, Set
 
 from util import *
 
@@ -18,7 +18,7 @@ class Player:
         "science": 0,
         "guild": 0
     }
-    coupons = set()
+    coupons: Set[Card] = set()
     effects: Dict[str, List[Effect]] = {}
     neighbors: Dict[str, 'Player'] = {
         LEFT: None,

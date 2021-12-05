@@ -1,9 +1,11 @@
+from typing import Dict
+
 from Player import Player
 from util import *
 
 
 class Game:
-    pass_order = {
+    pass_order: Dict[int, str] = {
         1: LEFT,
         2: RIGHT,
         3: LEFT
@@ -21,7 +23,7 @@ class Game:
         self.players = [Player(str(i), wonder) for i, wonder in enumerate(random.sample(ALL_WONDERS, num_players))]
         self._set_neighbors()
 
-        [print(p) for p in self.players]
+        [print(p) for p in self.players]  # todo debug logging (remove this?)
 
         print("game created")
 
@@ -31,9 +33,8 @@ class Game:
             b.neighbors[RIGHT] = c
 
     def _deal_cards(self, age: int):
-        card_list = self._get_cards(age)
+        card_list = self.__get_cards_for_age(age)
         random.shuffle(card_list)
-
         for i, player in enumerate(self.players):
             player.hand = card_list[i * 7: (i + 1) * 7]
 
@@ -53,7 +54,7 @@ class Game:
             self._pass_hands(age)
         # todo calculate victory points
 
-    def _get_cards(self, age: int) -> List[Card]:
+    def __get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
 
     def _get_player(self, player_number: int) -> Player:
