@@ -635,13 +635,13 @@
       "effects": [
           {
               "effect": "generate",
-              "resources": [ ["v", 1] ],
+              "resources": [ ["c", 1] ],
               "target": ["common"],
               "direction": ["self"]
           },
           {
               "effect": "victory",
-              "resources": [ ["c", 1] ],
+              "resources": [ ["v", 1] ],
               "target": ["common"],
               "direction": ["self"]
           }
@@ -657,13 +657,13 @@
       "effects": [
           {
               "effect": "generate",
-              "resources": [ ["v", 1] ],
+              "resources": [ ["c", 1] ],
               "target": ["commercial"],
               "direction": ["self"]
           },
           {
               "effect": "victory",
-              "resources": [ ["c", 1]],
+              "resources": [ ["v", 1]],
               "target": ["commercial"],
               "direction": ["self"]
           }
@@ -828,7 +828,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["y", 1] ],
               "target": [],
               "direction": ["self"]
@@ -844,7 +844,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["x", 1] ],
               "target": [],
               "direction": ["self"]
@@ -860,7 +860,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["z", 1] ],
               "target": [],
               "direction": ["self"]
@@ -892,7 +892,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["y", 1] ],
               "target": [],
               "direction": ["self"]
@@ -924,7 +924,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["x", 1] ],
               "target": [],
               "direction": ["self"]
@@ -956,7 +956,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["z", 1] ],
               "target": [],
               "direction": ["self"]
@@ -972,7 +972,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["z", 1] ],
               "target": [],
               "direction": ["self"]
@@ -988,7 +988,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["y", 1] ],
               "target": [],
               "direction": ["self"]
@@ -1020,7 +1020,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["x", 1] ],
               "target": [],
               "direction": ["self"]
@@ -1052,7 +1052,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["z", 1] ],
               "target": [],
               "direction": ["self"]
@@ -1068,7 +1068,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["y", 1] ],
               "target": [],
               "direction": ["self"]
@@ -1084,7 +1084,7 @@
       "type": "science",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["x", 1] ],
               "target": [],
               "direction": ["self"]
@@ -1101,13 +1101,13 @@
       "effects": [
           {
               "effect": "generate",
-              "resources": [ ["v", 1] ],
+              "resources": [ ["c", 1] ],
               "target": ["wonder_level"],
               "direction": ["self"]
           },
           {
               "effect": "victory",
-              "resources": [ ["c", 3] ],
+              "resources": [ ["v", 3] ],
               "target": ["wonder_level"],
               "direction": ["self"]
           }
@@ -1266,7 +1266,7 @@
       "type": "guild",
       "effects": [
           {
-              "effect": "produce",
+              "effect": "research",
               "resources": [ ["x", 1], ["y", 1], ["z", 1] ],
               "target": [],
               "direction": ["self"]
