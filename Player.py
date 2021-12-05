@@ -72,8 +72,11 @@ class Player:
 
     def _play(self, card: Card) -> bool:
         print(f"playing {card}")
-        # todo do any action at all
-        return True
+        successfully_played = self._play_card(card)
+        if successfully_played:
+            self.wonder.increment_level()
+            self.hand.remove(card)
+        return successfully_played
 
     def _discard(self, card: Card) -> bool:
         print(f"discarding {card}")
