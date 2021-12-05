@@ -74,7 +74,6 @@ class Player:
         print(f"playing {card}")
         successfully_played = self._play_card(card)
         if successfully_played:
-            self.wonder.increment_level()
             self.hand.remove(card)
         return successfully_played
 
