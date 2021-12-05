@@ -35,11 +35,20 @@ class Player:
                f"board = {self.board}, " \
                f"hand = {self.hand}, "
 
-    def hand_to_str(self) -> str:
-        return '\n'.join(f"({i}) {str(card)} | Cost: {min_cost(self.get_payment_options(card))}"
+    def take_turn(self) -> bool:
+        print(f"your hand is:\n{self._hand_to_str()}")
+        print(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
+        player_input = list(input("(p)lay, (d)iscard or (b)ury a card: ").replace(' ', ''))
+        action = player_input[0]
+        if len(player_input) > 1:
+            return self._take_action(action, int(player_input[1]))
+        return self._take_action(action)
+
+    def _hand_to_str(self) -> str:
+        return '\n'.join(f"({i}) {str(card)} | Cost: {min_cost(self._get_payment_options(card))}"
                          for i, card in enumerate(self.hand))
 
-    def take_action(self, action: str, card_index: int):
+    def _take_action(self, action: str, card_index: int = None):
         card = self.hand.pop(card_index)
         if action == 'p':
             self._play(card)
@@ -65,7 +74,7 @@ class Player:
 
     def _play_card(self, card: Card):
         print(card)
-        payment_options = self.get_payment_options(card)
+        payment_options = self._get_payment_options(card)
         self._display_payment_options(payment_options)
         player_input = int(input("select a payment option: "))
         selected_option = payment_options[player_input]
@@ -77,7 +86,7 @@ class Player:
         for i, option in enumerate(payment_options):
             print(f"({i}) {self.neighbors[LEFT].name} -> {option[0]}, {self.neighbors[RIGHT].name} -> {option[1]}")
 
-    def get_payment_options(self, card: Card) -> List[Tuple[int, int]]:
+    def _get_payment_options(self, card: Card) -> List[Tuple[int, int]]:
         return [(1, 0)]
 
         for resource, count in Counter(card.cost).items():

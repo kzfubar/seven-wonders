@@ -60,18 +60,34 @@ class Game:
     def _get_player(self, player_number: int) -> Player:
         return self.players[player_number]
 
-    def _pass_hands(self, age: int):
+    def _pass_hands(self, direction: str):
         player_order = self.players + [self.players[0]]
-
-        if self.pass_order[age] == LEFT:
+        if direction == LEFT:
             player_order.reverse()
-
         temp_hand = []
         for player in player_order:
             player.hand, temp_hand = temp_hand, player.hand
+
+    def _end_round(self, age: int):
+        self._pass_hands(self.pass_order[age])
+
+    def _end_age(self):
+        pass
+
+    def _end_game(self):
+        pass  # todo calculate victory points
 
     def play(self):
         print("starting game!")
         for age in range(1, 4):
             print(f"begin age: {age}")
-            self._play_round(age)
+            self._deal_cards(age)
+            for round_number in range(6):
+                print(f"begin round: {round_number}")
+                for player_number, player in enumerate(self.players):
+                    print(f"{player.name}'s turn")
+                    player.take_turn()
+                self._end_round(age)
+            self._end_age()
+        self._end_game()
+
