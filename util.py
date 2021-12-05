@@ -6,6 +6,7 @@ from Card import *
 from Wonder import *
 
 
+# todo eventually we'll need to refactor wonder.json to allow for multi effects
 def all_wonders() -> List[Wonder]:
     with open('wonders.json') as f:
         data = json.load(f)
@@ -15,15 +16,14 @@ def all_wonders() -> List[Wonder]:
                              0,
                              "wonder_power",
                              card['cost'],
-                             _get_effects({"effects": [card]}))
+                             _get_effects({"effects": [card],
+                                           "type": "wonder"}))
                         for i, card in enumerate(wonder['state'])])
                 for wonder in data]
 
 
-def _is_resource(card_raw) -> bool:
-    if 'type' in card_raw:
-        return card_raw['type'] == "common" or card_raw['type'] == "luxury"
-    return False
+def is_resource(effect: Effect) -> bool:
+    return effect.card_type == "common" or effect.card_type == "luxury"
 
 
 def _get_effects(card_raw) -> List[Effect]:
@@ -34,7 +34,7 @@ def _get_effects(card_raw) -> List[Effect]:
                               resources=effect['resources'],
                               target=effect['target'],
                               direction=effect['direction'],
-                              is_public=_is_resource(card_raw)))
+                              card_type=card_raw['type']))
     return effects
 
 

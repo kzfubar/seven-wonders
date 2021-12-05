@@ -6,19 +6,19 @@ class Effect:
                  resources: List[Tuple[str, int]],
                  target: List[str],
                  direction: List[str],
-                 is_public: bool):
+                 card_type: str):
         self.effect = effect
         self.resources = resources
         self.target = target
         self.direction = direction
-        self.is_public = is_public
+        self.card_type = card_type
 
     def __repr__(self):
         return f"Effect{{effect = {self.effect}, " \
                f"resources = {self.resources}, " \
                f"target = {self.target}, " \
                f"direction = {self.direction}, " \
-               f"is_public = {self.is_public}}}"
+               f"card_type = {self.card_type}}}"
 
     def __str__(self):
         return f"{self.effect}={self.resources} for {self.direction} on {self.target}"
