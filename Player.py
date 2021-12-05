@@ -89,3 +89,23 @@ class Player:
     def __handle_effect(self, effect: Effect):
         if effect.effect == "generate":
             pass  # todo
+
+    def get_victory(self):
+        # military, treasury//3, wonder state, civilian structures, commercial effects, science
+        vp = 0
+        vp += self.board["military_points"]
+        vp += self.board["coins"] // 3
+        
+        for effects in self.effects["victory"]:
+            vp += effects.resources[0][1]
+        
+    
+        return vp
+
+        
+
+
+
+
+
+    
