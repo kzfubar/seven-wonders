@@ -19,7 +19,7 @@ class Game:
 
         self.cards = get_all_cards(num_players)
         self.players = [Player(str(i), wonder) for i, wonder in enumerate(random.sample(ALL_WONDERS, num_players))]
-        self.__set_neighbors()
+        self._set_neighbors()
 
         [print(p) for p in self.players]
 
