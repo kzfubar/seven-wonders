@@ -86,7 +86,9 @@ class Game:
                 print(f"begin round: {round_number}")
                 for player_number, player in enumerate(self.players):
                     print(f"{player.name}'s turn")
-                    player.take_turn()
+                    turn_over = False
+                    while not turn_over:
+                        turn_over = player.take_turn()
                 self._end_round(age)
             self._end_age()
         self._end_game()

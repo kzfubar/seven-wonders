@@ -48,31 +48,43 @@ class Player:
         return '\n'.join(f"({i}) {str(card)} | Cost: {min_cost(self._get_payment_options(card))}"
                          for i, card in enumerate(self.hand))
 
-    def _take_action(self, action: str, card_index: int = None):
-        card = self.hand.pop(card_index)
-        if action == 'p':
-            self._play(card)
-        elif action == 'd':
-            self._discard(card)
-        elif action == 'b':
-            self._bury(card)
-        else:
-            raise Exception("we currently don't handle invalid actions!")  # todo
+    def _menu(self) -> bool:
+        print("menu")
+        return False
 
-    def _play(self, card: Card):
+    def _take_action(self, action: str, card_index: int = None) -> bool:
+        if action == 'm':
+            return self._menu()
+        card = self.hand[card_index]
+        if action == 'p':
+            return self._play(card)
+        elif action == 'd':
+            return self._discard(card)
+        elif action == 'b':
+            return self._bury(card)
+        else:
+            print(f"Invalid action! {action}")
+            return False
+
+    def _play(self, card: Card) -> bool:
         print(f"playing {card}")
         # todo do any action at all
+        return True
 
-    def _discard(self, card: Card):
+    def _discard(self, card: Card) -> bool:
         print(f"discarding {card}")
         self.board['coins'] += 3
+        return True
 
-    def _bury(self, card: Card):
+    def _bury(self, card: Card) -> bool:
         print(f"burying {card.name}")
         wonder_power = self.wonder.get_next_power()
-        self._play_card(wonder_power)
+        successfully_played = self._play_card(wonder_power)
+        if successfully_played:
+            self.hand.remove(card)
+        return successfully_played
 
-    def _play_card(self, card: Card):
+    def _play_card(self, card: Card) -> bool:
         print(card)
         payment_options = self._get_payment_options(card)
         self._display_payment_options(payment_options)
@@ -80,6 +92,7 @@ class Player:
         selected_option = payment_options[player_input]
         # todo increment neighbors coins, and decrement own coins
         # todo activate effects of card
+        return True
 
     def _display_payment_options(self, payment_options):
         print("Payment options:")
