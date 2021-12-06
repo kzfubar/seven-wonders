@@ -36,6 +36,11 @@ class Player:
                f"board = {self.board}, " \
                f"hand = {self.hand}, "
 
+    def __str__(self):
+        return f"Player{{wonder = {self.wonder}, " \
+               f"board = {self.board}, " \
+               f"effects = {self.effects}, "
+
     def take_turn(self) -> bool:
         print(f"your hand is:\n{self._hand_to_str()}")
         print(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
@@ -53,7 +58,13 @@ class Player:
                          for i, card in enumerate(self.hand))
 
     def _menu(self) -> bool:
-        print("menu")
+        menu_options = [
+            "Display player information"
+        ]
+        print('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
+        selected_option = int(input("select menu option: "))
+        if selected_option == 0:
+            print(str(self))
         return False
 
     def _take_action(self, action: str, card_index: int = None) -> bool:
