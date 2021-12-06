@@ -16,7 +16,8 @@ class Player:
         "commercial": 0,
         "military": 0,
         "science": 0,
-        "guild": 0
+        "guild": 0,
+        "wonder_power": 0
     }
     next_coins: int = 0
     coupons: Set[Card] = set()
@@ -70,6 +71,8 @@ class Player:
     def _take_action(self, action: str, card_index: int = None) -> bool:
         if action == 'm':
             return self._menu()
+        if card_index is None:
+            card_index = int(input("please select a card: "))
         card = self.hand[card_index]
         if action == 'p':
             return self._play(card)
@@ -113,6 +116,7 @@ class Player:
         player_input = int(player_input)
         self._do_payment(payment_options[player_input])
         self._activate_card(card)
+        self.board[card.card_type] += 1
         return True
 
     def _display_payment_options(self, payment_options):
