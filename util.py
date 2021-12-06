@@ -83,3 +83,25 @@ ALL_WONDERS = all_wonders()
 LEFT = "left"
 RIGHT = "right"
 pprint.pprint(ALL_WONDERS)
+resource_map = {
+    # common
+    "w": "wood",
+    "s": "stone",
+    "b": "brick",
+    "o": "ore",
+
+    # luxury
+    "l": "loom",
+    "g": "glass",
+    "p": "paper",
+
+    # token
+    "v": "victory_point",
+    "m": "military_might",
+    "c": "coin",
+
+    # science
+    "y": "cog",
+    "x": "compass",
+    "z": "tablet",
+}
