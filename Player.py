@@ -16,7 +16,8 @@ class Player:
         "commercial": 0,
         "military": 0,
         "science": 0,
-        "guild": 0
+        "guild": 0,
+        "wonder_power": 0
     }
     next_coins: int = 0
     coupons: Set[Card] = set()
@@ -36,6 +37,11 @@ class Player:
                f"board = {self.board}, " \
                f"hand = {self.hand}, "
 
+    def __str__(self):
+        return f"Player{{wonder = {self.wonder}, " \
+               f"board = {self.board}, " \
+               f"effects = {self.effects}, "
+
     def take_turn(self) -> bool:
         print(f"your hand is:\n{self._hand_to_str()}")
         print(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
@@ -53,12 +59,20 @@ class Player:
                          for i, card in enumerate(self.hand))
 
     def _menu(self) -> bool:
-        print("menu")
+        menu_options = [
+            "Display player information"
+        ]
+        print('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
+        selected_option = int(input("select menu option: "))
+        if selected_option == 0:
+            print(str(self))
         return False
 
     def _take_action(self, action: str, card_index: int = None) -> bool:
         if action == 'm':
             return self._menu()
+        if card_index is None:
+            card_index = int(input("please select a card: "))
         card = self.hand[card_index]
         if action == 'p':
             return self._play(card)
@@ -102,6 +116,7 @@ class Player:
         player_input = int(player_input)
         self._do_payment(payment_options[player_input])
         self._activate_card(card)
+        self.board[card.card_type] += 1
         return True
 
     def _display_payment_options(self, payment_options):
