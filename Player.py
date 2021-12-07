@@ -37,7 +37,7 @@ class Player:
                f"board = {self.board}, " \
                f"hand = {self.hand}, "
 
-    def __str__(self):
+    def __str__(self):  # todo make this nicer
         return f"Player{{wonder = {self.wonder}, " \
                f"board = {self.board}, " \
                f"effects = {self.effects}, "
@@ -132,19 +132,30 @@ class Player:
 
     def _activate_card(self, card: Card):
         for effect in card.effects:
-            self._handle_effect(effect)
-            if effect not in self.effects:
-                self.effects[effect.effect] = []
-            self.effects[effect.effect].append(effect)
-
-    def _handle_effect(self, effect: Effect):
-        if effect.effect == "generate":
-            pass  # todo
+            if effect.effect == "generate":
+                resource_key, count = self._get_effect_resources(effect)
+                resource = resource_map[resource_key]
+                self.board[resource] += count
+            else:
+                if effect not in self.effects:
+                    self.effects[effect.effect] = []
+                self.effects[effect.effect].append(effect)
 
     def _do_payment(self, payment: Tuple[int, int]):
         self.neighbors[LEFT].handle_next_coins(left_payment(payment))
         self.neighbors[RIGHT].handle_next_coins(right_payment(payment))
         self.handle_next_coins(-1 * total_payment(payment))  # -1 for decrement own coins
+
+    def _get_effect_resources(self, effect: Effect) -> Tuple[str, int]:
+        count = 0
+        for direction in effect.direction:
+            player = self if direction == "self" else self.neighbors[direction]
+            if effect.target:
+                for target in effect.target:
+                    count += player.board[target] * effect.resources[0][1]
+            else:
+                count += effect.resources[0][1]
+        return effect.resources[0][0], count
 
     def get_victory(self):
         # todo military, treasury//3, wonder state, civilian structures, commercial effects, science
