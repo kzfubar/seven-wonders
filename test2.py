@@ -20,6 +20,7 @@ def get_victory():
         if effect.target:
             for targets in effect.target:
                 vp += board[targets] * effect.resources[0][1]
+                print(effect.resources[0][0])
         else:
             vp += effect.resources[0][1]
     print(vp)

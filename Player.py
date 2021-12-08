@@ -186,11 +186,11 @@ class Player:
         # calculate science -- doesn't take cards with choice of mat into account
         cog, compass, tablet = 0
         for effects in self.effects["research"]:
-            if effects.resources[0] == "x":
+            if effects.resources[0][0] == "x":
                 compass += 1
-            elif effects.resources[0] == "y":
+            elif effects.resources[0][0] == "y":
                 cog += 1
-            elif effects.resources[0] == "z":
+            elif effects.resources[0][0] == "z":
                 tablet += 1
         
         # Calculates set and identical cards
