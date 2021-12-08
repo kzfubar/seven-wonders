@@ -1,5 +1,6 @@
 from collections import Counter
 from typing import Dict, Set
+import math
 
 from util import *
 
@@ -158,20 +159,44 @@ class Player:
         return effect.resources[0][0], count
 
     def get_victory(self):
-        # todo military, treasury//3, wonder state, civilian structures, commercial effects, science
+        # todo science
         vp = 0
         vp += self.board["military_points"]
         vp += self.board["coins"] // 3
         
-        # covers wonder, civil, and commercial cards -- need to add direction
+        # covers wonder, civil, and commercial cards
         for effects in self.effects["victory"]:
             if effects.target:
-                for targets in effects.target:
-                    vp += self.board[targets] * effects.resources[0][1]
+                for direction in effects.direction:
+                    if direction == "left":
+                        for targets in effects.target:
+                            vp += self.neighbors[LEFT].board[targets] * effects.resources[0][1]
+                            
+                    if direction == "right":
+                        for targets in effects.target:
+                            vp += self.neighbors[RIGHT].board[targets] * effects.resources[0][1]
+                            
+                    else:
+                        for targets in effects.target:
+                            vp += self.board[targets] * effects.resources[0][1]
+            
             else:
                 vp += effects.resources[0][1]
         
-    
+        # calculate science -- doesn't take cards with choice of mat into account
+        cog, compass, tablet = 0
+        for effects in self.effects["research"]:
+            if effects.resources[0] == "x":
+                compass += 1
+            elif effects.resources[0] == "y":
+                cog += 1
+            elif effects.resources[0] == "z":
+                tablet += 1
+        
+        # Calculates set and identical cards
+        vp += min(cog, compass, tablet) * 7
+        vp += math.pow(cog,2) + math.pow(compass, 2) + math.pow(tablet, 2)
+
 
 
         return vp
