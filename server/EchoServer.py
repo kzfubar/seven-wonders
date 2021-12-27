@@ -23,3 +23,6 @@ class EchoServer(socketserver.ThreadingTCPServer):
             print("EchoServer Closed!")
 
 
+if __name__ == "__main__":
+    print("Starting EchoServer")
+    EchoServer().start()
