@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from typing import Dict
 
 from Player import Player
@@ -11,20 +12,13 @@ class Game:
         3: LEFT
     }
 
-    def __init__(self, num_players):
-        print(f"creating game with {num_players}...")
-
-        if num_players < 3:
-            raise Exception("min players is 3, t-that's fine!")
-        if num_players > len(ALL_WONDERS):
-            raise Exception("more players than wonders, goober!")
-
-        self.cards = get_all_cards(num_players)
-        self.players = [Player(str(i), wonder) for i, wonder in enumerate(random.sample(ALL_WONDERS, num_players))]
+    @abstractmethod
+    def __init__(self, players: List[Player]):
+        self.players: List[Player] = players
+        self.cards = get_all_cards(len(players))
         self._set_neighbors()
 
         [print(p) for p in self.players]  # todo debug logging (remove this?)
-
         print("game created")
 
     def _set_neighbors(self):
