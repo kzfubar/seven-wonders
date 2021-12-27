@@ -1,6 +1,6 @@
 import socketserver
 
-from server.EchoHandler import EchoHandler
+from server import EchoHandler
 
 
 class EchoServer(socketserver.ThreadingTCPServer):
@@ -9,7 +9,7 @@ class EchoServer(socketserver.ThreadingTCPServer):
     name = "oyo"
 
     def __init__(self):
-        super().__init__((self.HOST, self.PORT), EchoHandler)
+        super().__init__((self.HOST, self.PORT), EchoHandler.EchoHandler)
         print("EchoServer created")
 
     def get_tag(self) -> bytes:
