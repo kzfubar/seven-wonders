@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Dict
 
-from Player import Player
+from game.Player import Player
 from util.util import *
 
 

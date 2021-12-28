@@ -12,7 +12,7 @@ CUR_DIR = os. getcwd()
 
 # todo eventually we'll need to refactor wonder.json to allow for multi effects
 def all_wonders() -> List[Wonder]:
-    with open(CUR_DIR+'/wonders.json') as f:
+    with open(CUR_DIR+'/resources/wonders.json') as f:
         data = json.load(f)
         return [Wonder(wonder['name'],
                        wonder['resources'],
