@@ -21,6 +21,10 @@ class Game:
         [print(p) for p in self.players]  # todo debug logging (remove this?)
         print("game created")
 
+    @abstractmethod
+    def _message_players(self, message: str):
+        pass
+
     def _set_neighbors(self):
         for a, b, c in zip([self.players[-1]] + self.players, self.players, self.players + [self.players[0]]):
             b.neighbors[LEFT] = a
@@ -56,12 +60,12 @@ class Game:
         pass  # todo calculate victory points
 
     def play(self):
-        print("starting game!")
+        self._message_players("starting game!")
         for age in range(1, 4):
-            print(f"begin age: {age}")
+            self._message_players(f"begin age: {age}")
             self._deal_cards(age)
             for round_number in range(6):
-                print(f"begin round: {round_number}")
+                self._message_players(f"begin round: {round_number}")
                 for player_number, player in enumerate(self.players):
                     print(f"{player.name}'s turn")
                     turn_over = False

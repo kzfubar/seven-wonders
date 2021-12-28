@@ -1,14 +1,18 @@
 import json
+import os
 import pprint
 import random
+from typing import Optional
 
 from Card import *
 from Wonder import *
 
+CUR_DIR = os. getcwd()
+
 
 # todo eventually we'll need to refactor wonder.json to allow for multi effects
 def all_wonders() -> List[Wonder]:
-    with open('wonders.json') as f:
+    with open(CUR_DIR+'/wonders.json') as f:
         data = json.load(f)
         return [Wonder(wonder['name'],
                        wonder['resources'],
@@ -20,6 +24,14 @@ def all_wonders() -> List[Wonder]:
                                            "type": "wonder"}))
                         for i, card in enumerate(wonder['state'])])
                 for wonder in data]
+
+
+def get_wonder(wonder_name: str) -> Optional[Wonder]:
+    for wonder in ALL_WONDERS:
+        if wonder.name.lower() == wonder_name.lower():
+            return wonder
+    print("Wonder not found!")
+    return None
 
 
 def is_resource(effect: Effect) -> bool:

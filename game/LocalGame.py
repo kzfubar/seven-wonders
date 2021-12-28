@@ -15,3 +15,6 @@ class LocalGame(Game):
         players = [Player(str(i), wonder) for i, wonder in enumerate(random.sample(ALL_WONDERS, num_players))]
 
         super().__init__(players)
+
+    def _message_players(self, message: str):
+        print(message)
