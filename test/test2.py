@@ -1,4 +1,4 @@
-from Card import Effect
+from game.Card import Effect
 
 effects = {"victory": [Effect("victory", [("v", 2)], ["luxury", "common"], ["self"], False), Effect("victory", [("v", 2)], [], ["self"], False)]}
 board = {

@@ -2,7 +2,7 @@ from collections import Counter
 from typing import Dict, Set
 import math
 
-from util import *
+from util.util import *
 
 
 class Player:

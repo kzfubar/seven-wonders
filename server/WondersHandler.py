@@ -3,10 +3,10 @@ from __future__ import annotations
 import json
 import socketserver
 
-from Player import Player
+from game.Player import Player
 from server import WondersServer
 from server.PlayerConnection import PlayerConnection
-from util import get_wonder
+from util.util import get_wonder
 
 
 class WondersHandler(socketserver.BaseRequestHandler):

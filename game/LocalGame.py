@@ -1,5 +1,5 @@
-from util import *
-from Player import Player
+from util.util import *
+from game.Player import Player
 from game.Game import Game
 
 

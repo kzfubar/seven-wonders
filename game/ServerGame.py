@@ -1,7 +1,7 @@
 from typing import List
 
 from server.PlayerConnection import PlayerConnection
-from util import ALL_WONDERS
+from util.util import ALL_WONDERS
 from game.Game import Game
 
 

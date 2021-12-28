@@ -2,7 +2,7 @@ from abc import abstractmethod
 from typing import Dict
 
 from Player import Player
-from util import *
+from util.util import *
 
 
 class Game:

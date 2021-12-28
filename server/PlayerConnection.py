@@ -1,6 +1,6 @@
 from socket import SocketType
 
-from Player import Player
+from game.Player import Player
 
 
 class PlayerConnection:
