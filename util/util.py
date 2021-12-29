@@ -15,7 +15,7 @@ def all_wonders() -> List[Wonder]:
     with open(CUR_DIR+'/resources/wonders.json') as f:
         data = json.load(f)
         return [Wonder(wonder['name'],
-                       wonder['resources'],
+                       wonder['resources'][0],
                        [Card(f"{wonder['name']}{i}",
                              0,
                              "wonder_power",
@@ -75,21 +75,23 @@ def get_all_cards(num_players: int) -> List[Card]:
     return all_cards + random.sample(guilds, num_players + 2)
 
 
-def min_cost(payment_options) -> int:
+def min_cost(payment_options: List[Tuple[int, int, int]]) -> int:
     return min(total_payment(payment) for payment in payment_options)
 
 
-def total_payment(payment: Tuple[int, int]):
-    return left_payment(payment) + right_payment(payment)
+def total_payment(payment: Tuple[int, int, int]):
+    return sum(payment)
 
 
-def left_payment(payment: Tuple[int, int]):
+def left_payment(payment: Tuple[int, int, int]):
     return payment[0]
 
 
-def right_payment(payment: Tuple[int, int]):
+def right_payment(payment: Tuple[int, int, int]):
     return payment[1]
 
+COMMON_GOODS = set('lgp')
+LUXURY_GOODS = set('wsbo')
 
 ALL_WONDERS = all_wonders()
 LEFT = "left"

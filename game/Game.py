@@ -34,7 +34,7 @@ class Game:
         card_list = self._get_cards_for_age(age)
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
-            player.hand = card_list[i * 7: (i + 1) * 7]
+            player.hand = card_list[i::len(self.players)]
 
     def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
@@ -64,6 +64,8 @@ class Game:
         for age in range(1, 4):
             self._message_players(f"begin age: {age}")
             self._deal_cards(age)
+            for player in self.players:
+                print(len(player.effects))
             for round_number in range(6):
                 self._message_players(f"begin round: {round_number}")
                 for player_number, player in enumerate(self.players):
@@ -71,6 +73,7 @@ class Game:
                     turn_over = False
                     while not turn_over:
                         turn_over = player.take_turn()
+                    print(player.effects)
                 self._end_round(age)
             self._end_age()
         self._end_game()
