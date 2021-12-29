@@ -1,6 +1,7 @@
 from collections import Counter, defaultdict
 from typing import Dict, Set, DefaultDict
 import math
+import itertools
 
 from util.util import *
 
@@ -35,7 +36,7 @@ class Player:
             RIGHT: None
         }
 
-        self.effects['produce'].append(Effect('produce', [wonder.resource, 1], [], ['self'], 'luxury' if wonder.resource in 'lgp' else 'common'))
+        self.effects['produce'].append(Effect('produce', [[wonder.resource, 1]], [], ['self'], 'luxury' if wonder.resource in 'lgp' else 'common'))
 
         self.hand_payment_options: List[List[Tuple[int, int, int]]]
         self.wonder_payment_options: List[Tuple[int, int, int]]
@@ -121,11 +122,15 @@ class Player:
         return successfully_played
 
     def _play_card(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
-        if len(payment_options) == 0: return False
+        if len(payment_options) == 0: 
+            print('card cannot be purchased')
+            return False
 
         if payment_options[0][2] != 0:
             # cost is coins to bank
             self.handle_next_coins(-payment_options[0][2])
+            self._activate_card(card)
+            self.board[card.card_type] += 1
             return True
 
         self._display_payment_options(payment_options)
@@ -146,39 +151,36 @@ class Player:
     def _get_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:
         if 'c' in card.cost:
             return [(0, 0, card.cost.count('c'))]
-        return [(1, 1, 0)]
-        
-        luxury_choices = []
-        common_choices = []
 
         luxury_reqs = [good for good in card.cost if good in LUXURY_GOODS]
         common_reqs = [good for good in card.cost if good in COMMON_GOODS]
 
-        for effect in self.effects:
-            if effect.effect != 'produce': continue
-            
-            if len(effect.resources) != 1:
-                if effect.resources[0][0] in COMMON_GOODS:
-                    common_choices.append(effect.resources)
+        luxury_choices = simplify_cost_search(self.effects['produce'], luxury_reqs, LUXURY_GOODS)
 
-                else:
-                    luxury_choices.append(effect.resources)
+        common_choices = simplify_cost_search(self.effects['produce'], common_reqs, COMMON_GOODS)
 
-                continue
+        left_effects = [effect for effect in self.neighbors[LEFT].effects['produce'] if effect.card_type in TRADABLE_TYPES]
 
-            if effect.resources[0][0] in COMMON_GOODS:
-                for i in range(effect.resources[0][1]):
-                    if effect.resources[0][0] in common_reqs:
-                        common_reqs.remove(effect.resources[0][0])
+        right_effects = [effect for effect in self.neighbors[RIGHT].effects['produce'] if effect.card_type in TRADABLE_TYPES]
+        
+        luxury_spread = find_resource_outcomes(left_effects, right_effects, luxury_choices, luxury_reqs, LUXURY_GOODS)
 
-            else:
-                for i in range(effect.resources[0][1]):
-                    if effect.resources[0][0] in luxury_reqs:
-                        luxury_reqs.remove(effect.resources[0][0])
+        common_spread = find_resource_outcomes(left_effects, right_effects, common_choices, common_reqs, COMMON_GOODS)
 
+
+        options = set()
+        
+        # TODO: add discounts
+        for a, b in itertools.product(luxury_spread, common_spread):
+            options.add((2*(a[0] + b[0]), 2*(a[1] + b[1]), 0))
+
+        # if len(options) == 0:
+        #     return [(-1, -1, -1)]
+        return list(options)
 
 
     def _activate_card(self, card: Card):
+
         for effect in card.effects:
             if effect.effect == "generate":
                 resource_key, count = self._get_effect_resources(effect)

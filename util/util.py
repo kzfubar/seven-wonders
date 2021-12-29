@@ -3,6 +3,7 @@ import os
 import pprint
 import random
 from typing import Optional
+import itertools
 
 from game.Card import *
 from game.Wonder import *
@@ -75,8 +76,10 @@ def get_all_cards(num_players: int) -> List[Card]:
     return all_cards + random.sample(guilds, num_players + 2)
 
 
-def min_cost(payment_options: List[Tuple[int, int, int]]) -> int:
-    return min(total_payment(payment) for payment in payment_options)
+def min_cost(payment_options: List[Tuple[int, int, int]]) -> str:
+    if len(payment_options) == 0:
+        return '-' 
+    return str(min(total_payment(payment) for payment in payment_options))
 
 
 def total_payment(payment: Tuple[int, int, int]):
@@ -90,6 +93,73 @@ def left_payment(payment: Tuple[int, int, int]):
 def right_payment(payment: Tuple[int, int, int]):
     return payment[1]
 
+
+def simplify_cost_search(effects, reqs, goods):
+    choices = []
+
+    for effect in effects:
+        if len(effect.resources) != 1:
+            if effect.resources[0][0] in goods:
+                choices.append(tuple(resource[0] for resource in effect.resources))
+
+        else:
+            for _ in range(effect.resources[0][1]):
+                if effect.resources[0][0] not in reqs: break
+
+                reqs.remove(effect.resources[0][0])
+
+
+    return choices
+
+def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods):
+    outcomes = set()
+    for options in itertools.product([''], *choices):
+            
+        reqs_curr = reqs[:]
+
+        for option in options[1:]:
+            if option in reqs_curr:
+                reqs_curr.remove(option)
+
+        for i in range(1 << len(reqs_curr)):
+            left_reqs = []
+            right_reqs = []
+            
+            for j, val in enumerate(reqs_curr):
+                if i & (1 << j) == 0:
+                    left_reqs.append(val)
+                else:
+                    right_reqs.append(val)
+
+            l_count, r_count = len(left_reqs), len(right_reqs)
+            if (l_count, r_count) in outcomes: continue
+
+            if not valid_resources(simplify_cost_search(left_effects, left_reqs, goods), left_reqs):
+                break
+
+            if not valid_resources(simplify_cost_search(right_effects, right_reqs, goods), right_reqs):
+                break
+
+            outcomes.add((l_count, r_count))
+    return outcomes
+
+def valid_resources(choices, reqs):
+    for options in itertools.product([''], *choices):
+            
+        reqs_curr = reqs[:]
+
+        for option in options[1:]:
+            if option in reqs_curr:
+                reqs_curr.remove(option)
+
+        if len(reqs_curr) == 0:
+            return True
+
+    return False        
+
+
+
+TRADABLE_TYPES = set(('common', 'luxury'))
 COMMON_GOODS = set('lgp')
 LUXURY_GOODS = set('wsbo')
 

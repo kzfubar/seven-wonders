@@ -26,9 +26,11 @@ class Game:
         pass
 
     def _set_neighbors(self):
-        for a, b, c in zip([self.players[-1]] + self.players, self.players, self.players + [self.players[0]]):
-            b.neighbors[LEFT] = a
-            b.neighbors[RIGHT] = c
+        left = self.players[-1]
+        for player in self.players:
+            player.neighbors[LEFT] = left
+            player.neighbors[LEFT].neighbors[RIGHT] = player
+            left = player
 
     def _deal_cards(self, age: int):
         card_list = self._get_cards_for_age(age)
@@ -64,8 +66,6 @@ class Game:
         for age in range(1, 4):
             self._message_players(f"begin age: {age}")
             self._deal_cards(age)
-            for player in self.players:
-                print(len(player.effects))
             for round_number in range(6):
                 self._message_players(f"begin round: {round_number}")
                 for player_number, player in enumerate(self.players):
@@ -73,7 +73,6 @@ class Game:
                     turn_over = False
                     while not turn_over:
                         turn_over = player.take_turn()
-                    print(player.effects)
                 self._end_round(age)
             self._end_age()
         self._end_game()
