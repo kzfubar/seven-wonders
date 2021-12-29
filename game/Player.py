@@ -1,7 +1,6 @@
-from collections import Counter, defaultdict
-from typing import Dict, Set, DefaultDict
+from collections import defaultdict
+from typing import DefaultDict
 from abc import abstractmethod
-from collections import Counter
 from typing import Dict, Set, Any
 import math
 
@@ -33,12 +32,16 @@ class Player:
         self.next_coins: int = 0
         self.coupons: Set[Card] = set()
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
-        self.neighbors: Dict[str, 'Player'] = {
+        self.neighbors: Dict[str, Optional[Player]] = {
             LEFT: None,
             RIGHT: None
         }
 
-        self.effects['produce'].append(Effect('produce', [wonder.resource, 1], [], ['self'], 'luxury' if wonder.resource in 'lgp' else 'common'))
+        self.effects['produce'].append(Effect(effect='produce',
+                                              resources=[(wonder.resource, 1)],
+                                              target=[],
+                                              direction=['self'],
+                                              card_type='luxury' if wonder.resource in 'lgp' else 'common'))
 
         self.hand_payment_options: List[List[Tuple[int, int, int]]]
         self.wonder_payment_options: List[Tuple[int, int, int]]
@@ -247,7 +250,5 @@ class Player:
         # Calculates set and identical cards
         vp += min(cog, compass, tablet) * 7
         vp += math.pow(cog,2) + math.pow(compass, 2) + math.pow(tablet, 2)
-
-
 
         return vp
