@@ -1,5 +1,8 @@
 from collections import Counter, defaultdict
 from typing import Dict, Set, DefaultDict
+from abc import abstractmethod
+from collections import Counter
+from typing import Dict, Set, Any
 import math
 
 from util.util import *
@@ -7,7 +10,7 @@ from util.util import *
 
 class Player:
     def __init__(self, name: str, wonder: Wonder):
-        print(f"creating player {name} with {wonder.name}")
+        self.display(f"creating player {name} with {wonder.name}")
         self.name = name
         self.wonder = wonder
         self.hand = []
@@ -51,10 +54,14 @@ class Player:
                f"board = {self.board}, " \
                f"effects = {self.effects}, "
 
+    @abstractmethod
+    def display(self, message: Any):
+        pass
+
     def take_turn(self) -> bool:
         self._calc_hand_costs()
-        print(f"your hand is:\n{self._hand_to_str()}")
-        print(f"Bury cost: {min_cost(self.wonder_payment_options)}")
+        self.display(f"your hand is:\n{self._hand_to_str()}")
+        self.display(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
         player_input = list(input("(p)lay, (d)iscard or (b)ury a card: ").strip())
         action = player_input[0]
         if len(player_input) > 1:
@@ -76,10 +83,10 @@ class Player:
         menu_options = [
             "Display player information"
         ]
-        print('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
+        self.display('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
         selected_option = int(input("select menu option: "))
         if selected_option == 0:
-            print(str(self))
+            self.display(str(self))
         return False
 
     def _take_action(self, action: str, card_index: int = None) -> bool:
@@ -95,24 +102,24 @@ class Player:
         elif action == 'b':
             return self._bury(card)
         else:
-            print(f"Invalid action! {action}")
+            self.display(f"Invalid action! {action}")
             return False
 
     def _play(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
-        print(f"playing {card}")
+        self.display(f"playing {card}")
         successfully_played = self._play_card(card, payment_options)
         if successfully_played:
             self.hand.remove(card)
         return successfully_played
 
     def _discard(self, card: Card) -> bool:
-        print(f"discarding {card}")
+        self.display(f"discarding {card}")
         self.board['coins'] += 3
         self.hand.remove(card)
         return True
 
     def _bury(self, card: Card) -> bool:
-        print(f"burying {card.name}")
+        self.display(f"burying {card.name}")
         wonder_power = self.wonder.get_next_power()
         successfully_played = self._play_card(wonder_power, self.wonder_payment_options)
         if successfully_played:
@@ -121,8 +128,9 @@ class Player:
         return successfully_played
 
     def _play_card(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
-        if len(payment_options) == 0: return False
-
+        self.display(card)
+        if len(payment_options) == 0:
+            return False
         if payment_options[0][2] != 0:
             # cost is coins to bank
             self.handle_next_coins(-payment_options[0][2])
@@ -139,9 +147,9 @@ class Player:
         return True
 
     def _display_payment_options(self, payment_options):
-        print("Payment options:")
+        self.display("Payment options:")
         for i, option in enumerate(payment_options):
-            print(f"({i}) {self.neighbors[LEFT].name} -> {left_payment(option)}, {self.neighbors[RIGHT].name} -> {right_payment(option)}")
+            self.display(f"({i}) {self.neighbors[LEFT].name} -> {option[0]}, {self.neighbors[RIGHT].name} -> {option[1]}")
 
     def _get_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:
         if 'c' in card.cost:
@@ -175,8 +183,6 @@ class Player:
                 for i in range(effect.resources[0][1]):
                     if effect.resources[0][0] in luxury_reqs:
                         luxury_reqs.remove(effect.resources[0][0])
-
-
 
     def _activate_card(self, card: Card):
         for effect in card.effects:

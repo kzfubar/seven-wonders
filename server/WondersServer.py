@@ -2,14 +2,14 @@ import socketserver
 from typing import List
 
 from game.ServerGame import ServerGame
+from game.ServerPlayer import ServerPlayer
 from server import WondersHandler
-from server.PlayerConnection import PlayerConnection
 
 
 class WondersServer(socketserver.ThreadingTCPServer):
     HOST = "localhost"
-    PORT = 9998
-    connections: List[PlayerConnection] = list()
+    PORT = 9999
+    players: List[ServerPlayer] = list()
     game: ServerGame
 
     def __init__(self):
@@ -17,7 +17,7 @@ class WondersServer(socketserver.ThreadingTCPServer):
         print("WondersServer created")
 
     def start_game(self):
-        self.game = ServerGame(self.connections)
+        self.game = ServerGame(self.players)
         self.game.play()
 
     def start(self):
@@ -25,5 +25,6 @@ class WondersServer(socketserver.ThreadingTCPServer):
             print("WondersServer Started!")
             self.serve_forever()
         except KeyboardInterrupt:
-            print("WondersServer Closed!")
+            print("WondersServer Closed!")  # todo allow for force closing the server?
+            # FIXME closing the server is broken atm, needs to be killed to close.
 
