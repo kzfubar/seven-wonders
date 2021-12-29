@@ -238,7 +238,7 @@ class Player:
                 vp += effects.resources[0][1]
         
         # calculate science -- doesn't take cards with choice of mat into account
-        cog, compass, tablet = 0
+        cog, compass, tablet = 0, 0, 0
         for effects in self.effects["research"]:
             if effects.resources[0][0] == "x":
                 compass += 1
