@@ -184,8 +184,6 @@ class Player:
         for a, b in itertools.product(luxury_spread, common_spread):
             options.add((2*(a[0] + b[0]), 2*(a[1] + b[1]), 0))
 
-        # if len(options) == 0:
-        #     return [(-1, -1, -1)]
         return list(options)
 
 
