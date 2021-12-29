@@ -51,7 +51,7 @@ def _get_effects(card_raw) -> List[Effect]:
 
 
 def get_all_cards(num_players: int) -> List[Card]:
-    with open("../resources/cards.json", 'r') as f:
+    with open("./resources/cards.json", 'r') as f:
         all_cards_raw = json.load(f)
 
     all_cards = []
