@@ -6,37 +6,40 @@ from util.util import *
 
 
 class Player:
-    hand = []
-    board = {
-        "shame": 0,
-        "military_points": 0,
-        "coins": 3,
-        "common": 0,
-        "luxury": 0,
-        "civilian": 0,
-        "commercial": 0,
-        "military": 0,
-        "science": 0,
-        "guild": 0,
-        "wonder_power": 0
-    }
-    next_coins: int = 0
-    coupons: Set[Card] = set()
-    effects: DefaultDict[str, List[Effect]] = defaultdict(list)
-    neighbors: Dict[str, 'Player'] = {
-        LEFT: None,
-        RIGHT: None
-    }
-
     def __init__(self, name: str, wonder: Wonder):
         print(f"creating player {name} with {wonder.name}")
         self.name = name
         self.wonder = wonder
+        self.hand = []
+        self.board: DefaultDict[str, int] = defaultdict(int)
+        self.board['coins'] = 3
+
+        # attr:
+        #     "shame": 0,
+        #     "military_points": 0,
+        #     "coins": 3,
+        #     "common": 0,
+        #     "luxury": 0,
+        #     "civilian": 0,
+        #     "commercial": 0,
+        #     "military": 0,
+        #     "science": 0,
+        #     "guild": 0,
+        #     "wonder_power": 0
+        
+        self.next_coins: int = 0
+        self.coupons: Set[Card] = set()
+        self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
+        self.neighbors: Dict[str, 'Player'] = {
+            LEFT: None,
+            RIGHT: None
+        }
 
     def __repr__(self):
-        return f"Player{{wonder = {self.wonder}, " \
-               f"board = {self.board}, " \
-               f"hand = {self.hand}, "
+        return f"Player{{wonder = {self.wonder}, \n" \
+               f"board = {self.board}, \n" \
+               f"hand = {self.hand}, \n" \
+               f"effects = {self.effects}, \n"
 
     def __str__(self):  # todo make this nicer
         return f"Player{{wonder = {self.wonder}, " \
