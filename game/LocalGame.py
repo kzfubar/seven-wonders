@@ -18,3 +18,10 @@ class LocalGame(Game):
 
     def _message_players(self, message: str):
         print(message)
+
+    def _play_round(self):
+        for player_number, player in enumerate(self.players):
+            player.display(f"{player.name}'s turn")
+            player.take_turn()
+            player.display(player.effects)
+

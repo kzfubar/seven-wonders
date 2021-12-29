@@ -3,7 +3,6 @@ from typing import DefaultDict
 from abc import abstractmethod
 from typing import Dict, Set, Any
 import math
-import itertools
 
 from util.util import *
 
@@ -62,15 +61,13 @@ class Player:
     def display(self, message: Any):
         pass
 
-    def take_turn(self) -> bool:
-        self._calc_hand_costs()
-        self.display(f"your hand is:\n{self._hand_to_str()}")
-        self.display(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
-        player_input = list(input("(p)lay, (d)iscard or (b)ury a card: ").strip())
-        action = player_input[0]
-        if len(player_input) > 1:
-            return self._take_action(action, int(player_input[1]))
-        return self._take_action(action)
+    @abstractmethod
+    def take_turn(self):
+        pass
+
+    @abstractmethod
+    def _get_input(self, message) -> str:
+        pass
 
     def _calc_hand_costs(self) -> None:
         self.wonder_payment_options = self._get_payment_options(self.wonder.get_next_power())
@@ -88,7 +85,7 @@ class Player:
             "Display player information"
         ]
         self.display('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
-        selected_option = int(input("select menu option: "))
+        selected_option = int(self._get_input("select menu option: "))
         if selected_option == 0:
             self.display(str(self))
         return False
@@ -97,7 +94,7 @@ class Player:
         if action == 'm':
             return self._menu()
         if card_index is None:
-            card_index = int(input("please select a card: "))
+            card_index = int(self._get_input("please select a card: "))
         card = self.hand[card_index]
         if action == 'p':
             return self._play(card, self.hand_payment_options[card_index])
@@ -144,7 +141,7 @@ class Player:
             return True
 
         self._display_payment_options(payment_options)
-        player_input = input("select a payment option: ")
+        player_input = self._get_input("select a payment option: ")
         if player_input == 'q':
             return False
         player_input = int(player_input)

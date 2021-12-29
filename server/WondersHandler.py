@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import socketserver
-from socketserver import BaseServer
-from typing import Any
 
 from game.ServerPlayer import ServerPlayer
 from messaging.MessageReceiver import MessageReceiver
 from messaging.MessageSender import MessageSender
-from messaging.messageTypes import LOGON
+from messaging.messageTypes import LOGON, MESSAGE
 from messaging.messageUtil import MSG_TYPE
 from server import WondersServer
 from util.util import get_wonder
@@ -32,6 +30,9 @@ class WondersHandler(socketserver.BaseRequestHandler):
         if len(self.server.players) == 3:
             self.server.start_game()
 
+    def _handle_message(self, msg):
+        print(f"Received message: {msg}")
+
     def _error_response(self, error_msg: str, error_code: int):
         self.sender.send_error(error_msg=error_msg, error_code=error_code)
 
@@ -41,8 +42,11 @@ class WondersHandler(socketserver.BaseRequestHandler):
         self.sender = MessageSender(self.request)
         while True:
             msg = self.receiver.get_message()
+            print(msg)
             if msg is None:
                 break
             if msg[MSG_TYPE] == LOGON:
                 self._handle_logon(msg)
+            elif msg[MSG_TYPE] == MESSAGE:
+                self._handle_message(msg)
         print(f"{self.client_address} connection closed")

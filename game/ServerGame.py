@@ -1,11 +1,16 @@
+import threading
 from typing import List
 
 from game.ServerPlayer import ServerPlayer
+from messaging.messageTypes import MESSAGE
+from messaging.messageUtil import MSG_TYPE
 from util.util import ALL_WONDERS
 from game.Game import Game
 
 
 class ServerGame(Game):
+    players: List[ServerPlayer]
+
     def __init__(self, players: List[ServerPlayer]):
         num_players = len(players)
         if num_players < 3:
@@ -19,3 +24,19 @@ class ServerGame(Game):
     def _message_players(self, message: str):
         for player in self.players:
             player.display(message)
+
+    def _round_over(self) -> bool:
+        for player in self.players:
+            if not player.turn_over:
+                return False
+        return True
+
+    def _play_round(self):
+        for player_number, player in enumerate(self.players):
+            player.display(f"{player.name}, take your turn")
+            player.take_turn()
+            player.display(player.effects)
+        while not self._round_over():
+            continue
+
+

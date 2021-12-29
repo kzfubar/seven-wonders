@@ -61,6 +61,10 @@ class Game:
     def _end_game(self):
         pass  # todo calculate victory points
 
+    @abstractmethod
+    def _play_round(self):
+        pass
+
     def play(self):
         self._message_players("starting game!")
         for age in range(1, 4):
@@ -68,11 +72,7 @@ class Game:
             self._deal_cards(age)
             for round_number in range(6):
                 self._message_players(f"begin round: {round_number}")
-                for player_number, player in enumerate(self.players):
-                    print(f"{player.name}'s turn")
-                    turn_over = False
-                    while not turn_over:
-                        turn_over = player.take_turn()
+                self._play_round()
                 self._end_round(age)
             self._end_age()
         self._end_game()

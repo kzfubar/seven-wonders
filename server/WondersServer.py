@@ -1,4 +1,5 @@
 import socketserver
+import threading
 from typing import List
 
 from game.ServerGame import ServerGame
@@ -18,7 +19,7 @@ class WondersServer(socketserver.ThreadingTCPServer):
 
     def start_game(self):
         self.game = ServerGame(self.players)
-        self.game.play()
+        threading.Thread(target=self.game.play).start()
 
     def start(self):
         try:

@@ -19,15 +19,14 @@ class WondersClient:
         self.receiver = MessageReceiver(self.sock)
         self.sender = MessageSender(self.sock)
 
-    def start(self):
+    def start(self, player_name=None, wonder_name=None):
         # connect to server
         print(f"WondersClient connecting to {self.HOST}:{self.PORT}")
         self.sock.connect((self.HOST, self.PORT))
         threading.Thread(target=self._recv).start()
-        self._do_logon()
+        self._do_logon(player_name, wonder_name)
         try:
             while True:
-                continue
                 self._receive_input()
         except KeyboardInterrupt:
             self._close()
@@ -37,9 +36,11 @@ class WondersClient:
         print("\nWondersClient shutting down!")
         self.sock.close()
 
-    def _do_logon(self):
-        player_name = input("player name: ")
-        wonder_name = input("wonder name: ")  # todo support random
+    def _do_logon(self, player_name, wonder_name):
+        if player_name is None:
+            player_name = input("player name: ")
+        if wonder_name is None:
+            wonder_name = input("wonder name: ")  # todo support random
         self.sender.send_logon(player_name=player_name, wonder_name=wonder_name)
 
     def _handle_message(self, msg: dict):
@@ -58,7 +59,5 @@ class WondersClient:
             print("\nClosing recv thread")
 
     def _receive_input(self):
-        data = input("input: ")
-        self.sock.sendall(bytes(data, encoding='utf8'))
-
-
+        message = input("> ")
+        self.sender.send_message(message)
