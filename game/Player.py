@@ -1,5 +1,5 @@
-from collections import Counter
-from typing import Dict, Set
+from collections import Counter, defaultdict
+from typing import Dict, Set, DefaultDict
 import math
 
 from util.util import *
@@ -22,7 +22,7 @@ class Player:
     }
     next_coins: int = 0
     coupons: Set[Card] = set()
-    effects: Dict[str, List[Effect]] = {}
+    effects: DefaultDict[str, List[Effect]] = defaultdict(list)
     neighbors: Dict[str, 'Player'] = {
         LEFT: None,
         RIGHT: None
@@ -138,8 +138,6 @@ class Player:
                 resource = resource_map[resource_key]
                 self.board[resource] += count
             else:
-                if effect not in self.effects:
-                    self.effects[effect.effect] = []
                 self.effects[effect.effect].append(effect)
 
     def _do_payment(self, payment: Tuple[int, int]):
