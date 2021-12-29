@@ -105,7 +105,6 @@ def simplify_cost_search(effects, reqs, goods):
 
                 reqs.remove(effect.resources[0][0])
 
-
     return choices
 
 def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods):
@@ -140,6 +139,7 @@ def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods):
             outcomes.add((l_count, r_count))
     return outcomes
 
+
 def valid_resources(choices, reqs):
     for options in itertools.product([''], *choices):
             
@@ -153,7 +153,6 @@ def valid_resources(choices, reqs):
             return True
 
     return False        
-
 
 
 TRADABLE_TYPES = set(('common', 'luxury'))

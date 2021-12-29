@@ -16,7 +16,7 @@ class LocalPlayer(Player):
     def take_turn(self):
         self._calc_hand_costs()
         self.display(f"your hand is:\n{self._hand_to_str()}")
-        self.display(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
+        self.display(f"Bury cost: {min_cost(self.wonder_payment_options())}")
         turn_over = False
         while not turn_over:
             player_input = list(input("(p)lay, (d)iscard or (b)ury a card: ").strip())

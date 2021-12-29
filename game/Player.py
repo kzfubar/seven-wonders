@@ -73,6 +73,7 @@ class Player:
         self.wonder_payment_options = self._get_payment_options(self.wonder.get_next_power())
         self.hand_payment_options = [self._get_payment_options(card) for card in self.hand]
 
+    # TODO: calculate this transition after all players have gone
     def handle_next_coins(self, coins: int):
         self.next_coins += coins
 
@@ -163,15 +164,12 @@ class Player:
         common_reqs = [good for good in card.cost if good in COMMON_GOODS]
 
         luxury_choices = simplify_cost_search(self.effects['produce'], luxury_reqs, LUXURY_GOODS)
-
         common_choices = simplify_cost_search(self.effects['produce'], common_reqs, COMMON_GOODS)
 
         left_effects = [effect for effect in self.neighbors[LEFT].effects['produce'] if effect.card_type in TRADABLE_TYPES]
-
         right_effects = [effect for effect in self.neighbors[RIGHT].effects['produce'] if effect.card_type in TRADABLE_TYPES]
         
         luxury_spread = find_resource_outcomes(left_effects, right_effects, luxury_choices, luxury_reqs, LUXURY_GOODS)
-
         common_spread = find_resource_outcomes(left_effects, right_effects, common_choices, common_reqs, COMMON_GOODS)
 
 
