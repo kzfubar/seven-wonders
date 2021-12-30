@@ -18,12 +18,11 @@ class Wonder:
                f"powers = {self.powers}, " \
                f"level = {self.level}"
 
-    def __str__(self):  # todo make this look nice
-        powers = '\n'.join(str(power) for power in self.powers)
-        return f"Wonder{{name = {self.name}, " \
-               f"resource = {self.resource}, " \
-               f"powers = \n{powers}\n " \
-               f"level = {self.level}"
+    def __str__(self):
+        powers = '\n'.join(f"({'x' if self.level > i else ' '}) {str(power)}" for i, power in enumerate(self.powers))
+        return f"{self.name} \n" \
+               f"resource = {self.resource} \n" \
+               f"{powers} "
 
     def get_next_power(self) -> Card:  # todo we should check to make sure we can't bury if level exceeded
         return self.powers[self.level]  # todo this will throw an exception at max level

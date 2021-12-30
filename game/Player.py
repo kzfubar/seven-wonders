@@ -1,13 +1,17 @@
+
+import math
+from abc import abstractmethod
 from collections import defaultdict
 from typing import DefaultDict
-from abc import abstractmethod
 from typing import Dict, Set, Any
-import math
 
+from game.Game import Game
 from util.util import *
 
 
 class Player:
+    game: Game
+
     def __init__(self, name: str, wonder: Wonder):
         self.display(f"creating player {name} with {wonder.name}")
         self.name = name
@@ -53,9 +57,13 @@ class Player:
                f"effects = {self.effects}, \n"
 
     def __str__(self):  # todo make this nicer
-        return f"Player{{wonder = {self.wonder}, " \
-               f"board = {self.board}, " \
-               f"effects = {self.effects}, "
+        return f"wonder = {self.wonder} \n" \
+               f"board = {self.board} \n" \
+               f"effects = {self.effects}, \n" \
+               f"neighbors = L {self.neighbors[LEFT].name} {self.name} {self.neighbors[RIGHT].name} R \n"
+
+    def set_game(self, game: Game):
+        self.game = game
 
     @abstractmethod
     def display(self, message: Any):
@@ -81,24 +89,28 @@ class Player:
         return '\n'.join(f"({i}) {str(self.hand[i]):80} Cost: {min_cost(payment_options)}"
                          for i, payment_options in enumerate(self.hand_payment_options))
 
-    def _menu(self) -> bool:
-        menu_options = [
-            "Display player information"
-        ]
-        self.display('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
-        selected_option = int(self._get_input("select menu option: "))
+    def _menu(self, selected_option: Optional[int] = None) -> bool:
+        if selected_option is None:
+            menu_options = [
+                "Display player information",
+                "Display game information",
+            ]
+            self.display('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
+            selected_option = int(self._get_input("select menu option: "))
         if selected_option == 0:
             self.display(str(self))
+        elif selected_option == 1:
+            self.display(str(self.game))
         return False
 
-    def _take_action(self, action: str, card_index: int = None) -> bool:
+    def _take_action(self, action: str, selected_option: int = None) -> bool:
         if action == 'm':
-            return self._menu()
-        if card_index is None:
-            card_index = int(self._get_input("please select a card: "))
-        card = self.hand[card_index]
+            return self._menu(selected_option)
+        if selected_option is None:
+            selected_option = int(self._get_input("please select a card: "))
+        card = self.hand[selected_option]
         if action == 'p':
-            return self._play(card, self.hand_payment_options[card_index])
+            return self._play(card, self.hand_payment_options[selected_option])
         elif action == 'd':
             return self._discard(card)
         elif action == 'b':
