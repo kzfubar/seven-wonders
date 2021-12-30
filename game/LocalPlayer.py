@@ -13,6 +13,6 @@ class LocalPlayer(Player):
         return input(message)
 
     def take_turn(self):
-        self.take_turn()
+        self._take_turn()
 
 

@@ -123,8 +123,10 @@ class Player:
         if action == 'm':
             return self._menu(args)
         if args is None:
-            args = int(self._get_input("please select a card: "))
+            args = self._get_input("please select a card: ")
+        args = int(args)
         card = self.hand[args]
+        
         if action == 'p':
             return self._play(card, self.hand_payment_options[args])
         elif action == 'd':
