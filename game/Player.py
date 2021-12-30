@@ -99,7 +99,7 @@ class Player:
 
     def _hand_to_str(self) -> str:
         hand_str = display_cards(self.hand)
-        return '\n'.join(f"({i}) {hand_str[i]:80} Cost: {min_cost(payment_options)}"
+        return '\n'.join(f"({i}) {hand_str[i]:80} | Cost: {min_cost(payment_options)}"
                          for i, payment_options in enumerate(self.hand_payment_options))
 
     def _menu(self, args: Optional[str] = None) -> bool:  # todo i have made this into spaghetti, and this should be fixed
