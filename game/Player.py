@@ -120,7 +120,7 @@ class Player:
             return False
 
     def _play(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
-        self.display(f"playing {card}")
+        self.display(f"playing {card.name}")
         successfully_played = self._play_card(card, payment_options)
         if successfully_played:
             self.hand.remove(card)

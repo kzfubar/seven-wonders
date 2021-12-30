@@ -1,5 +1,7 @@
 from typing import List, Tuple
 
+from util import util
+
 
 class Effect:
     def __init__(self, effect: str,
@@ -21,7 +23,13 @@ class Effect:
                f"card_type = {self.card_type}}}"
 
     def __str__(self):
-        return f"{self.effect}={self.resources} for {self.direction} on {self.target}"
+        s = f"{self.effect}"
+        if self.resources:
+            resources = ' or '.join([f"{amount} {util.resource_map[resource_key]}" for resource_key, amount in self.resources])
+            s += f" {resources}"
+        s += f" for {', '.join(self.direction)}" if self.direction != ['self'] else ''
+        s += f" on {', '.join(self.target)}" if self.target else ''
+        return s
 
 
 class Card:
@@ -45,4 +53,4 @@ class Card:
 
     def __str__(self):
         effects = [str(e) for e in self.effects]
-        return f"{self.name}{{{self.card_type}}}::{''.join(self.cost)}::{effects}"
+        return f"{self.name:17} | {self.card_type:10} | {' & '.join(effects):30} | Resource: {''.join(self.cost)}"

@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import json
 import pprint
 import random
-from typing import Optional
+from typing import Optional, Tuple
 import itertools
 
-from game.Card import *
+from game.Card import Effect
 from game.Wonder import *
 
 
