@@ -23,7 +23,7 @@ class LocalPlayer(Player):
             action = player_input[0]
             if len(player_input) > 1:
                 turn_over = self._take_action(action, int(player_input[1]))
-            else :
+            else:
                 turn_over = self._take_action(action)
 
 

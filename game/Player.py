@@ -131,7 +131,7 @@ class Player:
 
     def _play_card(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
         if len(payment_options) == 0: 
-            print('card cannot be purchased')
+            self.display('card cannot be purchased')
             return False
 
         if payment_options[0][2] != 0:
@@ -181,9 +181,7 @@ class Player:
 
         return list(options)
 
-
     def _activate_card(self, card: Card):
-
         for effect in card.effects:
             if effect.effect == "generate":
                 resource_key, count = self._get_effect_resources(effect)
