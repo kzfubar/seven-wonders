@@ -86,7 +86,8 @@ class Player:
         self.next_coins += coins
 
     def _hand_to_str(self) -> str:
-        return '\n'.join(f"({i}) {str(self.hand[i]):80} Cost: {min_cost(payment_options)}"
+        hand_str = display_cards(self.hand)
+        return '\n'.join(f"({i}) {hand_str[i]:80} Cost: {min_cost(payment_options)}"
                          for i, payment_options in enumerate(self.hand_payment_options))
 
     def _menu(self, selected_option: Optional[int] = None) -> bool:

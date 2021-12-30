@@ -52,5 +52,11 @@ class Card:
                f"effects = {self.effects}}}"
 
     def __str__(self):
+        return f"{self.name} | {self.card_type} | {self.effects_to_str()} | {self.resource_to_str()}"
+
+    def effects_to_str(self) -> str:
         effects = [str(e) for e in self.effects]
-        return f"{self.name:17} | {self.card_type:10} | {' & '.join(effects):30} | Resource: {''.join(self.cost)}"
+        return ' & '.join(effects)
+
+    def resource_to_str(self) -> str:
+        return f"Resource: {''.join(self.cost)}"

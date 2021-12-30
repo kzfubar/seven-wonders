@@ -77,7 +77,7 @@ def get_all_cards(num_players: int) -> List[Card]:
 
 def min_cost(payment_options: List[Tuple[int, int, int]]) -> str:
     if len(payment_options) == 0:
-        return '-' 
+        return '-'
     return str(min(total_payment(payment) for payment in payment_options))
 
 
@@ -154,7 +154,29 @@ def valid_resources(choices, reqs):
         if len(reqs_curr) == 0:
             return True
 
-    return False        
+    return False
+
+
+def display_cards(cards: List[Card]) -> List[str]:
+    max_name_len = 0
+    max_type_len = 0
+    max_effect_len = 0
+    max_resource_len = 0
+
+    for card in cards:
+        if len(card.name) > max_name_len:
+            max_name_len = len(card.name)
+        if len(card.card_type) > max_type_len:
+            max_type_len = len(card.card_type)
+        if len(card.effects_to_str()) > max_effect_len:
+            max_effect_len = len(card.effects_to_str())
+        if len(card.resource_to_str()) > max_resource_len:
+            max_resource_len = len(card.resource_to_str())
+
+    return [f"{card.name:{max_name_len}} | " 
+            f"{card.card_type:{max_type_len}} | " 
+            f"{card.effects_to_str():{max_effect_len}} |"
+            f" {card.resource_to_str():{max_resource_len}}" for card in cards]
 
 
 TRADABLE_TYPES = set(('common', 'luxury'))
