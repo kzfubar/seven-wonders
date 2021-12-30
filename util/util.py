@@ -187,6 +187,9 @@ ALL_WONDERS = all_wonders()
 LEFT = "left"
 RIGHT = "right"
 pprint.pprint(ALL_WONDERS)
+
+KNOWN_IP = "known_ip"
+
 resource_map = {
     # common
     "w": "wood",

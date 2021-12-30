@@ -37,8 +37,21 @@ class WondersHandler(socketserver.BaseRequestHandler):
     def _error_response(self, error_msg: str, error_code: int):
         self.sender.send_error(error_msg=error_msg, error_code=error_code)
 
+    def _verify_ip(self, ip: str) -> bool:
+        return ip in self.server.known_ip
+
     def handle(self):
         print(f"Received Connection from {self.client_address}")
+        ip = self.client_address[0]
+        if not self._verify_ip(ip):
+            user_input = input(f"accept new ip connection {ip} (y/n) ").lower()
+            if user_input == 'y':
+                self.server.add_ip(ip)
+            if user_input == 'n':
+                print(f"Connection {self.client_address} not accepted, closing!")
+                return
+        else:
+            print("connection recognized!")
         self.receiver = MessageReceiver(self.request)
         self.sender = MessageSender(self.request)
         while True:

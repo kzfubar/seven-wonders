@@ -5,6 +5,8 @@ from typing import List
 from game.ServerGame import ServerGame
 from game.ServerPlayer import ServerPlayer
 from server import WondersHandler
+from server.Config import Config
+from util.util import KNOWN_IP
 
 
 class WondersServer(socketserver.ThreadingTCPServer):
@@ -15,7 +17,12 @@ class WondersServer(socketserver.ThreadingTCPServer):
 
     def __init__(self):
         super().__init__((self.HOST, self.PORT), WondersHandler.WondersHandler)
+        self.config = Config()
+        self.known_ip = self.config.get(KNOWN_IP)
         print("WondersServer created")
+
+    def add_ip(self, ip: str):
+        self.config.add(KNOWN_IP, ip)
 
     def start_game(self):
         self.game = ServerGame(self.players)
