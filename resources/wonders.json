@@ -93,7 +93,7 @@
             },
             {
                 "cost": ["w", "w"],
-                "resources": [ ["cog", 1], ["tablet", 1], ["compass", 1] ],
+                "resources": [ ["x", 1], ["y", 1], ["z", 1] ],
                 "direction": ["self"],
                 "effect": "produce",
                 "target": []
