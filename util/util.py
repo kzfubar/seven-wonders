@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import pprint
 import random
-from typing import Optional, Tuple
+from typing import Optional, Tuple, ItemsView, Union
 import itertools
 
 from game.Card import Effect
@@ -177,6 +177,10 @@ def display_cards(cards: List[Card]) -> List[str]:
             f"{card.card_type:{max_type_len}} | " 
             f"{card.effects_to_str():{max_effect_len}} |"
             f" {card.resource_to_str():{max_resource_len}}" for card in cards]
+
+
+def resource_to_human(resources: Union[ItemsView[str, int], List[Tuple[str, int]]]) -> List[str]:
+    return [f"{count} {util.resource_map[resource_key]}" for resource_key, count in resources]
 
 
 TRADABLE_TYPES = set(('common', 'luxury'))

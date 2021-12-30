@@ -1,4 +1,5 @@
-from typing import List, Tuple
+from collections import defaultdict
+from typing import List, Tuple, DefaultDict
 
 from util import util
 
@@ -25,7 +26,7 @@ class Effect:
     def __str__(self):
         s = f"{self.effect}"
         if self.resources:
-            resources = ' or '.join([f"{amount} {util.resource_map[resource_key]}" for resource_key, amount in self.resources])
+            resources = ' or '.join(util.resource_to_human(self.resources))
             s += f" {resources}"
         s += f" for {', '.join(self.direction)}" if self.direction != ['self'] else ''
         s += f" on {', '.join(self.target)}" if self.target else ''
@@ -59,4 +60,8 @@ class Card:
         return ' & '.join(effects)
 
     def resource_to_str(self) -> str:
-        return f"Resource: {''.join(self.cost)}"
+        resources: DefaultDict[str, int] = defaultdict(int)
+        for resource in self.cost:
+            resources[resource] += 1
+        resources_str = ', '.join(util.resource_to_human(resources.items()))
+        return f"Resource: {resources_str}"
