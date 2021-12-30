@@ -31,7 +31,8 @@ class WondersHandler(socketserver.BaseRequestHandler):
             self.server.start_game()
 
     def _handle_message(self, msg):
-        print(f"Received message: {msg}")
+        print(f"{self.client_address} received message: {msg}")
+        self.player.message_queue.put(msg['data'])
 
     def _error_response(self, error_msg: str, error_code: int):
         self.sender.send_error(error_msg=error_msg, error_code=error_code)
