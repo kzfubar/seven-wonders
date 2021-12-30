@@ -59,8 +59,11 @@ class Game:
     def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
 
-    def _get_player(self, player_number: int) -> Player.Player:
-        return self.players[player_number]
+    def get_player(self, player_name: str) -> Optional[Player.Player]:  # todo handle duplicate player names?
+        for player in self.players:
+            if player.name == player_name:
+                return player
+        return None
 
     def _pass_hands(self, direction: str):
         player_order = self.players + [self.players[0]]

@@ -59,5 +59,5 @@ class WondersClient:
             print("\nClosing recv thread")
 
     def _receive_input(self):
-        message = input("> ")
+        message = input()
         self.sender.send_message(message)

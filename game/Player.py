@@ -19,6 +19,7 @@ class Player:
         self.hand = []
         self.board: DefaultDict[str, int] = defaultdict(int)
         self.board['coins'] = 3
+        self.turn_over = True
 
         # attr:
         #     "shame": 0,
@@ -69,6 +70,17 @@ class Player:
     def display(self, message: Any):
         pass
 
+    def _take_turn(self):
+        self.turn_over = False
+        self._calc_hand_costs()
+        self.display(f"your hand is:\n{self._hand_to_str()}")
+        self.display(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
+        while not self.turn_over:
+            player_input = self._get_input("(p)lay, (d)iscard or (b)ury a card: ")
+            action = player_input[0]
+            args = player_input[1::] if len(player_input) > 1 else None
+            self.turn_over = self._take_action(action, args)
+
     @abstractmethod
     def take_turn(self):
         pass
@@ -90,28 +102,31 @@ class Player:
         return '\n'.join(f"({i}) {hand_str[i]:80} Cost: {min_cost(payment_options)}"
                          for i, payment_options in enumerate(self.hand_payment_options))
 
-    def _menu(self, selected_option: Optional[int] = None) -> bool:
-        if selected_option is None:
+    def _menu(self, args: Optional[str] = None) -> bool:  # todo i have made this into spaghetti, and this should be fixed
+        if args is None:
             menu_options = [
                 "Display player information",
                 "Display game information",
             ]
             self.display('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
             selected_option = int(self._get_input("select menu option: "))
+        args_list = args.split()
+        selected_option = int(args_list[0])
         if selected_option == 0:
-            self.display(str(self))
+            player = self.game.get_player(args_list[1]) if len(args_list) > 1 else self
+            self.display(str(player))
         elif selected_option == 1:
             self.display(str(self.game))
         return False
 
-    def _take_action(self, action: str, selected_option: int = None) -> bool:
+    def _take_action(self, action: str, args: Optional[str] = None) -> bool:
         if action == 'm':
-            return self._menu(selected_option)
-        if selected_option is None:
-            selected_option = int(self._get_input("please select a card: "))
-        card = self.hand[selected_option]
+            return self._menu(args)
+        if args is None:
+            args = int(self._get_input("please select a card: "))
+        card = self.hand[args]
         if action == 'p':
-            return self._play(card, self.hand_payment_options[selected_option])
+            return self._play(card, self.hand_payment_options[args])
         elif action == 'd':
             return self._discard(card)
         elif action == 'b':
