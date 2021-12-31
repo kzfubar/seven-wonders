@@ -73,8 +73,13 @@ class Game:
         for player in player_order:
             player.hand, temp_hand = temp_hand, player.hand
 
+    def _update_coins(self):
+        for player in self.players:
+            player.update_coins()
+
     def _end_round(self, age: int):
         self._pass_hands(self.pass_order[age])
+        self._update_coins()
 
     def _end_age(self):
         pass

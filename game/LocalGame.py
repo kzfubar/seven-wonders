@@ -12,7 +12,7 @@ class LocalGame(Game):
         if num_players > len(ALL_WONDERS):
             raise Exception("more players than wonders, goober!")
 
-        players = [LocalPlayer(str(i), wonder) for i, wonder in enumerate(random.sample(ALL_WONDERS, num_players))]
+        players = [LocalPlayer(f"player {i}", wonder) for i, wonder in enumerate(random.sample(ALL_WONDERS, num_players))]
 
         super().__init__(players)
 

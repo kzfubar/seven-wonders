@@ -46,7 +46,7 @@ class Player:
                                               resources=[(wonder.resource, 1)],
                                               target=[],
                                               direction=['self'],
-                                              card_type='luxury' if wonder.resource in 'lgp' else 'common'))
+                                              card_type='luxury' if wonder.resource in LUXURY_GOODS else 'common'))
 
         self.hand_payment_options: List[List[Tuple[int, int, int]]]
         self.wonder_payment_options: List[Tuple[int, int, int]]
@@ -73,7 +73,8 @@ class Player:
     def _take_turn(self):
         self.turn_over = False
         self._calc_hand_costs()
-        self.display(f"your hand is:\n{self._hand_to_str()}")
+        self.display(f"You have {self.board['coins']} coins")
+        self.display(f"Your hand is:\n{self._hand_to_str()}")
         self.display(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
         while not self.turn_over:
             player_input = self._get_input("(p)lay, (d)iscard or (b)ury a card: ")
@@ -93,9 +94,12 @@ class Player:
         self.wonder_payment_options = self._get_payment_options(self.wonder.get_next_power())
         self.hand_payment_options = [self._get_payment_options(card) for card in self.hand]
 
-    # TODO: calculate this transition after all players have gone
     def handle_next_coins(self, coins: int):
         self.next_coins += coins
+
+    def update_coins(self):
+        self.board['coins'] += self.next_coins
+        self.next_coins = 0
 
     def _hand_to_str(self) -> str:
         hand_str = display_cards(self.hand)
@@ -184,7 +188,7 @@ class Player:
     def _display_payment_options(self, payment_options):
         self.display("Payment options:")
         for i, option in enumerate(payment_options):
-            self.display(f"({i}) {self.neighbors[LEFT].name} -> {option[0]}, {self.neighbors[RIGHT].name} -> {option[1]}")
+            self.display(f"({i}) {self.neighbors[LEFT].name} <- {option[0]}, {option[1]} -> {self.neighbors[RIGHT].name}")
 
     def _get_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:
         if 'c' in card.cost:
