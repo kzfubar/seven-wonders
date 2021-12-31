@@ -167,14 +167,10 @@ def display_cards(cards: List[Card]) -> List[str]:
     max_resource_len = 0
 
     for card in cards:
-        if len(card.name) > max_name_len:
-            max_name_len = len(card.name)
-        if len(card.card_type) > max_type_len:
-            max_type_len = len(card.card_type)
-        if len(card.effects_to_str()) > max_effect_len:
-            max_effect_len = len(card.effects_to_str())
-        if len(card.resource_to_str()) > max_resource_len:
-            max_resource_len = len(card.resource_to_str())
+        max_name_len = max(max_name_len, len(card.name))
+        max_type_len = max(max_type_len, len(card.card_type))
+        max_effect_len = max(max_effect_len, len(card.effects_to_str()))
+        max_resource_len = max(max_resource_len, len(card.resource_to_str()))
 
     return [f"{card.name:{max_name_len}} | " 
             f"{card.card_type:{max_type_len}} | " 
@@ -185,6 +181,8 @@ def display_cards(cards: List[Card]) -> List[str]:
 def resource_to_human(resources: Union[ItemsView[str, int], List[Tuple[str, int]]]) -> List[str]:
     return [f"{count} {util.resource_map[resource_key]}" for resource_key, count in resources]
 
+
+MILITARY_POINTS = (0, 1, 3, 5)
 
 TRADABLE_TYPES = set(('common', 'luxury'))
 LUXURY_GOODS = set('lgp')

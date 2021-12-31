@@ -79,9 +79,16 @@ class Game:
 
     def _end_round(self, age: int):
         self._pass_hands(self.pass_order[age])
-        self._update_coins()  # todo track where the money comes from
+        self._update_coins()
 
-    def _end_age(self):  # todo evaluate military here
+    def _update_military(self, age: int):
+        for player in self.players:
+            player.run_military(age)
+
+    def _end_age(self, age: int):
+        self._update_military(age)
+        for player in self.players:
+            print(player)
         pass
 
     def _end_game(self):
@@ -94,13 +101,13 @@ class Game:
     def play(self):
         self._message_players("starting game!")
         for age in range(1, 4):
-            self.age = age
+            self.age = age # TODO: is age an attribute, or is it getting passed to func? (curr. both)
             self._message_players(f"begin age: {self.age}")
             self._deal_cards(self.age)
             for round_number in range(6):
                 self._message_players(f"begin round: {round_number}")
                 self._play_round()
                 self._end_round(self.age)
-            self._end_age()
+            self._end_age(self.age)
         self._end_game()
 

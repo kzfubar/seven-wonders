@@ -1,6 +1,7 @@
 
 import math
 import itertools
+import copy
 from abc import abstractmethod
 from collections import defaultdict
 from typing import DefaultDict
@@ -25,26 +26,13 @@ class Player:
         self.turn_over: bool = True
         self.updates: List[str] = [] # update queue to display at start of player's turn
         self.discounts: DefaultDict[str, set] = defaultdict(set)
-
-        # attr:
-        #     "shame": 0,
-        #     "military_points": 0,
-        #     "coins": 3,
-        #     "common": 0,
-        #     "luxury": 0,
-        #     "civilian": 0,
-        #     "commercial": 0,
-        #     "military": 0,
-        #     "science": 0,
-        #     "guild": 0,
-        #     "wonder_power": 0
-
         self.next_coins: DefaultDict[str, int] = defaultdict(int)
         self.coupons: Set[Card] = set()
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
         self.neighbors: Dict[str, Optional[Player]] = {
             LEFT: None,
-            RIGHT: None
+            RIGHT: None,
+            'self': self
         }
 
         self.effects['produce'].append(Effect(effect='produce',
@@ -53,8 +41,8 @@ class Player:
                                               direction=['self'],
                                               card_type='luxury' if wonder.resource in LUXURY_GOODS else 'common'))
 
-        self.hand_payment_options: List[List[Tuple[int, int, int]]]
-        self.wonder_payment_options: List[Tuple[int, int, int]]
+        self.hand_payment_options: List[List[Tuple[int, int, int]]] = []
+        self.wonder_payment_options: List[Tuple[int, int, int]] = []
 
     def __repr__(self):
         return f"Player{{wonder = {self.wonder}, \n" \
@@ -111,6 +99,14 @@ class Player:
             if k in (LEFT, RIGHT) and v != 0:
                 self.updates.append(f'Received {v} coins from {self.neighbors[k].name}')
         self.next_coins = defaultdict(int)
+
+    def run_military(self, age):
+        for neighbor in (LEFT, RIGHT):
+            if self.board['military_might'] > self.neighbors[neighbor].board['military_might']:
+                self.board['military_points'] += MILITARY_POINTS[age]
+
+            if self.board['military_might'] < self.neighbors[neighbor].board['military_might']:
+                self.board['shame'] += 1
 
     def _hand_to_str(self) -> str:
         hand_str = display_cards(self.hand)
@@ -194,7 +190,7 @@ class Player:
         for i, option in enumerate(payment_options):
             self.display(f"({i}) {self.neighbors[LEFT].name} <- {option[0]}, {option[1]} -> {self.neighbors[RIGHT].name}")
 
-    def _get_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:  # todo consider coupons
+    def _get_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:
         if card.name in self.coupons:
             return [(0, 0, 0)]
 
@@ -203,6 +199,8 @@ class Player:
 
         luxury_reqs = [good for good in card.cost if good in LUXURY_GOODS]
         common_reqs = [good for good in card.cost if good in COMMON_GOODS]
+
+        print(luxury_reqs, common_reqs)
 
         luxury_choices = simplify_cost_search(self.effects['produce'], luxury_reqs, LUXURY_GOODS)
         common_choices = simplify_cost_search(self.effects['produce'], common_reqs, COMMON_GOODS)
@@ -216,7 +214,6 @@ class Player:
 
         options = set()
 
-        # TODO: add discounts
         for (lux_left, lux_right), (com_left, com_right) in itertools.product(luxury_spread, common_spread):
 
             options.add((lux_left * (1 if 'luxury' in self.discounts[LEFT] else 2) +
@@ -228,7 +225,7 @@ class Player:
         # TODO: sort and slim down options
         return list(options)
 
-    def _activate_card(self, card: Card):  # todo add a coupon
+    def _activate_card(self, card: Card):
         self.coupons |= set(card.coupons)
 
         for effect in card.effects:
@@ -263,41 +260,38 @@ class Player:
 
     def get_victory(self):
         # todo science
-        vp = 0
-        vp += self.board["military_points"]
-        vp += self.board["coins"] // 3
+        vp = defaultdict(int)
+        vp['military'] = self.board["military_points"] - self.board['shame']
+        vp['coins'] = self.board["coins"] // 3
 
-        # covers wonder, civil, and commercial cards
-        for effects in self.effects["victory"]:
-            if effects.target:
-                for direction in effects.direction:
-                    if direction == "left":
-                        for targets in effects.target:
-                            vp += self.neighbors[LEFT].board[targets] * effects.resources[0][1]
-
-                    if direction == "right":
-                        for targets in effects.target:
-                            vp += self.neighbors[RIGHT].board[targets] * effects.resources[0][1]
-
-                    else:
-                        for targets in effects.target:
-                            vp += self.board[targets] * effects.resources[0][1]
+        # covers wonder, civil, guild, and commercial cards
+        for effect in self.effects["victory"]:
+            if effect.target:
+                for target, direction in itertools.product(effect.target, effect.direction):
+                    vp[effect.card_type] += self.neighbors[direction].board[target] * effect.resources[0][1]
 
             else:
-                vp += effects.resources[0][1]
+                vp[effect.card_type] += effect.resources[0][1]
 
-        # calculate science -- doesn't take cards with choice of mat into account
-        cog, compass, tablet = 0, 0, 0
-        for effects in self.effects["research"]:
-            if effects.resources[0][0] == "x":
-                compass += 1
-            elif effects.resources[0][0] == "y":
-                cog += 1
-            elif effects.resources[0][0] == "z":
-                tablet += 1
+        # calculate science
+        science_counts = defaultdict(int)
+        science_choices = []
 
-        # Calculates set and identical cards
-        vp += min(cog, compass, tablet) * 7
-        vp += math.pow(cog,2) + math.pow(compass, 2) + math.pow(tablet, 2)
+        for effect in self.effects["research"]:
+            if len(effect.resources) > 1:
+                science_choices.append(tuple(resource[0] for resource in effect.resources))
+
+            science_counts[effect.resources[0][0]] += 1
+
+        for options in itertools.product([''], *science_choices):
+            curr_counts = copy.copy(science_counts)
+
+            for option in options[1:]:
+                curr_counts[option] += 1
+            
+            vp['science'] = max(vp['science'],
+                                min(curr_counts.values()) * 7 +
+                                sum(count * count for count in curr_counts.values())
+                                )
 
         return vp
