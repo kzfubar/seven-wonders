@@ -53,7 +53,7 @@ class WondersClient:
                 msg = self.receiver.get_message()
                 if msg is None:
                     break
-                if msg[MSG_TYPE] == MESSAGE:
+                if msg[MSG_TYPE] == MESSAGE:  # todo handle error message from the server
                     self._handle_message(msg)
         except OSError:
             print("\nClosing recv thread")

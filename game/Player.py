@@ -79,7 +79,7 @@ class Player:
         self.display(f"Your hand is:\n{self._hand_to_str()}")
         self.display(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
         while not self.turn_over:
-            player_input = self._get_input("(p)lay, (d)iscard or (b)ury a card: ")
+            player_input = self._get_input("(p)lay, (d)iscard or (b)ury a card: ")   # todo let the player know that their turn has been accepted
             action = player_input[0]
             args = player_input[1::] if len(player_input) > 1 else None
             self.turn_over = self._take_action(action, args)
@@ -184,7 +184,7 @@ class Player:
         for i, option in enumerate(payment_options):
             self.display(f"({i}) {self.neighbors[LEFT].name} <- {option[0]}, {option[1]} -> {self.neighbors[RIGHT].name}")
 
-    def _get_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:
+    def _get_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:  # todo consider coupons
         if 'c' in card.cost:
             return [(0, 0, card.cost.count('c'))]
 
@@ -209,7 +209,7 @@ class Player:
 
         return list(options)
 
-    def _activate_card(self, card: Card):
+    def _activate_card(self, card: Card):  # todo add a coupon
         for effect in card.effects:
             if effect.effect == "generate":
                 resource_key, count = self._get_effect_resources(effect)

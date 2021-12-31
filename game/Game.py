@@ -79,9 +79,9 @@ class Game:
 
     def _end_round(self, age: int):
         self._pass_hands(self.pass_order[age])
-        self._update_coins()
+        self._update_coins()  # todo track where the money comes from
 
-    def _end_age(self):
+    def _end_age(self):  # todo evaluate military here
         pass
 
     def _end_game(self):

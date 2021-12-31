@@ -249,7 +249,7 @@
       "effects": [
           {
               "effect": "produce",
-              "resources": [ ["c", 2] ],
+              "resources": [ ["b", 2] ],
               "target": [],
               "direction": ["self"]
           }

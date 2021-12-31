@@ -28,7 +28,7 @@ class MenuOption:
 
 
 class MenuPlayer(MenuOption):
-    display_text: str = "Display player information"
+    display_text: str = "Display player information"  # todo tell user that they can supply a player name
     command: str = 'p'
 
     def get_response(self, args: Optional[List[str]] = None):

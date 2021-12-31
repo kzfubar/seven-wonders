@@ -24,7 +24,7 @@ class WondersHandler(socketserver.BaseRequestHandler):
         wonder = get_wonder(wonder_name)
         if wonder is None:
             self._error_response("Wonder not found!", 1)
-            return
+            return  # todo kill the connection, or ask for a different wonder name if this happens
         self.player = ServerPlayer(player_name, wonder, self.request)
         self.server.players.append(self.player)
         if len(self.server.players) == 3:
