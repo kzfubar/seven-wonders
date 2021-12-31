@@ -27,11 +27,12 @@ class WondersHandler(socketserver.BaseRequestHandler):
             return  # todo kill the connection, or ask for a different wonder name if this happens
         self.player = ServerPlayer(player_name, wonder, self.request)
         self.server.players.append(self.player)
-        if len(self.server.players) == 3:
-            self.server.start_game()
 
     def _handle_message(self, msg):
         print(f"{self.client_address} received message: {msg}")
+        if msg['data'] == 'start':
+            self.server.start_game()
+            return
         self.player.message_queue.put(msg['data'])
 
     def _error_response(self, error_msg: str, error_code: int):

@@ -29,10 +29,8 @@ class WondersServer(socketserver.ThreadingTCPServer):
         threading.Thread(target=self.game.play).start()
 
     def start(self):
-        try:
-            print("WondersServer Started!")
-            self.serve_forever()
-        except KeyboardInterrupt:
-            print("WondersServer Closed!")  # todo allow for force closing the server?
-            # FIXME closing the server is broken atm, needs to be killed to close.
+        print("WondersServer Started!")
+        self.serve_forever()
+        print("WondersServer Closed!")  # todo allow for force closing the server?
+        # FIXME closing the server is broken atm, needs to be killed to close.
 
