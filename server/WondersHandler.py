@@ -13,7 +13,7 @@ from util.util import get_wonder
 
 class WondersHandler(socketserver.BaseRequestHandler):
     server: WondersServer.WondersServer
-    player: ServerPlayer
+    player: ServerPlayer  # todo don't persist the player across games, create a new player
     receiver: MessageReceiver
     sender: MessageSender
 
