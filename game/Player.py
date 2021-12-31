@@ -1,5 +1,6 @@
 
 import math
+import itertools
 from abc import abstractmethod
 from collections import defaultdict
 from typing import DefaultDict
@@ -23,7 +24,7 @@ class Player:
         self.menu = Menu.Menu(self)
         self.turn_over: bool = True
         self.updates: List[str] = [] # update queue to display at start of player's turn
-        self.flags: DefaultDict[str, bool] = defaultdict(bool)
+        self.discounts: DefaultDict[str, set] = defaultdict(set)
 
         # attr:
         #     "shame": 0,
@@ -79,10 +80,10 @@ class Player:
         self._calc_hand_costs()
         self.display('\n'.join(self.updates))
         self.updates = []
-
+        self.display(self.discounts)
         self.display(f"You have {self.board['coins']} coins")
         self.display(f"Your hand is:\n{self._hand_to_str()}")
-        self.display(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
+        self.display(f"Bury cost: {min_cost(self.wonder_payment_options)}")
         while not self.turn_over:
             player_input = self._get_input("(p)lay, (d)iscard or (b)ury a card: ")   # todo let the player know that their turn has been accepted
             action = player_input[0]
@@ -174,7 +175,7 @@ class Player:
             # cost is coins to bank
             self.handle_next_coins(-payment_options[0][2], 'spent')
 
-        elif min_cost(payment_options) != 0: 
+        elif min_cost(payment_options) != '0': 
             # something has to be paid to a different player
             self._display_payment_options(payment_options)
             player_input = self._get_input("select a payment option: ")
@@ -216,8 +217,13 @@ class Player:
         options = set()
 
         # TODO: add discounts
-        for a, b in itertools.product(luxury_spread, common_spread):
-            options.add((2*(a[0] + b[0]), 2*(a[1] + b[1]), 0))
+        for (lux_left, lux_right), (com_left, com_right) in itertools.product(luxury_spread, common_spread):
+
+            options.add((lux_left * (1 if 'luxury' in self.discounts[LEFT] else 2) +
+                         com_left * (1 if 'common' in self.discounts[LEFT] else 2),
+                         lux_right * (1 if 'luxury' in self.discounts[RIGHT] else 2) +
+                         com_right * (1 if 'common' in self.discounts[RIGHT] else 2),
+                         0))
 
         # TODO: sort and slim down options
         return list(options)
@@ -230,8 +236,14 @@ class Player:
                 resource_key, count = self._get_effect_resources(effect)
                 resource = resource_map[resource_key]
                 self.board[resource] += count
+
+            elif effect.effect == "discount":
+                for target, direction in itertools.product(effect.target, effect.direction):
+                    self.discounts[direction].add(target)
+
             else:
                 self.effects[effect.effect].append(effect)
+
 
     def _do_payment(self, payment: Tuple[int, int, int]):
         self.neighbors[LEFT].handle_next_coins(left_payment(payment), RIGHT)

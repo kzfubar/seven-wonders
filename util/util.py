@@ -187,8 +187,8 @@ def resource_to_human(resources: Union[ItemsView[str, int], List[Tuple[str, int]
 
 
 TRADABLE_TYPES = set(('common', 'luxury'))
-COMMON_GOODS = set('lgp')
-LUXURY_GOODS = set('wsbo')
+LUXURY_GOODS = set('lgp')
+COMMON_GOODS = set('wsbo')
 
 ALL_WONDERS = all_wonders()
 LEFT = "left"
