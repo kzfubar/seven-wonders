@@ -5,7 +5,7 @@ import socketserver
 from game.ServerPlayer import ServerPlayer
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
-from networking.messaging.messageTypes import LOGON, MESSAGE
+from networking.messaging.messageTypes import LOGON, MESSAGE, COMMAND
 from networking.messaging.messageUtil import MSG_TYPE
 from networking.server import WondersServer
 from util.util import get_wonder
@@ -30,10 +30,13 @@ class WondersHandler(socketserver.BaseRequestHandler):
 
     def _handle_message(self, msg):
         print(f"{self.client_address} received message: {msg}")
+        self.player.message_queue.put(msg['data'])
+
+    def _handle_command(self, msg):
+        print(f"{self.client_address} received command: {msg}")
         if msg['data'] == 'start':
             self.server.start_game()
             return
-        self.player.message_queue.put(msg['data'])
 
     def _error_response(self, error_msg: str, error_code: int):
         self.sender.send_error(error_msg=error_msg, error_code=error_code)
@@ -64,4 +67,6 @@ class WondersHandler(socketserver.BaseRequestHandler):
                 self._handle_logon(msg)
             elif msg[MSG_TYPE] == MESSAGE:
                 self._handle_message(msg)
+            elif msg[MSG_TYPE] == COMMAND:
+                self._handle_command(msg)
         print(f"{self.client_address} connection closed")

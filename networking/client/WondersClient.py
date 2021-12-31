@@ -62,4 +62,8 @@ class WondersClient:
 
     def _receive_input(self):
         message = input()
+        if message == '':
+            return
+        if message[0] == '/':
+            self.sender.send_command(message[1:])
         self.sender.send_message(message)

@@ -18,6 +18,13 @@ class MessageSender:
         }
         self._send(msg)
 
+    def send_command(self, message: str):
+        msg = {
+            MSG_TYPE: COMMAND,
+            "data": str(message)
+        }
+        self._send(msg)
+
     def send_logon(self, player_name: str, wonder_name: str):
         msg = {
             MSG_TYPE: LOGON,
