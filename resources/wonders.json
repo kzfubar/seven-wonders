@@ -149,7 +149,7 @@
                 "cost": ["w", "w"],
                 "resources": [],
                 "direction": ["self"],
-                "effect": "sacrifice",
+                "effect": "discard_build",
                 "target": []
             },
             {
