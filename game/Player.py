@@ -22,7 +22,7 @@ class Player:
         self.board['coins'] = 3
         self.menu = Menu.Menu(self)
         self.turn_over = True
-        self.updates = []
+        self.updates = [] # update queue to display at start of player's turn
 
         # attr:
         #     "shame": 0,
