@@ -4,7 +4,7 @@ from typing import Any, List
 
 class Config:
     def __init__(self):
-        self.path = "./resources/config.json"
+        self.path = "./networking/config.json"
         with open(self.path, 'r') as f:
             self.config = json.load(f)
 

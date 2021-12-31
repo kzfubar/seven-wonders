@@ -5,8 +5,8 @@ from typing import Any
 
 from game.Player import Player
 from game.Wonder import Wonder
-from messaging.MessageReceiver import MessageReceiver
-from messaging.MessageSender import MessageSender
+from networking.messaging.MessageReceiver import MessageReceiver
+from networking.messaging.MessageSender import MessageSender
 
 
 class ServerPlayer(Player):

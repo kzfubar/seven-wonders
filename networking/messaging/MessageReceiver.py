@@ -1,7 +1,7 @@
 import json
 from typing import Optional
 
-from messaging.messageUtil import SEP, UTF8, BUFFER_SIZE
+from networking.messaging.messageUtil import SEP, UTF8, BUFFER_SIZE
 
 
 class MessageReceiver:

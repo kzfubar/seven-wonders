@@ -1,4 +1,4 @@
-from client.WondersClient import WondersClient
+from networking.client.WondersClient import WondersClient
 
 import sys
 

@@ -3,11 +3,11 @@ from __future__ import annotations
 import socketserver
 
 from game.ServerPlayer import ServerPlayer
-from messaging.MessageReceiver import MessageReceiver
-from messaging.MessageSender import MessageSender
-from messaging.messageTypes import LOGON, MESSAGE
-from messaging.messageUtil import MSG_TYPE
-from server import WondersServer
+from networking.messaging.MessageReceiver import MessageReceiver
+from networking.messaging.MessageSender import MessageSender
+from networking.messaging.messageTypes import LOGON, MESSAGE
+from networking.messaging.messageUtil import MSG_TYPE
+from networking.server import WondersServer
 from util.util import get_wonder
 
 

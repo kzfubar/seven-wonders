@@ -4,21 +4,23 @@ from typing import List
 
 from game.ServerGame import ServerGame
 from game.ServerPlayer import ServerPlayer
-from server import WondersHandler
-from server.Config import Config
+from networking.server import WondersHandler
+from networking.Config import Config
 from util.util import KNOWN_IP
 
 
 class WondersServer(socketserver.ThreadingTCPServer):
-    HOST = "localhost"
-    PORT = 9999
     players: List[ServerPlayer] = list()
     game: ServerGame
 
     def __init__(self):
-        super().__init__((self.HOST, self.PORT), WondersHandler.WondersHandler)
         self.config = Config()
+
         self.known_ip = self.config.get(KNOWN_IP)
+        self.host = self.config.get("host_ip")
+        self.port = self.config.get("server_port")
+
+        super().__init__((self.host, self.port), WondersHandler.WondersHandler)
         print("WondersServer created")
 
     def add_ip(self, ip: str):

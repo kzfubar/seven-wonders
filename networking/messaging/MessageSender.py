@@ -1,7 +1,7 @@
 import json
 
-from messaging.messageTypes import *
-from messaging.messageUtil import *
+from networking.messaging.messageTypes import *
+from networking.messaging.messageUtil import *
 
 
 class MessageSender:
