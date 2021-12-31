@@ -15,14 +15,15 @@ class Player:
 
     def __init__(self, name: str, wonder: Wonder):
         self.display(f"creating player {name} with {wonder.name}")
-        self.name = name
-        self.wonder = wonder
-        self.hand = []
+        self.name: str = name
+        self.wonder: Wonder = wonder
+        self.hand: List[Card] = []
         self.board: DefaultDict[str, int] = defaultdict(int)
         self.board['coins'] = 3
         self.menu = Menu.Menu(self)
-        self.turn_over = True
-        self.updates = [] # update queue to display at start of player's turn
+        self.turn_over: bool = True
+        self.updates: List[str] = [] # update queue to display at start of player's turn
+        self.flags: DefaultDict[str, bool] = defaultdict(bool)
 
         # attr:
         #     "shame": 0,
