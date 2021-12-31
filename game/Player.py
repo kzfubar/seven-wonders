@@ -5,6 +5,7 @@ from collections import defaultdict
 from typing import DefaultDict
 from typing import Dict, Set, Any
 
+from game import Menu
 from game.Game import Game
 from util.util import *
 
@@ -19,6 +20,7 @@ class Player:
         self.hand = []
         self.board: DefaultDict[str, int] = defaultdict(int)
         self.board['coins'] = 3
+        self.menu = Menu.Menu(self)
         self.turn_over = True
 
         # attr:
@@ -33,7 +35,7 @@ class Player:
         #     "science": 0,
         #     "guild": 0,
         #     "wonder_power": 0
-        
+
         self.next_coins: int = 0
         self.coupons: Set[Card] = set()
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
@@ -106,21 +108,13 @@ class Player:
         return '\n'.join(f"({i}) {hand_str[i]:80} | Cost: {min_cost(payment_options)}"
                          for i, payment_options in enumerate(self.hand_payment_options))
 
-    def _menu(self, args: Optional[str] = None) -> bool:  # todo i have made this into spaghetti, and this should be fixed
-        if args is None:
-            menu_options = [
-                "Display player information",
-                "Display game information",
-            ]
-            self.display('\n'.join(f"({i}) {str(option)}" for i, option in enumerate(menu_options)))
-            selected_option = int(self._get_input("select menu option: "))
+    def _menu(self, args: Optional[str] = None) -> bool:
+        if not args:
+            self.display(self.menu.get_options_str())
+            args = self._get_input("select menu option: ")
         args_list = args.split()
-        selected_option = int(args_list[0])
-        if selected_option == 0:
-            player = self.game.get_player(args_list[1]) if len(args_list) > 1 else self
-            self.display(str(player))
-        elif selected_option == 1:
-            self.display(str(self.game))
+        menu_option = self.menu.options.get(args_list[0])
+        self.display(menu_option.get_response(args_list[1:]))
         return False
 
     def _take_action(self, action: str, args: Optional[str] = None) -> bool:
@@ -130,7 +124,7 @@ class Player:
             args = self._get_input("please select a card: ")
         args = int(args)
         card = self.hand[args]
-        
+
         if action == 'p':
             return self._play(card, self.hand_payment_options[args])
         elif action == 'd':
@@ -164,7 +158,7 @@ class Player:
         return successfully_played
 
     def _play_card(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
-        if len(payment_options) == 0: 
+        if len(payment_options) == 0:
             self.display('card cannot be purchased')
             return False
 
@@ -202,13 +196,13 @@ class Player:
 
         left_effects = [effect for effect in self.neighbors[LEFT].effects['produce'] if effect.card_type in TRADABLE_TYPES]
         right_effects = [effect for effect in self.neighbors[RIGHT].effects['produce'] if effect.card_type in TRADABLE_TYPES]
-        
+
         luxury_spread = find_resource_outcomes(left_effects, right_effects, luxury_choices, luxury_reqs, LUXURY_GOODS)
         common_spread = find_resource_outcomes(left_effects, right_effects, common_choices, common_reqs, COMMON_GOODS)
 
 
         options = set()
-        
+
         # TODO: add discounts
         for a, b in itertools.product(luxury_spread, common_spread):
             options.add((2*(a[0] + b[0]), 2*(a[1] + b[1]), 0))
@@ -245,7 +239,7 @@ class Player:
         vp = 0
         vp += self.board["military_points"]
         vp += self.board["coins"] // 3
-        
+
         # covers wonder, civil, and commercial cards
         for effects in self.effects["victory"]:
             if effects.target:
@@ -253,18 +247,18 @@ class Player:
                     if direction == "left":
                         for targets in effects.target:
                             vp += self.neighbors[LEFT].board[targets] * effects.resources[0][1]
-                            
+
                     if direction == "right":
                         for targets in effects.target:
                             vp += self.neighbors[RIGHT].board[targets] * effects.resources[0][1]
-                            
+
                     else:
                         for targets in effects.target:
                             vp += self.board[targets] * effects.resources[0][1]
-            
+
             else:
                 vp += effects.resources[0][1]
-        
+
         # calculate science -- doesn't take cards with choice of mat into account
         cog, compass, tablet = 0, 0, 0
         for effects in self.effects["research"]:
@@ -274,7 +268,7 @@ class Player:
                 cog += 1
             elif effects.resources[0][0] == "z":
                 tablet += 1
-        
+
         # Calculates set and identical cards
         vp += min(cog, compass, tablet) * 7
         vp += math.pow(cog,2) + math.pow(compass, 2) + math.pow(tablet, 2)
