@@ -24,7 +24,10 @@ class ServerPlayer(Player):
 
     def _get_input(self, message: str) -> str:
         self.sender.send_message(message)
-        return self.message_queue.get(block=True)  # todo discard blank line, and get again
+        msg = ''
+        while msg == '':
+            msg = self.message_queue.get(block=True)
+        return msg
 
     def take_turn(self):
         threading.Thread(target=self._take_turn).start()
