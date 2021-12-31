@@ -1,42 +1,51 @@
 from __future__ import annotations
 
 import socketserver
+from typing import Optional
 
-from game.ServerPlayer import ServerPlayer
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
 from networking.messaging.messageTypes import LOGON, MESSAGE, COMMAND
 from networking.messaging.messageUtil import MSG_TYPE
 from networking.server import WondersServer
-from util.util import get_wonder
+from networking.server.Client import Client
+from networking.server.Room import Room
 
 
 class WondersHandler(socketserver.BaseRequestHandler):
     server: WondersServer.WondersServer
-    player: ServerPlayer  # todo don't persist the player across games, create a new player
+    client: Client
     receiver: MessageReceiver
     sender: MessageSender
+
+    def _get_room(self) -> Optional[Room]:
+        return self.server.clients.get(self.client.name)
 
     def _handle_logon(self, msg):
         print(f"Received logon: {msg}")
         player_name = msg['playerName']
-        wonder_name = msg['wonderName']
-        wonder = get_wonder(wonder_name)
-        if wonder is None:
-            self._error_response("Wonder not found!", 1)
-            return  # todo kill the connection, or ask for a different wonder name if this happens
-        self.player = ServerPlayer(player_name, wonder, self.request)
-        self.server.players.append(self.player)
+        self.client = Client(player_name, self.request)
 
     def _handle_message(self, msg):
-        print(f"{self.client_address} received message: {msg}")
-        self.player.message_queue.put(msg['data'])
+        print(f"{self.client_address} {self.client.name} received message: {msg}")
+        self.client.msg_queue.put(msg['data'])
 
     def _handle_command(self, msg):
         print(f"{self.client_address} received command: {msg}")
-        if msg['data'] == 'start':
-            self.server.start_game()
-            return
+        args = msg['data'].split()
+        cmd = args[0]
+        if cmd == 'start':
+            room = self._get_room()
+            print(self.server.clients)
+            if room is not None:
+                room.start_game()  # todo handle not enough players gracefully
+        elif cmd == 'room':
+            room_name = args[1]
+            if room_name not in self.server.rooms:
+                self.server.create_room(room_name)
+            room = self.server.get_room(room_name)
+            room.join(self.client)
+            self.server.clients[self.client.name] = room
 
     def _error_response(self, error_msg: str, error_code: int):
         self.sender.send_error(error_msg=error_msg, error_code=error_code)
@@ -60,7 +69,6 @@ class WondersHandler(socketserver.BaseRequestHandler):
         self.sender = MessageSender(self.request)
         while True:
             msg = self.receiver.get_message()
-            print(msg)
             if msg is None:
                 break
             if msg[MSG_TYPE] == LOGON:

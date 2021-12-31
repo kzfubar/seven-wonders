@@ -25,11 +25,10 @@ class MessageSender:
         }
         self._send(msg)
 
-    def send_logon(self, player_name: str, wonder_name: str):
+    def send_logon(self, player_name: str):
         msg = {
             MSG_TYPE: LOGON,
-            "playerName": player_name,
-            "wonderName": wonder_name
+            "playerName": player_name
         }
         self._send(msg)
 

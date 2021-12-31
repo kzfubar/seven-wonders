@@ -41,9 +41,7 @@ class WondersClient:
     def _do_logon(self, player_name, wonder_name):
         if player_name is None:
             player_name = input("player name: ")
-        if wonder_name is None:
-            wonder_name = input("wonder name: ")  # todo support random
-        self.sender.send_logon(player_name=player_name, wonder_name=wonder_name)
+        self.sender.send_logon(player_name=player_name)
 
     def _handle_message(self, msg: dict):
         print(msg['data'])
@@ -66,4 +64,5 @@ class WondersClient:
             return
         if message[0] == '/':
             self.sender.send_command(message[1:])
-        self.sender.send_message(message)
+        else:
+            self.sender.send_message(message)

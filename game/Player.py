@@ -1,6 +1,3 @@
-
-import math
-import itertools
 import copy
 from abc import abstractmethod
 from collections import defaultdict
@@ -54,7 +51,9 @@ class Player:
         return f"wonder = {self.wonder} \n" \
                f"board = {self.board} \n" \
                f"effects = {self.effects}, \n" \
-               f"neighbors = L {self.neighbors[LEFT].name} {self.name} {self.neighbors[RIGHT].name} R \n"
+               f"neighbors = {self.neighbors[LEFT].name if self.neighbors[LEFT] is not None else 'NONE'} <-" \
+               f" {self.name} -> " \
+               f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
 
     def set_game(self, game: Game):
         self.game = game
@@ -63,7 +62,12 @@ class Player:
     def display(self, message: Any):
         pass
 
-    def _take_turn(self):
+    def _handle_input(self, player_input):
+        action = player_input[0]
+        args = player_input[1::] if len(player_input) > 1 else None
+        self._take_action(action, args)
+
+    def take_turn(self):
         self.turn_over = False
         self._calc_hand_costs()
         self.display('\n'.join(self.updates))
@@ -72,18 +76,10 @@ class Player:
         self.display(f"You have {self.board['coins']} coins")
         self.display(f"Your hand is:\n{self._hand_to_str()}")
         self.display(f"Bury cost: {min_cost(self.wonder_payment_options)}")
-        while not self.turn_over:
-            player_input = self._get_input("(p)lay, (d)iscard or (b)ury a card: ")   # todo let the player know that their turn has been accepted
-            action = player_input[0]
-            args = player_input[1::] if len(player_input) > 1 else None
-            self.turn_over = self._take_action(action, args)
+        self._on_input(self._input_options(), self._handle_input)
 
     @abstractmethod
-    def take_turn(self):
-        pass
-
-    @abstractmethod
-    def _get_input(self, message) -> str:
+    def _on_input(self, message: str, callback) -> None:
         pass
 
     def _calc_hand_costs(self) -> None:
@@ -113,54 +109,65 @@ class Player:
         return '\n'.join(f"({i}) {hand_str[i]:80} | Cost: {min_cost(payment_options)}"
                          for i, payment_options in enumerate(self.hand_payment_options))
 
-    def _menu(self, args: Optional[str] = None) -> bool:
-        if not args:
-            self.display(self.menu.get_options_str())
-            args = self._get_input("select menu option: ")
-        args_list = args.split()
+    def _input_options(self) -> str:  # todo, we can check if other players are still taking their turn. also read the flag for free build
+        if not self.turn_over:
+            return "(p)lay, (d)iscard or (b)ury a card; or open the (m)enu: "
+        return "turn over"
+
+    def _handle_menu(self, player_input: str):
+        args_list = player_input.split()
         menu_option = self.menu.options.get(args_list[0])
         self.display(menu_option.get_response(args_list[1:]))
-        return False
+        self._on_input(self._input_options(), self._handle_input)
 
-    def _take_action(self, action: str, args: Optional[str] = None) -> bool:
+    def _menu(self, args: Optional[str] = None) -> None:
+        if not args:
+            self.display(self.menu.get_options_str())
+            self._on_input("select menu option: ", self._handle_menu)
+        self._handle_menu(args)
+
+    def _take_action(self, action: str, args: Optional[str] = None) -> None:
         if action == 'm':
-            return self._menu(args)
+            self._menu(args)
+            return
         if args is None:
-            args = self._get_input("please select a card: ")
+            self._on_input("please select a card: ", self._handle_input)
+            return
         args = int(args)
         card = self.hand[args]
-
-        if action == 'p':
-            return self._play(card, self.hand_payment_options[args])
+        if self.turn_over:
+            self.display("turn over")
+        elif action == 'p':
+            self._play(card, self.hand_payment_options[args])
         elif action == 'd':
-            return self._discard(card)
+            self._discard(card)
         elif action == 'b':
-            return self._bury(card)
+            self._bury(card)
         else:
-            self.display(f"Invalid action! {action}")
-            return False
+            self.display(f"Invalid action! {action}")  # todo allow for free build power
+        self._on_input(self._input_options(), self._handle_input)
 
-    def _play(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
+    def _play(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> None:
         self.display(f"playing {card.name}")
         successfully_played = self._play_card(card, payment_options)
         if successfully_played:
             self.hand.remove(card)
-        return successfully_played
+        self.turn_over = successfully_played
 
-    def _discard(self, card: Card) -> bool:
+    def _discard(self, card: Card) -> None:
         self.display(f"discarding {card}")
         self.board['coins'] += 3
         self.hand.remove(card)
-        return True
+        self.turn_over = True
 
-    def _bury(self, card: Card) -> bool:
+    def _bury(self, card: Card) -> None:
         self.display(f"burying {card.name}")
         wonder_power = self.wonder.get_next_power()
         successfully_played = self._play_card(wonder_power, self.wonder_payment_options)
         if successfully_played:
             self.wonder.increment_level()
             self.hand.remove(card)
-        return successfully_played
+        self.turn_over = successfully_played
 
     def _play_card(self, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
         if len(payment_options) == 0:
@@ -240,7 +247,6 @@ class Player:
 
             else:
                 self.effects[effect.effect].append(effect)
-
 
     def _do_payment(self, payment: Tuple[int, int, int]):
         self.neighbors[LEFT].handle_next_coins(left_payment(payment), RIGHT)

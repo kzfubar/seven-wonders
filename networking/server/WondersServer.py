@@ -1,21 +1,19 @@
 import socketserver
-import threading
-from typing import List
+from _socket import SocketType
+from typing import Dict, Optional
 
-from game.ServerGame import ServerGame
-from game.ServerPlayer import ServerPlayer
 from networking.server import WondersHandler
 from networking.Config import Config
+from networking.server.Room import Room
 from util.util import KNOWN_IP
 
 
 class WondersServer(socketserver.ThreadingTCPServer):
-    players: List[ServerPlayer] = list()
-    game: ServerGame
-
     def __init__(self):
-        self.config = Config()
+        self.rooms: Dict[str, Room] = {}
+        self.clients: Dict[str, Optional[Room]] = {}
 
+        self.config = Config()
         self.known_ip = self.config.get(KNOWN_IP)
         self.host = self.config.get("host_ip")
         self.port = self.config.get("server_port")
@@ -26,9 +24,17 @@ class WondersServer(socketserver.ThreadingTCPServer):
     def add_ip(self, ip: str):
         self.config.add(KNOWN_IP, ip)
 
-    def start_game(self):
-        self.game = ServerGame(self.players)
-        threading.Thread(target=self.game.play).start()
+    def create_room(self, room_name: str) -> Room:  # todo better handle if room already created
+        while room_name in self.rooms:
+            room_name += '*'
+        room = Room(room_name)
+        self.rooms[room_name] = room
+        return room
+
+    def get_room(self, room_name: str) -> Optional[Room]:
+        return self.rooms[room_name]
+
+    # todo def get_room_names()
 
     def start(self):
         print("WondersServer Started!")
