@@ -38,11 +38,13 @@ class Card:
                  age: int,
                  card_type: str,
                  cost: List[str],
+                 coupons: List[str],
                  effects: List[Effect]):
         self.name = name
         self.age = age
         self.card_type = card_type
         self.cost = cost
+        self.coupons = coupons
         self.effects = effects
 
     def __repr__(self):
@@ -50,6 +52,7 @@ class Card:
                f"age = {self.age}, " \
                f"card_type = {self.card_type}, " \
                f"cost = {self.cost}, " \
+               f"cost = {self.coupons}, " \
                f"effects = {self.effects}}}"
 
     def __str__(self):

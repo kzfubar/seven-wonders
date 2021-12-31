@@ -339,7 +339,7 @@
       "name": "Baths",
       "players": [3, 7],
       "cost": ["s"],
-      "coupon": "Aqueduct",
+      "coupon": ["Aqueduct"],
       "age": 1,
       "type": "civilian",
       "effects": [
@@ -355,7 +355,7 @@
       "name": "Altar",
       "players": [3, 5],
       "cost": [],
-      "coupon": "Temple",
+      "coupon": ["Temple"],
       "age": 1,
       "type": "civilian",
       "effects": [
@@ -371,7 +371,7 @@
       "name": "Theater",
       "players": [3, 6],
       "cost": [],
-      "coupon": "Statue",
+      "coupon": ["Statue"],
       "age": 1,
       "type": "civilian",
       "effects": [
@@ -403,7 +403,7 @@
       "name": "Temple",
       "players": [3, 6],
       "cost": ["w", "b", "g"],
-      "coupon": "Pantheon",
+      "coupon": ["Pantheon"],
       "age": 2,
       "type": "civilian",
       "effects": [
@@ -419,7 +419,7 @@
       "name": "Statue",
       "players": [3, 7],
       "cost": ["w", "o", "o"],
-      "coupon": "Gardens",
+      "coupon": ["Gardens"],
       "age": 2,
       "type": "civilian",
       "effects": [
@@ -515,7 +515,7 @@
       "name": "East Trading Post",
       "players": [3, 7],
       "cost": [],
-      "coupon": "Forum",
+      "coupon": ["Forum"],
       "age": 1,
       "type": "commercial",
       "effects": [
@@ -531,7 +531,7 @@
       "name": "West Trading Post",
       "players": [3, 7],
       "cost": [],
-      "coupon": "Forum",
+      "coupon": ["Forum"],
       "age": 1,
       "type": "commercial",
       "effects": [
@@ -547,7 +547,7 @@
       "name": "Marketplace",
       "players": [3, 6],
       "cost": [],
-      "coupon": "Caravansery",
+      "coupon": ["Caravansery"],
       "age": 1,
       "type": "commercial",
       "effects": [
@@ -564,7 +564,7 @@
       "players": [3, 6, 7],
       "resources": ["l", "g", "p"],
       "cost": ["b", "b"],
-      "coupon": "Haven",
+      "coupon": ["Haven"],
       "age": 2,
       "type": "commercial",
       "effects": [
@@ -581,7 +581,7 @@
       "players": [3, 5, 6],
       "resources": ["w", "b", "s", "o"],
       "cost": ["w", "w"],
-      "coupon": "Lighthouse",
+      "coupon": ["Lighthouse"],
       "age": 2,
       "type": "commercial",
       "effects": [
@@ -743,7 +743,7 @@
       "name": "Walls",
       "players": [3, 7],
       "cost": ["s", "s", "s"],
-      "coupon": "Fortifications",
+      "coupon": ["Fortifications"],
       "age": 2,
       "type": "military",
       "effects": [
@@ -759,7 +759,7 @@
       "name": "Training Ground",
       "players": [4, 6, 7],
       "cost": ["w", "o", "o"],
-      "coupon": "Circus",
+      "coupon": ["Circus"],
       "age": 2,
       "type": "military",
       "effects": [

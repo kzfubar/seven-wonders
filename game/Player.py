@@ -22,6 +22,7 @@ class Player:
         self.board['coins'] = 3
         self.menu = Menu.Menu(self)
         self.turn_over = True
+        self.updates = []
 
         # attr:
         #     "shame": 0,
@@ -36,7 +37,7 @@ class Player:
         #     "guild": 0,
         #     "wonder_power": 0
 
-        self.next_coins: int = 0
+        self.next_coins: DefaultDict[str, int] = defaultdict(int)
         self.coupons: Set[Card] = set()
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
         self.neighbors: Dict[str, Optional[Player]] = {
@@ -75,6 +76,9 @@ class Player:
     def _take_turn(self):
         self.turn_over = False
         self._calc_hand_costs()
+        self.display('\n'.join(self.updates))
+        self.updates = []
+
         self.display(f"You have {self.board['coins']} coins")
         self.display(f"Your hand is:\n{self._hand_to_str()}")
         self.display(f"Bury cost: {min_cost(self._get_payment_options(self.wonder.get_next_power()))}")
@@ -96,12 +100,15 @@ class Player:
         self.wonder_payment_options = self._get_payment_options(self.wonder.get_next_power())
         self.hand_payment_options = [self._get_payment_options(card) for card in self.hand]
 
-    def handle_next_coins(self, coins: int):
-        self.next_coins += coins
+    def handle_next_coins(self, coins: int, direction):
+        self.next_coins[direction] += coins
 
     def update_coins(self):
-        self.board['coins'] += self.next_coins
-        self.next_coins = 0
+        for k, v in self.next_coins.items():
+            self.board['coins'] += v
+            if k in (LEFT, RIGHT) and v != 0:
+                self.updates.append(f'Received {v} coins from {self.neighbors[k].name}')
+        self.next_coins = defaultdict(int)
 
     def _hand_to_str(self) -> str:
         hand_str = display_cards(self.hand)
@@ -164,17 +171,18 @@ class Player:
 
         if payment_options[0][2] != 0:
             # cost is coins to bank
-            self.handle_next_coins(-payment_options[0][2])
-            self._activate_card(card)
-            self.board[card.card_type] += 1
-            return True
+            self.handle_next_coins(-payment_options[0][2], 'spent')
 
-        self._display_payment_options(payment_options)
-        player_input = self._get_input("select a payment option: ")
-        if player_input == 'q':
-            return False
-        player_input = int(player_input)
-        self._do_payment(payment_options[player_input])
+        elif min_cost(payment_options) != 0: 
+            # something has to be paid to a different player
+            self._display_payment_options(payment_options)
+            player_input = self._get_input("select a payment option: ")
+            if player_input == 'q':
+                return False
+            # TODO: handle non int inputs/out of range??? (not just here)
+            player_input = int(player_input)
+            self._do_payment(payment_options[player_input])
+
         self._activate_card(card)
         self.board[card.card_type] += 1
         return True
@@ -185,6 +193,9 @@ class Player:
             self.display(f"({i}) {self.neighbors[LEFT].name} <- {option[0]}, {option[1]} -> {self.neighbors[RIGHT].name}")
 
     def _get_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:  # todo consider coupons
+        if card.name in self.coupons:
+            return [(0, 0, 0)]
+
         if 'c' in card.cost:
             return [(0, 0, card.cost.count('c'))]
 
@@ -207,9 +218,12 @@ class Player:
         for a, b in itertools.product(luxury_spread, common_spread):
             options.add((2*(a[0] + b[0]), 2*(a[1] + b[1]), 0))
 
+        # TODO: sort and slim down options
         return list(options)
 
     def _activate_card(self, card: Card):  # todo add a coupon
+        self.coupons |= set(card.coupons)
+
         for effect in card.effects:
             if effect.effect == "generate":
                 resource_key, count = self._get_effect_resources(effect)
@@ -219,9 +233,9 @@ class Player:
                 self.effects[effect.effect].append(effect)
 
     def _do_payment(self, payment: Tuple[int, int, int]):
-        self.neighbors[LEFT].handle_next_coins(left_payment(payment))
-        self.neighbors[RIGHT].handle_next_coins(right_payment(payment))
-        self.handle_next_coins(-1 * total_payment(payment))  # -1 for decrement own coins
+        self.neighbors[LEFT].handle_next_coins(left_payment(payment), RIGHT)
+        self.neighbors[RIGHT].handle_next_coins(right_payment(payment), LEFT)
+        self.handle_next_coins(-1 * total_payment(payment), 'spent')  # -1 for decrement own coins
 
     def _get_effect_resources(self, effect: Effect) -> Tuple[str, int]:
         count = 0

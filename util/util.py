@@ -20,6 +20,7 @@ def all_wonders() -> List[Wonder]:
                              0,
                              "wonder_power",
                              card['cost'],
+                             [],
                              _get_effects({"effects": [card],
                                            "type": "wonder"}))
                         for i, card in enumerate(wonder['state'])])
@@ -62,6 +63,7 @@ def get_all_cards(num_players: int) -> List[Card]:
                                age=card['age'],
                                card_type=card['type'],
                                cost=card['cost'],
+                               coupons=card['coupon'],
                                effects=_get_effects(card)))
             continue
 
@@ -71,6 +73,7 @@ def get_all_cards(num_players: int) -> List[Card]:
                                       age=card['age'],
                                       card_type=card['type'],
                                       cost=card['cost'],
+                                      coupons=card['coupon'],
                                       effects=_get_effects(card)))
     return all_cards + random.sample(guilds, num_players + 2)
 
