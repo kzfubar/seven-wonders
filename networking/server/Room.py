@@ -22,5 +22,4 @@ class Room:
 
     def join(self, client: Client):
         self.clients.append(client)
-        client.create_player("rhodos")
-        # client.on_message("please select a wonder", client.create_player)  # todo uncomment
+        client.on_message("please select a wonder", client.create_player)
