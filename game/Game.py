@@ -8,11 +8,7 @@ from util.util import *
 
 
 class Game:
-    pass_order: Dict[int, str] = {
-        1: LEFT,
-        2: RIGHT,
-        3: LEFT
-    }
+    pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
     age: int
 
     @abstractmethod
@@ -54,12 +50,14 @@ class Game:
         card_list = self._get_cards_for_age(age)
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
-            player.hand = card_list[i::len(self.players)]
+            player.hand = card_list[i :: len(self.players)]
 
     def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
 
-    def get_player(self, player_name: str) -> Optional[Player.Player]:  # todo handle duplicate player names?
+    def get_player(
+        self, player_name: str
+    ) -> Optional[Player.Player]:  # todo handle duplicate player names?
         for player in self.players:
             if player.name == player_name:
                 return player
@@ -101,7 +99,9 @@ class Game:
     def play(self):
         self._message_players("starting game!")
         for age in range(1, 4):
-            self.age = age # TODO: is age an attribute, or is it getting passed to func? (curr. both)
+            self.age = (
+                age
+            )  # TODO: is age an attribute, or is it getting passed to func? (curr. both)
             self._message_players(f"begin age: {self.age}")
             self._deal_cards(self.age)
             for round_number in range(6):
@@ -110,4 +110,3 @@ class Game:
                 self._end_round(self.age)
             self._end_age(self.age)
         self._end_game()
-

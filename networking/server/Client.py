@@ -14,8 +14,7 @@ from util.util import get_wonder
 class Client:
     player: Optional[ServerPlayer.ServerPlayer] = None
 
-    def __init__(self, name: str,
-                 connection: SocketType):
+    def __init__(self, name: str, connection: SocketType):
         self.name = name
         self.connection = connection
         self.receiver = MessageReceiver(self.connection)
@@ -31,14 +30,14 @@ class Client:
         print(f"created {self.player}")
 
     def _on_message(self, callback):
-        msg = ''
-        while msg == '':
+        msg = ""
+        while msg == "":
             msg = self.msg_queue.get(block=True)
         callback(msg)
 
     def on_message(self, message: str, callback) -> None:
         self.send_message(message)
-        threading.Thread(target=self._on_message, args=(callback, )).start()
+        threading.Thread(target=self._on_message, args=(callback,)).start()
 
     def send_message(self, message: Any):
         self.sender.send_message(message)

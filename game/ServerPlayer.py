@@ -8,9 +8,7 @@ from networking.server import Client
 
 
 class ServerPlayer(Player):
-    def __init__(self, name: str,
-                 wonder: Wonder,
-                 client: Client.Client):
+    def __init__(self, name: str, wonder: Wonder, client: Client.Client):
         self.client = client
         super().__init__(name, wonder)
 
@@ -19,4 +17,3 @@ class ServerPlayer(Player):
 
     def _on_input(self, message: str, callback) -> None:
         self.client.on_message(message, callback)
-

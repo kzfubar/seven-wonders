@@ -2,15 +2,15 @@ import json
 
 
 def give_effect(c, name, effect):
-    if c['type'] == name:
-        if c.get('effect') is None:
+    if c["type"] == name:
+        if c.get("effect") is None:
             e = {}
-            e['effect'] = effect
-            e['resources'] = c['resources']
-            e['target'] = []
-            e['direction'] = ['self']
-            c['effects'] = [e]
-            del (c['resources'])
+            e["effect"] = effect
+            e["resources"] = c["resources"]
+            e["target"] = []
+            e["direction"] = ["self"]
+            c["effects"] = [e]
+            del c["resources"]
 
 
 def give_effects():
@@ -18,39 +18,39 @@ def give_effects():
         cards = json.load(f)
 
     for card in cards:
-        give_effect(card, 'common', 'produce')
-        give_effect(card, 'luxury', 'produce')
-        give_effect(card, 'military', 'strength')
-        give_effect(card, 'civilian', 'victory')
+        give_effect(card, "common", "produce")
+        give_effect(card, "luxury", "produce")
+        give_effect(card, "military", "strength")
+        give_effect(card, "civilian", "victory")
         # tmp(card, 'commercial') ignore commercial b/c wacky-doodle
-        give_effect(card, 'science', 'produce')
+        give_effect(card, "science", "produce")
 
-    with open('../resources/cards.json', 'w') as f:
+    with open("../resources/cards.json", "w") as f:
         json.dump(cards, f, indent=2)
 
 
 def tmp(c):
-    if c.get('effect') is not None:
-        c_effect = c.get('effect')
+    if c.get("effect") is not None:
+        c_effect = c.get("effect")
         effects = []
         for i, effect in enumerate(c_effect):
             d = {}
             d["effect"] = c_effect[i]
-            if c['name'] == "Scientists Guild":
-                d["resources"] = c['resources']
-            elif len(c['resources']) > 0:
-                d["resources"] = [c['resources'][i]]
+            if c["name"] == "Scientists Guild":
+                d["resources"] = c["resources"]
+            elif len(c["resources"]) > 0:
+                d["resources"] = [c["resources"][i]]
             else:
                 d["resources"] = []
-            d["target"] = c['target']
-            d["direction"] = c['direction']
+            d["target"] = c["target"]
+            d["direction"] = c["direction"]
             effects.append(d)
-        c['effects'] = effects
+        c["effects"] = effects
 
-        del (c['target'])
-        del (c['effect'])
-        del (c['direction'])
-        del (c['resources'])
+        del c["target"]
+        del c["effect"]
+        del c["direction"]
+        del c["resources"]
 
 
 def effect_to_effects():
@@ -60,29 +60,29 @@ def effect_to_effects():
     for card in cards:
         tmp(card)
 
-    with open('../resources/cards.json', 'w') as f:
+    with open("../resources/cards.json", "w") as f:
         json.dump(cards, f, indent=2)
 
 
 def modify(c):
-    if c.get('effects') is None:
+    if c.get("effects") is None:
         print(c)
         return
 
-    for e in c['effects']:
-        if e['effect'] == "produce" or e['effect'] == "discount":
+    for e in c["effects"]:
+        if e["effect"] == "produce" or e["effect"] == "discount":
             continue
 
-        if e['effect'] == "levy":
-            e['resources'] = ["c" * e['resources'][0]]
-            e['effect'] = "generate"
+        if e["effect"] == "levy":
+            e["resources"] = ["c" * e["resources"][0]]
+            e["effect"] = "generate"
 
-        if e['effect'] == "strength":
-            e['resources'] = ["m" * e['resources'][0]]
-            e['effect'] = "generate"
+        if e["effect"] == "strength":
+            e["resources"] = ["m" * e["resources"][0]]
+            e["effect"] = "generate"
 
-        if e['effect'] == "victory":
-            e['resources'] = ["v" * e['resources'][0]]
+        if e["effect"] == "victory":
+            e["resources"] = ["v" * e["resources"][0]]
         print(e)
 
 
@@ -93,7 +93,7 @@ def modify_effects():
     for card in cards:
         modify(card)
 
-    with open('../resources/cards.json', 'w') as f:
+    with open("../resources/cards.json", "w") as f:
         json.dump(cards, f, indent=2)
 
 
@@ -106,14 +106,14 @@ def tuplify():
         cards = json.load(f)
 
     for card in cards:
-        for effect in card['effects']:
+        for effect in card["effects"]:
             r = []
-            for resource in effect['resources']:
+            for resource in effect["resources"]:
                 print(to_tuple(resource))
                 r.append(to_tuple(resource))
-            effect['resources'] = r
+            effect["resources"] = r
 
-    with open('../resources/cards.json', 'w') as f:
+    with open("../resources/cards.json", "w") as f:
         json.dump(cards, f, indent=2)
 
 

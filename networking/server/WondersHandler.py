@@ -23,23 +23,23 @@ class WondersHandler(socketserver.BaseRequestHandler):
 
     def _handle_logon(self, msg):
         print(f"Received logon: {msg}")
-        player_name = msg['playerName']
+        player_name = msg["playerName"]
         self.client = Client(player_name, self.request)
 
     def _handle_message(self, msg):
         print(f"{self.client_address} {self.client.name} received message: {msg}")
-        self.client.msg_queue.put(msg['data'])
+        self.client.msg_queue.put(msg["data"])
 
     def _handle_command(self, msg):
         print(f"{self.client_address} received command: {msg}")
-        args = msg['data'].split()
+        args = msg["data"].split()
         cmd = args[0]
-        if cmd == 'start':
+        if cmd == "start":
             room = self._get_room()
             print(self.server.clients)
             if room is not None:
                 room.start_game()  # todo handle not enough players gracefully
-        elif cmd == 'room':
+        elif cmd == "room":
             room_name = args[1]
             if room_name not in self.server.rooms:
                 self.server.create_room(room_name)
@@ -58,9 +58,9 @@ class WondersHandler(socketserver.BaseRequestHandler):
         ip = self.client_address[0]
         if not self._verify_ip(ip):
             user_input = input(f"accept new ip connection {ip} (y/n) ").lower()
-            if user_input == 'y':
+            if user_input == "y":
                 self.server.add_ip(ip)
-            if user_input == 'n':
+            if user_input == "n":
                 print(f"Connection {self.client_address} not accepted, closing!")
                 return
         else:
