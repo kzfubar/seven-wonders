@@ -1,22 +1,13 @@
 import copy
+import itertools
 from abc import abstractmethod
 from collections import defaultdict
-import itertools
 from typing import DefaultDict
 from typing import Dict, Set, Any, List, Optional, Tuple
 
 from game.Card import Card, Effect
 from game.Menu import Menu
 from game.Wonder import Wonder
-from util.util import (
-    display_cards,
-    find_resource_outcomes,
-    left_payment,
-    min_cost,
-    right_payment,
-    simplify_cost_search,
-    total_payment,
-)
 from util.constants import (
     COMMON_GOODS,
     MILITARY_POINTS,
@@ -25,6 +16,15 @@ from util.constants import (
     LEFT,
     RIGHT,
     LUXURY_GOODS,
+)
+from util.util import (
+    display_cards,
+    find_resource_outcomes,
+    left_payment,
+    min_cost,
+    right_payment,
+    simplify_cost_search,
+    total_payment,
 )
 
 
@@ -37,7 +37,7 @@ class Player:
         self.hand: List[Card] = []
         self.board: DefaultDict[str, int] = defaultdict(int)
         self.board["coins"] = 3
-        self.menu = Menu.Menu(self)
+        self.menu = Menu(self)
         self.turn_over: bool = True
         self.updates: List[
             str
@@ -128,14 +128,14 @@ class Player:
     def run_military(self, age):
         for neighbor in (LEFT, RIGHT):
             if (
-                self.board["military_might"]
-                > self.neighbors[neighbor].board["military_might"]
+                    self.board["military_might"]
+                    > self.neighbors[neighbor].board["military_might"]
             ):
                 self.board["military_points"] += MILITARY_POINTS[age]
 
             if (
-                self.board["military_might"]
-                < self.neighbors[neighbor].board["military_might"]
+                    self.board["military_might"]
+                    < self.neighbors[neighbor].board["military_might"]
             ):
                 self.board["shame"] += 1
 
@@ -147,7 +147,7 @@ class Player:
         )
 
     def _input_options(
-        self
+            self
     ) -> str:  # todo, we can check if other players are still taking their turn. also read the flag for free build
         if not self.turn_over:
             return "(p)lay, (d)iscard or (b)ury a card; or open the (m)enu: "
@@ -209,7 +209,7 @@ class Player:
         self.turn_over = successfully_played
 
     def _play_card(
-        self, card: Card, payment_options: List[Tuple[int, int, int]]
+            self, card: Card, payment_options: List[Tuple[int, int, int]]
     ) -> bool:
         if len(payment_options) == 0:
             self.display("card cannot be purchased")
@@ -280,9 +280,8 @@ class Player:
         options = set()
 
         for (lux_left, lux_right), (com_left, com_right) in itertools.product(
-            luxury_spread, common_spread
+                luxury_spread, common_spread
         ):
-
             options.add(
                 (
                     lux_left * (1 if "luxury" in self.discounts[LEFT] else 2)
@@ -307,7 +306,7 @@ class Player:
 
             elif effect.effect == "discount":
                 for target, direction in itertools.product(
-                    effect.target, effect.direction
+                        effect.target, effect.direction
                 ):
                     self.discounts[direction].add(target)
 
@@ -342,10 +341,10 @@ class Player:
         for effect in self.effects["victory"]:
             if effect.target:
                 for target, direction in itertools.product(
-                    effect.target, effect.direction
+                        effect.target, effect.direction
                 ):
                     vp[effect.card_type] += (
-                        self.neighbors[direction].board[target] * effect.resources[0][1]
+                            self.neighbors[direction].board[target] * effect.resources[0][1]
                     )
 
             else:

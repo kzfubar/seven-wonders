@@ -1,27 +1,26 @@
 from __future__ import annotations
+
 import asyncio
-
 import queue
-from _socket import SocketType
-from typing import Any
 import threading
+from typing import Any
 
-from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
 
 
-class Client:
-    def __init__(self, name: str, connection: SocketType):
+class ClientConnection:
+    def __init__(self, name: str, addr: str, sender: MessageSender):
         self.name = name
-        self.connection = connection
-        self.receiver = MessageReceiver(self.connection)
-        self.sender = MessageSender(self.connection)
+        self.sender = sender
+        self.addr = addr
         self.msg_queue: queue.Queue[str] = queue.Queue()
 
-    async def get_message(self):
-        while not self.msg_queue.not_empty:
-            await asyncio.sleep(500)
+    def __repr__(self):
+        return f"{self.name}, {self.addr}"
 
+    async def get_message(self) -> str:
+        while self.msg_queue.empty():
+            await asyncio.sleep(1)
         return self.msg_queue.get()
 
     def send_message(self, message: Any):
