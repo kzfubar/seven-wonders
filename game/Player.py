@@ -1,16 +1,34 @@
 import copy
 from abc import abstractmethod
 from collections import defaultdict
+import itertools
 from typing import DefaultDict
-from typing import Dict, Set, Any
+from typing import Dict, Set, Any, List, Optional, Tuple
 
-from game import Menu
-from game.Game import Game
-from util.util import *
+from game.Card import Card, Effect
+from game.Menu import Menu
+from game.Wonder import Wonder
+from util.util import (
+    display_cards,
+    find_resource_outcomes,
+    left_payment,
+    min_cost,
+    right_payment,
+    simplify_cost_search,
+    total_payment,
+)
+from util.constants import (
+    COMMON_GOODS,
+    MILITARY_POINTS,
+    RESOURCE_MAP,
+    TRADABLE_TYPES,
+    LEFT,
+    RIGHT,
+    LUXURY_GOODS,
+)
 
 
 class Player:
-    game: Game
 
     def __init__(self, name: str, wonder: Wonder):
         self.display(f"creating player {name} with {wonder.name}")
@@ -64,9 +82,6 @@ class Player:
             f" {self.name} -> "
             f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
         )
-
-    def set_game(self, game: Game):
-        self.game = game
 
     @abstractmethod
     def display(self, message: Any):
@@ -287,7 +302,7 @@ class Player:
         for effect in card.effects:
             if effect.effect == "generate":
                 resource_key, count = self._get_effect_resources(effect)
-                resource = resource_map[resource_key]
+                resource = RESOURCE_MAP[resource_key]
                 self.board[resource] += count
 
             elif effect.effect == "discount":

@@ -1,5 +1,7 @@
 import threading
+import asyncio
 from typing import List
+from game.Player import Player
 
 from game.ServerGame import ServerGame
 from game.ServerPlayer import ServerPlayer
@@ -13,13 +15,13 @@ class Room:
     def __init__(self, name: str):
         self.name = name
 
-    def _get_players(self) -> List[ServerPlayer]:
-        return [client.player for client in self.clients]
-
     def start_game(self):
-        self.game = ServerGame(self._get_players())
+        self.game = ServerGame()
+        loop = asyncio.new_event_loop()
+        task = loop.create_task(self.game.add_clients(self.clients))
+        loop.run_until_complete(task)
         threading.Thread(target=self.game.play).start()
 
     def join(self, client: Client):
         self.clients.append(client)
-        client.on_message("please select a wonder", client.create_player)
+        client.send_message(f"Joined room: {self.name}")

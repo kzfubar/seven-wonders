@@ -1,7 +1,7 @@
 from collections import defaultdict
-from typing import List, Tuple, DefaultDict
+from typing import ItemsView, List, Tuple, DefaultDict, Union
 
-from util import util
+from util.constants import RESOURCE_MAP
 
 
 class Effect:
@@ -31,7 +31,7 @@ class Effect:
     def __str__(self):
         s = f"{self.effect}"
         if self.resources:
-            resources = " or ".join(util.resource_to_human(self.resources))
+            resources = " or ".join(resource_to_human(self.resources))
             s += f" {resources}"
         s += f" for {', '.join(self.direction)}" if self.direction != ["self"] else ""
         s += f" on {', '.join(self.target)}" if self.target else ""
@@ -76,5 +76,13 @@ class Card:
         resources: DefaultDict[str, int] = defaultdict(int)
         for resource in self.cost:
             resources[resource] += 1
-        resources_str = ", ".join(util.resource_to_human(resources.items()))
+        resources_str = ", ".join(resource_to_human(resources.items()))
         return f"Resource: {resources_str}"
+
+
+def resource_to_human(
+    resources: Union[ItemsView[str, int], List[Tuple[str, int]]]
+) -> List[str]:
+    return [
+        f"{count} {RESOURCE_MAP[resource_key]}" for resource_key, count in resources
+    ]

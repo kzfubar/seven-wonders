@@ -1,7 +1,7 @@
 from typing import List
 
 from game.Card import Card
-from util import util
+from util.util import display_cards
 
 
 class Wonder:
@@ -20,7 +20,7 @@ class Wonder:
         )
 
     def __str__(self):
-        powers_str = util.display_cards(self.powers)
+        powers_str = display_cards(self.powers)
         powers = "\n".join(
             f"({'x' if self.level > i else ' '}) {power}"
             for i, power in enumerate(powers_str)

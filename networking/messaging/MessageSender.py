@@ -1,7 +1,6 @@
 import json
-
-from networking.messaging.messageTypes import *
-from networking.messaging.messageUtil import *
+from networking.messaging.messageTypes import COMMAND, ERROR, LOGON, MESSAGE
+from networking.messaging.messageUtil import MSG_TYPE, SEP, UTF8
 
 
 class MessageSender:

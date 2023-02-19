@@ -1,14 +1,14 @@
 from __future__ import annotations
-
+import threading
 from typing import Any
 
 from game.Player import Player
 from game.Wonder import Wonder
-from networking.server import Client
+from networking.server.Client import Client
 
 
 class ServerPlayer(Player):
-    def __init__(self, name: str, wonder: Wonder, client: Client.Client):
+    def __init__(self, name: str, wonder: Wonder, client: Client):
         self.client = client
         super().__init__(name, wonder)
 

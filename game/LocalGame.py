@@ -1,6 +1,7 @@
 from game.LocalPlayer import LocalPlayer
-from util.util import *
+from util.wonderUtils import ALL_WONDERS
 from game.Game import Game
+import random
 
 
 class LocalGame(Game):

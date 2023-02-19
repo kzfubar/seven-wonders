@@ -5,7 +5,7 @@ from typing import Dict, Optional
 from networking.server import WondersHandler
 from networking.Config import Config
 from networking.server.Room import Room
-from util.util import KNOWN_IP
+from util.constants import KNOWN_IP
 
 
 class WondersServer(socketserver.ThreadingTCPServer):

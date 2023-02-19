@@ -1,4 +1,4 @@
-from game.Card import *
+from game.Card import Effect
 
 effects = {
     "victory": [
