@@ -11,7 +11,9 @@ class ServerGame(Game):
     def __init__(self, players: List[ServerPlayer]):
         num_players = len(players)
         if num_players < 3:
-            raise Exception("min players is 3, t-that's fine!")  # todo make this actually message the player with error
+            raise Exception(
+                "min players is 3, t-that's fine!"
+            )  # todo make this actually message the player with error
         if num_players > len(ALL_WONDERS):
             raise Exception("more players than wonders, goober!")
 
@@ -35,5 +37,3 @@ class ServerGame(Game):
             player.display(player.effects)
         while not self._round_over():
             continue
-
-

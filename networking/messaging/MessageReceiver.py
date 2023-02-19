@@ -7,7 +7,7 @@ from networking.messaging.messageUtil import SEP, UTF8, BUFFER_SIZE
 class MessageReceiver:
     def __init__(self, sock):
         self.sock = sock
-        self.buffer = b''
+        self.buffer = b""
 
     def get_message(self) -> Optional[dict]:
         while SEP not in self.buffer:

@@ -24,9 +24,11 @@ class WondersServer(socketserver.ThreadingTCPServer):
     def add_ip(self, ip: str):
         self.config.add(KNOWN_IP, ip)
 
-    def create_room(self, room_name: str) -> Room:  # todo better handle if room already created
+    def create_room(
+        self, room_name: str
+    ) -> Room:  # todo better handle if room already created
         while room_name in self.rooms:
-            room_name += '*'
+            room_name += "*"
         room = Room(room_name)
         self.rooms[room_name] = room
         return room
@@ -41,4 +43,3 @@ class WondersServer(socketserver.ThreadingTCPServer):
         self.serve_forever()
         print("WondersServer Closed!")  # todo allow for force closing the server?
         # FIXME closing the server is broken atm, needs to be killed to close.
-

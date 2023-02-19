@@ -44,7 +44,7 @@ class WondersClient:
         self.sender.send_logon(player_name=player_name)
 
     def _handle_message(self, msg: dict):
-        print(msg['data'])
+        print(msg["data"])
 
     def _recv(self):
         # receive data back from the server
@@ -53,16 +53,18 @@ class WondersClient:
                 msg = self.receiver.get_message()
                 if msg is None:
                     break
-                if msg[MSG_TYPE] == MESSAGE:  # todo handle error message from the server
+                if (
+                    msg[MSG_TYPE] == MESSAGE
+                ):  # todo handle error message from the server
                     self._handle_message(msg)
         except OSError:
             print("\nClosing recv thread")
 
     def _receive_input(self):
         message = input()
-        if message == '':
+        if message == "":
             return
-        if message[0] == '/':
+        if message[0] == "/":
             self.sender.send_command(message[1:])
         else:
             self.sender.send_message(message)
