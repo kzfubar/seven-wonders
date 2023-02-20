@@ -16,19 +16,17 @@ class ServerGame(Game):
     async def add_clients(self, clients: List[ClientConnection]):
         num_players = len(clients)
         if num_players < 3:
-            raise Exception("min players is 3, t-that's fine!")
+            raise Exception(f"min players is 3, cannot start the game with {num_players}")
             # todo make this actually message the player with error
         if num_players > len(ALL_WONDERS):
-            raise Exception("more players than wonders, goober!")
+            raise Exception(f"more players than wonders, cannot start the game with {num_players}")
         self.players = []
         await asyncio.gather(*(self._create_player(client) for client in clients))
-
         self._message_players(f"creating game with {num_players}...")
 
     async def _create_player(self, client: ClientConnection) -> None:
         wonder_name = ""
         client.send_message("Enter your wonder")
-
         while wonder_name == "":
             msg = await client.get_message()
 

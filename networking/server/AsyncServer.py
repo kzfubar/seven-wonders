@@ -12,7 +12,7 @@ from networking.server.Room import Room
 from util.constants import KNOWN_IP
 
 
-class WondersServer:
+class AsyncServer:
     def __init__(self):
         self.rooms: Dict[str, Room] = {}
         self.room_by_client: Dict[ClientConnection, Optional[Room]] = {}
@@ -22,7 +22,7 @@ class WondersServer:
         self.host = self.config.get("host_ip")
         self.port = self.config.get("server_port")
 
-        print("WondersServer created")
+        print("Server created")
 
     def _get_room(self, client: ClientConnection) -> Optional[Room]:
         return self.room_by_client.get(client)
@@ -98,7 +98,7 @@ class WondersServer:
         print(f"Received logon: {logon}")
         player_name = logon["playerName"]
         client = ClientConnection(player_name, addr, sender)
-        client.send_message("hello!")
+        client.send_message(f"{player_name} logged on")
 
         while connection_open:
             msg = await receiver.get_message()
@@ -115,13 +115,7 @@ class WondersServer:
 
     async def start(self):
         server = await asyncio.start_server(self.handle, '127.0.0.1', 9999)
-
         addrs = ', '.join(str(sock.getsockname()) for sock in server.sockets)
         print(f'Serving on {addrs}')
-
         async with server:
             await server.serve_forever()
-        # print("WondersServer Started!")
-        # self.serve_forever()
-        # print("WondersServer Closed!")  # todo allow for force closing the server?
-        # # FIXME closing the server is broken atm, needs to be killed to close.

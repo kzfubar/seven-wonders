@@ -1,7 +1,7 @@
 import asyncio
 
-from networking.server.WondersServer import WondersServer
+from networking.server.AsyncServer import AsyncServer
 
 if __name__ == "__main__":
     print("Starting WondersServer")
-    asyncio.run(WondersServer().start())
+    asyncio.run(AsyncServer().start())

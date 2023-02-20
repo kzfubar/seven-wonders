@@ -8,9 +8,9 @@ from networking.messaging.messageTypes import MESSAGE
 from networking.messaging.messageUtil import MSG_TYPE
 
 
-class WondersClient:
+class AsyncClient:
     def __init__(self):
-        print("WondersClient created")
+        print("Client created")
 
         self.receiver = None
         self.sender = None
@@ -19,13 +19,12 @@ class WondersClient:
         self.host = self.config.get("server_ip")
         self.port = self.config.get("server_port")
 
-    async def start(self, player_name=None, wonder_name=None):
-        # connect to server
-        print(f"WondersClient connecting to {self.host}:{self.port}")
+    async def start(self, player_name=None):
+        print(f"Connecting to {self.host}:{self.port}")
         reader, writer = await asyncio.open_connection(host=self.host, port=self.port)
         self.receiver = MessageReceiver(reader)
         self.sender = MessageSender(writer)
-        login = asyncio.create_task(self._do_logon(player_name, wonder_name))
+        login = asyncio.create_task(self._do_logon(player_name))
         recv = asyncio.create_task(self._recv())
         take_input = asyncio.create_task(self._receive_input())
 
@@ -37,13 +36,12 @@ class WondersClient:
             self._close()
 
     def _close(self):
-        # shut down
-        print("\nWondersClient shutting down!")
-        # self.sock.close() TODO close reader and writer
+        print("\nShutting down!")
+        # TODO close reader and writer
 
     async def _do_logon(self, player_name):
         if player_name is None:
-            player_name = ainput("player name: ")
+            player_name = self.ainput("player name: ")
         self.sender.send_logon(player_name=player_name)
 
     def _handle_message(self, msg: dict):
