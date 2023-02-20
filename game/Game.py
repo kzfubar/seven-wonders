@@ -1,30 +1,19 @@
 from __future__ import annotations
 
+import random
 from abc import abstractmethod
 from typing import Dict, List, Optional
 
-import random
-
-from game.Player import Player
 from game.Card import Card
-from util.cardUtils import get_all_cards
+from game.Player import Player
 from util.constants import LEFT, RIGHT
 
 
 class Game:
     pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
     age: int
-
-    @abstractmethod
-    def __init__(self, players: List[Player.Player]):
-        self.players: List[Player.Player] = players
-        self.cards = get_all_cards(len(players))
-        self._set_neighbors()
-        for player in self.players:
-            player.set_game(self)
-
-        [print(p) for p in self.players]  # todo debug logging (remove this?)
-        print("game created")
+    players: List[Player]
+    cards: List[Card]
 
     def __str__(self):
         return f"players = {self._get_player_order()}"
@@ -54,14 +43,13 @@ class Game:
         card_list = self._get_cards_for_age(age)
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
-            player.hand = card_list[i :: len(self.players)]
+            player.hand = card_list[i:: len(self.players)]
 
     def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
 
-    def get_player(
-        self, player_name: str
-    ) -> Optional[Player.Player]:  # todo handle duplicate player names?
+    # todo handle duplicate player names?
+    def get_player(self, player_name: str) -> Optional[Player]:
         for player in self.players:
             if player.name == player_name:
                 return player

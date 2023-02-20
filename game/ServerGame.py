@@ -1,17 +1,17 @@
 import asyncio
 from typing import List
 
+from game.Card import Card
 from game.Game import Game
 from game.ServerPlayer import ServerPlayer
 from networking.server.ClientConnection import ClientConnection
+from util.cardUtils import get_all_cards
 from util.wonderUtils import ALL_WONDERS, get_wonder
 
 
 class ServerGame(Game):
-    players: List[ServerPlayer]
-
-    def __init__(self):
-        pass
+    players: List[ServerPlayer] = []
+    cards: List[Card] = []
 
     async def add_clients(self, clients: List[ClientConnection]):
         num_players = len(clients)
@@ -20,9 +20,14 @@ class ServerGame(Game):
             # todo make this actually message the player with error
         if num_players > len(ALL_WONDERS):
             raise Exception(f"more players than wonders, cannot start the game with {num_players}")
-        self.players = []
-        await asyncio.gather(*(self._create_player(client) for client in clients))
         self._message_players(f"creating game with {num_players}...")
+
+        await asyncio.gather(*(self._create_player(client) for client in clients))
+        self.cards = get_all_cards(num_players)
+        self._set_neighbors()
+
+        [print(p) for p in self.players]  # todo debug logging (remove this?)
+        print("game created")
 
     async def _create_player(self, client: ClientConnection) -> None:
         wonder_name = ""
