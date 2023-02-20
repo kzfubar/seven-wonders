@@ -1,15 +1,16 @@
 import json
+from asyncio import StreamWriter
 
-from networking.messaging.messageTypes import *
-from networking.messaging.messageUtil import *
+from networking.messaging.messageTypes import COMMAND, ERROR, LOGON, MESSAGE
+from networking.messaging.messageUtil import MSG_TYPE, SEP, UTF8
 
 
 class MessageSender:
-    def __init__(self, sock):
-        self.sock = sock
+    def __init__(self, writer: StreamWriter):
+        self.writer = writer
 
     def _send(self, msg: dict):
-        self.sock.sendall(json.dumps(msg).encode(UTF8) + SEP)
+        self.writer.write(json.dumps(msg).encode(UTF8) + SEP)
 
     def send_message(self, message: str):
         msg = {MSG_TYPE: MESSAGE, "data": str(message)}

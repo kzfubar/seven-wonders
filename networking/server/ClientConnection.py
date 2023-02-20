@@ -1,0 +1,37 @@
+from __future__ import annotations
+
+import asyncio
+import queue
+import threading
+from typing import Any
+
+from networking.messaging.MessageSender import MessageSender
+
+
+class ClientConnection:
+    def __init__(self, name: str, addr: str, sender: MessageSender):
+        self.name = name
+        self.sender = sender
+        self.addr = addr
+        self.msg_queue: queue.Queue[str] = queue.Queue()
+
+    def __repr__(self):
+        return f"{self.name}, {self.addr}"
+
+    async def get_message(self) -> str:
+        while self.msg_queue.empty():
+            await asyncio.sleep(1)
+        return self.msg_queue.get()
+
+    def send_message(self, message: Any):
+        self.sender.send_message(message)
+
+    def _on_message(self, callback):
+        msg = ""
+        while msg == "":
+            msg = self.msg_queue.get(block=True)
+        callback(msg)
+
+    def on_message(self, message: str, callback) -> None:
+        self.send_message(message)
+        threading.Thread(target=self._on_message, args=(callback,)).start()

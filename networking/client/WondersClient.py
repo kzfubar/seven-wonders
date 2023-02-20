@@ -1,5 +1,5 @@
-import socket
-import threading
+import asyncio
+import sys
 
 from networking.Config import Config
 from networking.messaging.MessageReceiver import MessageReceiver
@@ -10,61 +10,75 @@ from networking.messaging.messageUtil import MSG_TYPE
 
 class WondersClient:
     def __init__(self):
-        # create a TCP socket
         print("WondersClient created")
 
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.receiver = MessageReceiver(self.sock)
-        self.sender = MessageSender(self.sock)
+        self.receiver = None
+        self.sender = None
         self.config = Config()
 
         self.host = self.config.get("server_ip")
         self.port = self.config.get("server_port")
 
-    def start(self, player_name=None, wonder_name=None):
+    async def start(self, player_name=None, wonder_name=None):
         # connect to server
         print(f"WondersClient connecting to {self.host}:{self.port}")
-        self.sock.connect((self.host, self.port))
-        threading.Thread(target=self._recv).start()
-        self._do_logon(player_name, wonder_name)
+        reader, writer = await asyncio.open_connection(host=self.host, port=self.port)
+        self.receiver = MessageReceiver(reader)
+        self.sender = MessageSender(writer)
+        login = asyncio.create_task(self._do_logon(player_name, wonder_name))
+        recv = asyncio.create_task(self._recv())
+        take_input = asyncio.create_task(self._receive_input())
+
         try:
-            while True:
-                self._receive_input()
+            await login
+            await recv
+            await take_input
         except KeyboardInterrupt:
             self._close()
 
     def _close(self):
         # shut down
         print("\nWondersClient shutting down!")
-        self.sock.close()
+        # self.sock.close() TODO close reader and writer
 
-    def _do_logon(self, player_name, wonder_name):
+    async def _do_logon(self, player_name):
         if player_name is None:
-            player_name = input("player name: ")
+            player_name = ainput("player name: ")
         self.sender.send_logon(player_name=player_name)
 
     def _handle_message(self, msg: dict):
         print(msg["data"])
 
-    def _recv(self):
+    async def _recv(self):
         # receive data back from the server
         try:
             while True:
-                msg = self.receiver.get_message()
-                if msg is None:
-                    break
-                if (
-                    msg[MSG_TYPE] == MESSAGE
-                ):  # todo handle error message from the server
-                    self._handle_message(msg)
+                if self.receiver.is_empty():
+                    await asyncio.sleep(1)
+                else:
+                    msg = await self.receiver.get_message()
+                    if msg is None:
+                        print()
+                        break
+                    if msg[MSG_TYPE] == MESSAGE:  # todo handle error message from the server
+                        self._handle_message(msg)
+                    else:
+                        print(msg)
         except OSError:
             print("\nClosing recv thread")
 
-    def _receive_input(self):
-        message = input()
-        if message == "":
-            return
-        if message[0] == "/":
-            self.sender.send_command(message[1:])
-        else:
-            self.sender.send_message(message)
+    async def _receive_input(self):
+        while True:
+            message = await self.ainput()
+            if message == "":
+                return
+            if message[0] == "/":
+                self.sender.send_command(message[1:])
+            else:
+                self.sender.send_message(message)
+
+    async def ainput(self, string: str = "") -> str:
+        await asyncio.get_event_loop().run_in_executor(
+            None, lambda s=string: sys.stdout.write(s + ' '))
+        return await asyncio.get_event_loop().run_in_executor(
+            None, sys.stdin.readline)

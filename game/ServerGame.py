@@ -1,24 +1,47 @@
+import asyncio
 from typing import List
 
-from game.ServerPlayer import ServerPlayer
-from util.util import ALL_WONDERS
 from game.Game import Game
+from game.ServerPlayer import ServerPlayer
+from networking.server.ClientConnection import ClientConnection
+from util.wonderUtils import ALL_WONDERS, get_wonder
 
 
 class ServerGame(Game):
     players: List[ServerPlayer]
 
-    def __init__(self, players: List[ServerPlayer]):
-        num_players = len(players)
+    def __init__(self):
+        pass
+
+    async def add_clients(self, clients: List[ClientConnection]):
+        num_players = len(clients)
         if num_players < 3:
-            raise Exception(
-                "min players is 3, t-that's fine!"
-            )  # todo make this actually message the player with error
+            raise Exception("min players is 3, t-that's fine!")
+            # todo make this actually message the player with error
         if num_players > len(ALL_WONDERS):
             raise Exception("more players than wonders, goober!")
+        self.players = []
+        await asyncio.gather(*(self._create_player(client) for client in clients))
 
-        super().__init__(players)
         self._message_players(f"creating game with {num_players}...")
+
+    async def _create_player(self, client: ClientConnection) -> None:
+        wonder_name = ""
+        client.send_message("Enter your wonder")
+
+        while wonder_name == "":
+            msg = await client.get_message()
+
+            if msg not in [wonder.name for wonder in ALL_WONDERS]:
+                client.send_message("Invalid wonder name")
+
+            elif msg in (player.wonder for player in self.players):
+                client.send_message("Wonder in use")
+
+            else:
+                wonder_name = msg
+        wonder = get_wonder(wonder_name)
+        self.players.append(ServerPlayer(client.name, wonder, client))
 
     def _message_players(self, message: str):
         for player in self.players:

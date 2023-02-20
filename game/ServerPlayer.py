@@ -4,11 +4,11 @@ from typing import Any
 
 from game.Player import Player
 from game.Wonder import Wonder
-from networking.server import Client
+from networking.server.ClientConnection import ClientConnection
 
 
 class ServerPlayer(Player):
-    def __init__(self, name: str, wonder: Wonder, client: Client.Client):
+    def __init__(self, name: str, wonder: Wonder, client: ClientConnection):
         self.client = client
         super().__init__(name, wonder)
 
