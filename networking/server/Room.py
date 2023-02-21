@@ -12,8 +12,7 @@ class Room:
         self.name = name
 
     async def start_game(self):
-        game = Game()
-        await game.add_clients(self.clients)
+        game = await Game.create(self.clients)
         asyncio.create_task(game.play())
 
     def join(self, client: ClientConnection):
