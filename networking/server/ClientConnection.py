@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import queue
-import threading
 from typing import Any
 
 from networking.messaging.MessageSender import MessageSender
@@ -31,7 +30,3 @@ class ClientConnection:
         while msg == "":
             msg = self.msg_queue.get(block=True)
         callback(msg)
-
-    def on_message(self, message: str, callback) -> None:
-        self.send_message(message)
-        threading.Thread(target=self._on_message, args=(callback,)).start()
