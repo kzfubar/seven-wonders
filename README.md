@@ -8,7 +8,6 @@ for json formatting
 Handle duplicate player names: `handle duplicate player names`
 
 Add B side wonders
-- Support Wonders with multiple effects at a stage [EphesosB, RhodosB, HalikarnassosB]
 - Add WondersB.json
 
 Support wonder power effects
@@ -21,5 +20,6 @@ Support wonder power effects
 Compare VP at EOG
 
 ## done
+Support Wonders with multiple effects at a stage [EphesosB, RhodosB, HalikarnassosB]
 
 Guilds

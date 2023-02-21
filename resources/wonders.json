@@ -5,24 +5,36 @@
         "state": [
             {
                 "cost": ["w", "w"],
-                "resources": [ ["v", 3] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["b", "b", "b"],
-                "resources": [ ["m", 2] ],
-                "direction": ["self"],
-                "effect": "generate",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["m", 2] ],
+                        "direction": ["self"],
+                        "effect": "generate",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["o", "o", "o", "o"],
-                "resources": [ ["v", 7] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 7] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             }
         ]
     },
@@ -32,24 +44,36 @@
         "state": [
             {
                 "cost": ["s", "s"],
-                "resources": [ ["v", 3] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["o", "o"],
-                "resources": [ ["b", 1], ["o", 1], ["w", 1], ["s", 1] ],
-                "direction": ["self"],
-                "effect": "produce",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["b", 1], ["o", 1], ["w", 1], ["s", 1] ],
+                        "direction": ["self"],
+                        "effect": "produce",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["g", "g"],
-                "resources": [ ["v", 7] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 7] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             }
         ]
     },
@@ -59,24 +83,36 @@
         "state": [
             {
                 "cost": ["s", "s"],
-                "resources": [ ["v", 3] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["w", "w"],
-                "resources": [ ["c", 9] ],
-                "direction": ["self"],
-                "effect": "generate",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["c", 9] ],
+                        "direction": ["self"],
+                        "effect": "generate",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["p", "p"],
-                "resources": [ ["v", 7] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 7] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             }
         ]
     },
@@ -86,24 +122,36 @@
         "state": [
             {
                 "cost": ["b", "b"],
-                "resources": [ ["v", 3] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["w", "w"],
-                "resources": [ ["x", 1], ["y", 1], ["z", 1] ],
-                "direction": ["self"],
-                "effect": "produce",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["x", 1], ["y", 1], ["z", 1] ],
+                        "direction": ["self"],
+                        "effect": "produce",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["b", "b", "b", "b"],
-                "resources": [ ["v", 7] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 7] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             }
         ]
     },
@@ -113,24 +161,31 @@
         "state": [
             {
                 "cost": ["w", "w"],
-                "resources": [ ["v", 3] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["s", "s"],
-                "resources": [],
-                "direction": ["self"],
-                "effect": "free_build",
-                "target": []
+                "effects": [
+                    { "resources": [], "direction": ["self"], "effect": "free_build", "target": [] }
+                ]
             },
             {
                 "cost": ["o", "o"],
-                "resources": [ ["v", 7] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 7] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             }
         ]
     },
@@ -140,24 +195,36 @@
         "state": [
             {
                 "cost": ["b", "b"],
-                "resources": [ ["v", 3] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["w", "w"],
-                "resources": [],
-                "direction": ["self"],
-                "effect": "discard_build",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [],
+                        "direction": ["self"],
+                        "effect": "discard_build",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["l", "l"],
-                "resources": [ ["v", 7] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 7] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             }
         ]
     },
@@ -167,24 +234,36 @@
         "state": [
             {
                 "cost": ["s", "s"],
-                "resources": [ ["v", 3] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["w", "w", "w"],
-                "resources": [ ["v", 5] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 5] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             },
             {
                 "cost": ["s", "s", "s", "s"],
-                "resources": [ ["v", 7] ],
-                "direction": ["self"],
-                "effect": "victory",
-                "target": []
+                "effects": [
+                    {
+                        "resources": [ ["v", 7] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
             }
         ]
     }

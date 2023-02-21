@@ -61,7 +61,7 @@ class Card:
             f"age = {self.age}, "
             f"card_type = {self.card_type}, "
             f"cost = {self.cost}, "
-            f"cost = {self.coupons}, "
+            f"coupon = {self.coupons}, "
             f"effects = {self.effects}}}"
         )
 

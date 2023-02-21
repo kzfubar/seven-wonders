@@ -8,7 +8,7 @@ from typing import Optional, List
 from game.Card import Card
 from util.cardUtils import get_effects
 
-# todo eventually we'll need to refactor wonder.json to allow for multi effects
+
 def all_wonders() -> List[Wonder]:
     with open("resources/wonders.json") as f:
         data = json.load(f)
@@ -23,7 +23,7 @@ def all_wonders() -> List[Wonder]:
                         "wonder_power",
                         card["cost"],
                         [],
-                        get_effects({"effects": [card], "type": "wonder"}),
+                        get_effects({"effects": card["effects"], "type": "wonder"}),
                     )
                     for i, card in enumerate(wonder["state"])
                 ],

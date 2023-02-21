@@ -1,11 +1,11 @@
 import json
 import random
-from typing import List
+from typing import List, Dict
 
 from game.Card import Card, Effect
 
 
-def get_effects(card_raw) -> List[Effect]:
+def get_effects(card_raw: Dict) -> List[Effect]:
     effects_raw = card_raw["effects"]
     effects = []
     for effect in effects_raw:
