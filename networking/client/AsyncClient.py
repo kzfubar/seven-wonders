@@ -41,7 +41,7 @@ class AsyncClient:
 
     async def _do_logon(self, player_name):
         if player_name is None:
-            player_name = self.ainput("player name: ")
+            player_name = await self.ainput("player name: ")
         self.sender.send_logon(player_name=player_name)
 
     def _handle_message(self, msg: dict):

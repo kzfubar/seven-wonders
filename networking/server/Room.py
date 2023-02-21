@@ -1,7 +1,7 @@
-import threading
+import asyncio
 from typing import List
 
-from game.ServerGame import ServerGame
+from game.Game import Game
 from networking.server.ClientConnection import ClientConnection
 
 
@@ -12,9 +12,9 @@ class Room:
         self.name = name
 
     async def start_game(self):
-        game = ServerGame()
+        game = Game()
         await game.add_clients(self.clients)
-        threading.Thread(target=game.play).start()
+        asyncio.create_task(game.play())
 
     def join(self, client: ClientConnection):
         self.clients.append(client)
