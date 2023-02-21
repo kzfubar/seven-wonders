@@ -333,7 +333,6 @@ class Player:
         return effect.resources[0][0], count
 
     def get_victory(self):
-        # todo science
         vp = defaultdict(int)
         vp["military"] = self.board["military_points"] - self.board["shame"]
         vp["coins"] = self.board["coins"] // 3
