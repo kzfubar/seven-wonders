@@ -2,6 +2,8 @@ import itertools
 from typing import List, Tuple
 
 from game.Card import Card
+from game.Flag import Flag
+from game.FlagHolder import FlagHolder
 from game.Player import Player
 from util.constants import LUXURY_GOODS, COMMON_GOODS, LEFT, TRADABLE_TYPES, RIGHT, RESOURCE_MAP, MILITARY_POINTS
 from util.util import min_cost, simplify_cost_search, find_resource_outcomes, display_cards, left_payment, \
@@ -44,6 +46,7 @@ def _calc_payment_options(self, card: Card) -> List[Tuple[int, int, int]]:
     if card.name in self.coupons:
         return [(0, 0, 0)]
 
+    # this depends on the assumption that if a card has a cost, then there is no resource cost
     if "c" in card.cost:
         return [(0, 0, card.cost.count("c"))]
 
@@ -213,6 +216,9 @@ def _activate_card(player: Player, card: Card):
                     effect.target, effect.direction
             ):
                 player.discounts[direction].add(target)
+
+        elif effect.effect == "free_build":
+            player.flags.append(FlagHolder(Flag.FREE_BUILD))
 
         else:
             player.effects[effect.effect].append(effect)

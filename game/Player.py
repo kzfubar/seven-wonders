@@ -5,6 +5,7 @@ from typing import DefaultDict
 from typing import Dict, Set, Any, List, Optional, Tuple
 
 from game.Card import Card, Effect
+from game.FlagHolder import FlagHolder
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
 from util.constants import (
@@ -15,24 +16,30 @@ from util.constants import (
 
 
 class Player:
+    hand: List[Card] = []
+    board: DefaultDict[str, int] = defaultdict(int)
+    updates: List[str] = []  # update queue to display at start of player's turn
+    discounts: DefaultDict[str, set] = defaultdict(set)
+    next_coins: DefaultDict[str, int] = defaultdict(int)
+    coupons: Set[Card] = set()
+    effects: DefaultDict[str, List[Effect]] = defaultdict(list)
+    flags: List[FlagHolder] = []
+
+    client: ClientConnection
+    name: str
+    wonder: Wonder
+    neighbors: Dict
+
     def __init__(self, wonder: Wonder, client: ClientConnection):
         self.client = client
         self.name: str = client.name
         self.wonder: Wonder = wonder
-        self.hand: List[Card] = []
-        self.board: DefaultDict[str, int] = defaultdict(int)
         self.board["coins"] = 3
-        self.updates: List[str] = []  # update queue to display at start of player's turn
-        self.discounts: DefaultDict[str, set] = defaultdict(set)
-        self.next_coins: DefaultDict[str, int] = defaultdict(int)
-        self.coupons: Set[Card] = set()
-        self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
         self.neighbors: Dict[str, Optional[Player]] = {
             LEFT: None,
             RIGHT: None,
             "self": self,
         }
-
         self.effects["produce"].append(
             Effect(
                 effect="produce",
