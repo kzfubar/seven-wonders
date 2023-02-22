@@ -5,7 +5,6 @@ from typing import DefaultDict
 from typing import Dict, Set, Any, List, Optional, Tuple
 
 from game.Card import Card, Effect
-from game.Menu import Menu
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
 from util.constants import (
@@ -29,14 +28,13 @@ from util.util import (
 
 
 class Player:
-    def __init__(self, name: str, wonder: Wonder, client: ClientConnection):
+    def __init__(self, wonder: Wonder, client: ClientConnection):
         self.client = client
-        self.name: str = name
+        self.name: str = client.name
         self.wonder: Wonder = wonder
         self.hand: List[Card] = []
         self.board: DefaultDict[str, int] = defaultdict(int)
         self.board["coins"] = 3
-        self.menu = Menu(self)
         self.turn_over: bool = True
         self.updates: List[str] = []  # update queue to display at start of player's turn
         self.discounts: DefaultDict[str, set] = defaultdict(set)
@@ -62,7 +60,7 @@ class Player:
         self.hand_payment_options: List[List[Tuple[int, int, int]]] = []
         self.wonder_payment_options: List[Tuple[int, int, int]] = []
 
-        self.display(f"Created player {name} with {wonder.name}")
+        self.display(f"Created player {client.name} with {wonder.name}")
 
     def __repr__(self):
         return (
@@ -142,23 +140,8 @@ class Player:
     # todo, we can check if other players are still taking their turn. also read the flag for free build
     def _input_options(self) -> str:
         if not self.turn_over:
-            return "(p)lay, (d)iscard or (b)ury a card; or open the (m)enu: "
+            return "(p)lay, (d)iscard or (b)ury a card: "
         return "turn over"
-
-    async def _handle_menu(self, player_input: str):
-        args_list = player_input.split()
-        menu_option = self.menu.options.get(args_list[0])
-        self.display(menu_option.get_response(args_list[1:]))
-        self.display(self._input_options())
-        await self._take_action()
-
-    async def _menu(self, args: Optional[str] = None) -> None:
-        if not args:
-            self.display(self.menu.get_options_str())
-            self.display("select menu option: ")
-            player_input = await self._get_input()
-            await self._handle_menu(player_input)
-        await self._handle_menu(args)
 
     async def _take_action(self) -> None:
         if self.turn_over:
@@ -166,9 +149,6 @@ class Player:
         player_input = await self._get_input()
         action = player_input[0]
         args = player_input[1::] if len(player_input) > 1 else None
-        if action == "m":
-            await self._menu(args)
-            return
         if args is None:
             self.display("please select a card: ")
             await self._take_action()

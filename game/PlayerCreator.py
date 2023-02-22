@@ -29,7 +29,7 @@ async def _create_player(client: ClientConnection, players: List[Player]) -> Non
         else:
             wonder_name = msg
     wonder = get_wonder(wonder_name)
-    players.append(Player(client.name, wonder, client))
+    players.append(Player(wonder, client))
 
 
 def _set_neighbors(players: List[Player]):
