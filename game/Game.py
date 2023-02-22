@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import asyncio
 import random
-from typing import Dict, List, Optional
+from typing import Dict, List
 
-from game import PlayerCreator
+from game import PlayerCreator, PlayerTurn
 from game.Card import Card
 from game.Player import Player
 from networking.server.ClientConnection import ClientConnection
@@ -79,7 +79,7 @@ class Game:
 
     async def _play_round(self, player: Player):
         player.display(f"{player.name}, take your turn")
-        await player.take_turn()
+        await PlayerTurn.take_turn(player)
         player.display(player.effects)
 
     def _end_round(self, age: int):
@@ -88,7 +88,7 @@ class Game:
 
     def _update_military(self, age: int):
         for player in self.players:
-            player.run_military(age)
+            PlayerTurn.run_military(player, age)
 
     def _end_age(self, age: int):
         self._update_military(age)
