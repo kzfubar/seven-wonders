@@ -14,11 +14,6 @@ from util.wonderUtils import ALL_WONDERS
 
 
 class Game:
-    players: List[Player] = []
-    cards: List[Card] = []
-    pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
-    age: int = 0
-
     @classmethod
     async def create(cls, clients: List[ClientConnection]):
         game = Game()
@@ -35,10 +30,12 @@ class Game:
             # todo make this actually message the player with error
         if num_players > len(ALL_WONDERS):
             raise Exception(f"more players than wonders, cannot start the game with {num_players}")
-        self._message_players(f"creating game with {num_players}...")
-        self.players = await PlayerCreator.create_players(clients)
-        self.cards = get_all_cards(num_players)
+        self.players: List[Player] = await PlayerCreator.create_players(clients)
+        self.cards: List[Card] = get_all_cards(num_players)
+        self.pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
+        self.age: int = 0
 
+        self._message_players(f"creating game with {num_players}...")
         [print(p) for p in self.players]
         print("game created")
 

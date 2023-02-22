@@ -2,12 +2,9 @@ from game.Flag import Flag
 
 
 class FlagHolder:
-    flag: Flag
-    enabled: bool
-
     def __init__(self, flag: Flag):
-        self.flag = flag
-        self.enabled = True
+        self.flag: Flag = flag
+        self.enabled: bool = True
 
     def contains(self, flag: Flag) -> bool:
         return self.flag == flag

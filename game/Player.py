@@ -16,24 +16,18 @@ from util.constants import (
 
 
 class Player:
-    hand: List[Card] = []
-    board: DefaultDict[str, int] = defaultdict(int)
-    updates: List[str] = []  # update queue to display at start of player's turn
-    discounts: DefaultDict[str, set] = defaultdict(set)
-    next_coins: DefaultDict[str, int] = defaultdict(int)
-    coupons: Set[Card] = set()
-    effects: DefaultDict[str, List[Effect]] = defaultdict(list)
-    flags: List[FlagHolder] = []
-
-    client: ClientConnection
-    name: str
-    wonder: Wonder
-    neighbors: Dict
-
     def __init__(self, wonder: Wonder, client: ClientConnection):
         self.client = client
         self.name: str = client.name
         self.wonder: Wonder = wonder
+        self.hand: List[Card] = []
+        self.updates: List[str] = []  # update queue to display at start of player's turn
+        self.discounts: DefaultDict[str, set] = defaultdict(set)
+        self.next_coins: DefaultDict[str, int] = defaultdict(int)
+        self.coupons: Set[str] = set()
+        self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
+        self.flags: List[FlagHolder] = []
+        self.board: DefaultDict[str, int] = defaultdict(int)
         self.board["coins"] = 3
         self.neighbors: Dict[str, Optional[Player]] = {
             LEFT: None,
@@ -73,8 +67,21 @@ class Player:
     def display(self, message: Any):
         self.client.send_message(message)
 
+    async def get_input(self) -> str:
+        self.client.clear_message_buffer()
+        return await self.client.get_message()
+
+    def coupon_available(self) -> bool:
+        for card in self.hand:
+            if card.name in self.coupons:
+                return True
+        return False
+
     def handle_next_coins(self, coins: int, direction):
         self.next_coins[direction] += coins
+
+    def add_coupons(self, coupons: Set[str]):
+        self.coupons |= coupons
 
     def update_coins(self):
         for k, v in self.next_coins.items():
