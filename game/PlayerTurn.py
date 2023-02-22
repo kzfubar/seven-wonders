@@ -1,7 +1,9 @@
 from typing import List, Tuple
 
 from game.CostCalculator import calculate_payment_options
+from game.Flag import Flag
 from game.Player import Player
+from game.action import FreeBuildAction
 from game.action.BuryAction import BURY
 from game.action.CouponAction import COUPON
 from game.action.DiscardAction import DISCARD
@@ -57,6 +59,9 @@ async def _take_action(player: Player) -> None:
         if player.coupon_available():
             player.display("Coupon(s) available!: " + str(player.coupons))
             actions.append(COUPON)
+        if [Flag.FREE_BUILD] in player.flags and player.flags[Flag.FREE_BUILD]:
+            player.display("Free build available!")
+            actions.append(FreeBuildAction.FREE_BUILD)
         player.display(", ".join([a.get_name() for a in actions]) + " a card: ")
         player_input = await player.get_input()
         action = player_input[0]

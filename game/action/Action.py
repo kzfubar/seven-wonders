@@ -4,7 +4,6 @@ from typing import List, Tuple, Optional
 
 from game.Card import Card
 from game.Flag import Flag
-from game.FlagHolder import FlagHolder
 from game.Player import Player
 from util.constants import LEFT, RIGHT, RESOURCE_MAP
 from util.util import total_payment, left_payment, right_payment, min_cost
@@ -86,7 +85,7 @@ def _activate_card(player: Player, card: Card):
                 player.discounts[direction].add(target)
 
         elif effect.effect == "free_build":
-            player.flags.append(FlagHolder(Flag.FREE_BUILD))
+            player.flags[Flag.FREE_BUILD] = True
 
         else:
             player.effects[effect.effect].append(effect)

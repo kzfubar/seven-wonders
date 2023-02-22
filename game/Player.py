@@ -5,7 +5,7 @@ from typing import DefaultDict
 from typing import Dict, Set, Any, List, Optional, Tuple
 
 from game.Card import Card, Effect
-from game.FlagHolder import FlagHolder
+from game.Flag import Flag
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
 from util.constants import (
@@ -26,7 +26,7 @@ class Player:
         self.next_coins: DefaultDict[str, int] = defaultdict(int)
         self.coupons: Set[str] = set()
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
-        self.flags: List[FlagHolder] = []
+        self.flags: Dict[Flag, bool] = dict()
         self.board: DefaultDict[str, int] = defaultdict(int)
         self.board["coins"] = 3
         self.neighbors: Dict[str, Optional[Player]] = {
@@ -70,6 +70,10 @@ class Player:
     async def get_input(self) -> str:
         self.client.clear_message_buffer()
         return await self.client.get_message()
+
+    def enable_flags(self):
+        for flag in self.flags:
+            self.flags[flag] = True
 
     def coupon_available(self) -> bool:
         for card in self.hand:

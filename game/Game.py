@@ -90,6 +90,7 @@ class Game:
     def _end_age(self, age: int):
         self._update_military(age)
         for player in self.players:
+            player.enable_flags()
             print(player)
         pass
 
