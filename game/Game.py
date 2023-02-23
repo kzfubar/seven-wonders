@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import random
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from game import PlayerCreator, PlayerTurn
 from game.Card import Card
@@ -14,7 +14,7 @@ from util.wonderUtils import ALL_WONDERS
 
 
 class Game:
-    NUM_ROUNDS: int = 6
+    NUM_ROUNDS: int = 7
     age: int
 
     @classmethod
@@ -102,7 +102,12 @@ class Game:
         pass
 
     def _end_game(self):
-        pass  # todo calculate victory points
+        player_points: List[Tuple[str, int]] = []
+        for player in self.players:
+            player_points.append((player.name, sum(player.get_victory().values())))
+        player_points.sort(key=lambda x: x[1], reverse=True)
+        self._message_players(f"{player_points[0][0]} wins with {player_points[0][1]} points!")
+        self._message_players(f"{player_points} total point distribution")
 
     async def play(self):
         self._message_players("starting game!")
@@ -110,7 +115,7 @@ class Game:
             self.age = age
             self._message_players(f"begin age: {self.age}")
             self._deal_cards(self.age)
-            for round_number in range(self.NUM_ROUNDS):
+            for round_number in range(1, self.NUM_ROUNDS):
                 self._message_players(f"begin round: {round_number}")
                 await asyncio.gather(*(self._play_round(player) for player in self.players))
                 await self._end_round(round_number, self.age)

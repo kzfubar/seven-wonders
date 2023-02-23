@@ -145,9 +145,10 @@ class Player:
             for option in options[1:]:
                 curr_counts[option] += 1
 
+            min_count = min(0, *curr_counts.values())
             vp["science"] = max(
                 vp["science"],
-                min(curr_counts.values()) * 7
+                min_count * 7
                 + sum(count * count for count in curr_counts.values()),
             )
 
