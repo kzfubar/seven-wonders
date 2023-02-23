@@ -15,19 +15,24 @@ async def create_players(clients: List[ClientConnection]) -> List[Player]:
 
 
 async def _create_player(client: ClientConnection, players: List[Player]) -> None:
+    all_wonder_names = [wonder.name.lower() for wonder in ALL_WONDERS]
     wonder_name = ""
     client.send_message("Enter your wonder")
     while wonder_name == "":
         msg = await client.get_message()
 
-        if msg not in [wonder.name for wonder in ALL_WONDERS]:
+        matched_wonders = [wn for wn in all_wonder_names if wn.startswith(msg.lower())]
+        if len(matched_wonders) == 0:
             client.send_message("Invalid wonder name")
+
+        elif len(matched_wonders) > 1:
+            client.send_message("Please specify wonder")
 
         elif msg in (player.wonder.name for player in players):
             client.send_message("Wonder in use")
 
         else:
-            wonder_name = msg
+            wonder_name = matched_wonders[0]
     wonder = get_wonder(wonder_name)
     players.append(Player(wonder, client))
 
