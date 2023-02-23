@@ -19,19 +19,19 @@ class Action:
         pass
 
     @abstractmethod
-    async def take_action(self, player: Player, arg: str) -> bool:
+    async def take_action(self, player: Player, cards: List[Card], arg: str) -> bool:
         pass
 
 
-async def _get_card(player: Player, arg: Optional[str]) -> Optional[Card]:
+async def _get_card(player: Player, cards: List[Card], arg: Optional[str]) -> Optional[Card]:
     if arg is None:
         player.display("please select a card: ")
         arg = await player.get_input()
     arg = int(arg)
-    if arg >= len(player.hand):
+    if arg >= len(cards):
         player.display("out of range!")
         return None
-    return player.hand[arg]
+    return cards[arg]
 
 
 async def _play_card(player: Player, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
@@ -86,6 +86,9 @@ def _activate_card(player: Player, card: Card):
 
         elif effect.effect == "free_build":
             player.flags[Flag.FREE_BUILD] = True
+
+        elif effect.effect == "discard_build":
+            player.flags[Flag.DISCARD_BUILD] = True
 
         else:
             player.effects[effect.effect].append(effect)

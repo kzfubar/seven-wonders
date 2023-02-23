@@ -172,7 +172,13 @@
               "resources": [ ["l", 1] ],
               "target": [],
               "direction": ["self"]
-          }
+          },
+                              {
+                        "resources": [],
+                        "direction": ["self"],
+                        "effect": "discard_build",
+                        "target": []
+                    }
       ]
   },
   {

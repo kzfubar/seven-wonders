@@ -1,12 +1,13 @@
 from typing import List, Tuple
 
+from game.Card import Card
 from game.CostCalculator import calculate_payment_options
 from game.Flag import Flag
 from game.Player import Player
-from game.action import FreeBuildAction
 from game.action.BuryAction import BURY
 from game.action.CouponAction import COUPON
 from game.action.DiscardAction import DISCARD
+from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
 from util.constants import LEFT, RIGHT, MILITARY_POINTS
 from util.util import min_cost, display_cards
@@ -44,6 +45,11 @@ async def take_turn(player: Player):
     await _take_action(player)
 
 
+async def end_round(player: Player):
+    if Flag.DISCARD_BUILD in player.flags and player.flags[Flag.DISCARD_BUILD]:
+        await _discard_build(player)
+
+
 def _hand_to_str(player: Player, hand_payment_options: List[List[Tuple[int, int, int]]]) -> str:
     hand_str = display_cards(player.hand)
     return "\n".join(
@@ -59,9 +65,9 @@ async def _take_action(player: Player) -> None:
         if player.coupon_available():
             player.display("Coupon(s) available!: " + str(player.coupons))
             actions.append(COUPON)
-        if [Flag.FREE_BUILD] in player.flags and player.flags[Flag.FREE_BUILD]:
+        if Flag.FREE_BUILD in player.flags and player.flags[Flag.FREE_BUILD]:
             player.display("Free build available!")
-            actions.append(FreeBuildAction.FREE_BUILD)
+            actions.append(FREE_BUILD)
         player.display(", ".join([a.get_name() for a in actions]) + " a card: ")
         player_input = await player.get_input()
         action = player_input[0]
@@ -70,8 +76,26 @@ async def _take_action(player: Player) -> None:
         for ac in actions:
             if action == ac.get_symbol():
                 found_action = True
-                turn_over = await ac.take_action(player, arg)
+                turn_over = await ac.take_action(player, player.hand, arg)
                 break
         if not found_action:
-            player.display(f"Invalid action! {action}")  # todo allow for free build power
+            player.display(f"Invalid action! {action}")
     player.display("turn over")
+
+
+async def _discard_build(player: Player):
+    all_players: List[Player] = [player]
+    cur = player
+    while not cur.neighbors[LEFT] == player:
+        all_players.append(cur.neighbors[LEFT])
+        cur = cur.neighbors[LEFT]
+    all_discards: List[Card] = [card for p in all_players for card in p.discards]
+    discard_str = display_cards(all_discards)
+    player.display("\n".join(
+        f"({i}) {discard_str[i]:80}"
+        for i in range(len(all_discards))
+    ))
+    player.display("Free build from all previous discards: ")
+    arg = (await player.get_input())[0::]
+    await FREE_BUILD.take_action(player, all_discards, arg)
+    del player.flags[Flag.DISCARD_BUILD]

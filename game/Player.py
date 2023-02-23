@@ -21,6 +21,7 @@ class Player:
         self.name: str = client.name
         self.wonder: Wonder = wonder
         self.hand: List[Card] = []
+        self.discards: List[Card] = []
         self.updates: List[str] = []  # update queue to display at start of player's turn
         self.discounts: DefaultDict[str, set] = defaultdict(set)
         self.next_coins: DefaultDict[str, int] = defaultdict(int)
@@ -80,6 +81,9 @@ class Player:
             if card.name in self.coupons:
                 return True
         return False
+
+    def discard_hand(self) -> None:
+        self.discards.append(*self.hand)
 
     def handle_next_coins(self, coins: int, direction):
         self.next_coins[direction] += coins

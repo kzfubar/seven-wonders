@@ -14,6 +14,9 @@ from util.wonderUtils import ALL_WONDERS
 
 
 class Game:
+    NUM_ROUNDS: int = 6
+    age: int
+
     @classmethod
     async def create(cls, clients: List[ClientConnection]):
         game = Game()
@@ -33,7 +36,6 @@ class Game:
         self.players: List[Player] = await PlayerCreator.create_players(clients)
         self.cards: List[Card] = get_all_cards(num_players)
         self.pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
-        self.age: int = 0
 
         self._message_players(f"creating game with {num_players}...")
         [print(p) for p in self.players]
@@ -79,7 +81,12 @@ class Game:
         await PlayerTurn.take_turn(player)
         player.display(player.effects)
 
-    def _end_round(self, age: int):
+    async def _end_round(self, round_number: int, age: int):
+        if round_number == self.NUM_ROUNDS - 1:
+            [player.discard_hand() for player in self.players]
+        # do player end rounds synchronously, future expansions introduce end round effect order
+        for player in self.players:
+            await PlayerTurn.end_round(player)
         self._pass_hands(self.pass_order[age])
         self._update_coins()
 
@@ -103,9 +110,9 @@ class Game:
             self.age = age
             self._message_players(f"begin age: {self.age}")
             self._deal_cards(self.age)
-            for round_number in range(6):
+            for round_number in range(self.NUM_ROUNDS):
                 self._message_players(f"begin round: {round_number}")
                 await asyncio.gather(*(self._play_round(player) for player in self.players))
-                self._end_round(self.age)
+                await self._end_round(round_number, self.age)
             self._end_age(self.age)
         self._end_game()
