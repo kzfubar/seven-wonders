@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import asyncio
 import random
-from typing import Dict, List, Optional
+from typing import Dict, List
 
-from game import PlayerCreator
+from game import PlayerCreator, PlayerTurn
 from game.Card import Card
 from game.Player import Player
 from networking.server.ClientConnection import ClientConnection
@@ -14,10 +14,8 @@ from util.wonderUtils import ALL_WONDERS
 
 
 class Game:
-    players: List[Player] = []
-    cards: List[Card] = []
-    pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
-    age: int = 0
+    NUM_ROUNDS: int = 6
+    age: int
 
     @classmethod
     async def create(cls, clients: List[ClientConnection]):
@@ -35,10 +33,11 @@ class Game:
             # todo make this actually message the player with error
         if num_players > len(ALL_WONDERS):
             raise Exception(f"more players than wonders, cannot start the game with {num_players}")
-        self._message_players(f"creating game with {num_players}...")
-        self.players = await PlayerCreator.create_players(clients)
-        self.cards = get_all_cards(num_players)
+        self.players: List[Player] = await PlayerCreator.create_players(clients)
+        self.cards: List[Card] = get_all_cards(num_players)
+        self.pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
 
+        self._message_players(f"creating game with {num_players}...")
         [print(p) for p in self.players]
         print("game created")
 
@@ -79,20 +78,26 @@ class Game:
 
     async def _play_round(self, player: Player):
         player.display(f"{player.name}, take your turn")
-        await player.take_turn()
+        await PlayerTurn.take_turn(player)
         player.display(player.effects)
 
-    def _end_round(self, age: int):
+    async def _end_round(self, round_number: int, age: int):
+        if round_number == self.NUM_ROUNDS - 1:
+            [player.discard_hand() for player in self.players]
+        # do player end rounds synchronously, future expansions introduce end round effect order
+        for player in self.players:
+            await PlayerTurn.end_round(player)
         self._pass_hands(self.pass_order[age])
         self._update_coins()
 
     def _update_military(self, age: int):
         for player in self.players:
-            player.run_military(age)
+            PlayerTurn.run_military(player, age)
 
     def _end_age(self, age: int):
         self._update_military(age)
         for player in self.players:
+            player.enable_flags()
             print(player)
         pass
 
@@ -105,9 +110,9 @@ class Game:
             self.age = age
             self._message_players(f"begin age: {self.age}")
             self._deal_cards(self.age)
-            for round_number in range(6):
+            for round_number in range(self.NUM_ROUNDS):
                 self._message_players(f"begin round: {round_number}")
                 await asyncio.gather(*(self._play_round(player) for player in self.players))
-                self._end_round(self.age)
+                await self._end_round(round_number, self.age)
             self._end_age(self.age)
         self._end_game()

@@ -17,6 +17,10 @@ class ClientConnection:
     def __repr__(self):
         return f"{self.name}, {self.addr}"
 
+    def clear_message_buffer(self,):
+        while not self.msg_queue.empty():
+            self.msg_queue.get()
+
     async def get_message(self) -> str:
         while self.msg_queue.empty():
             await asyncio.sleep(1)
