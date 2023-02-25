@@ -126,3 +126,10 @@ class Game:
                 await self._end_round(round_number, self.age)
             self._end_age(self.age)
         self._end_game()
+
+    def command(self, client: ClientConnection, args):
+        player_name = args[1]
+        for player in self.players:
+            if player_name == player.name:
+                client.send_message(str(player))
+

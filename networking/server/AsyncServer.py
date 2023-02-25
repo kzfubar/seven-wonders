@@ -70,6 +70,8 @@ class AsyncServer:
             room = self.get_room(room_name)
             room.join(client)
             self.room_by_client[client] = room
+        elif cmd == "get":
+            self.room_by_client[client].command(client, args)
 
     async def handle(self, reader, writer: StreamWriter):
         addr = writer.get_extra_info('peername')
