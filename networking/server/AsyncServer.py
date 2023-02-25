@@ -114,7 +114,7 @@ class AsyncServer:
         print(f"{addr} connection closed")
 
     async def start(self):
-        server = await asyncio.start_server(self.handle, '127.0.0.1', 9999)
+        server = await asyncio.start_server(self.handle, self.host, 9999)
         addrs = ', '.join(str(sock.getsockname()) for sock in server.sockets)
         print(f'Serving on {addrs}')
         async with server:
