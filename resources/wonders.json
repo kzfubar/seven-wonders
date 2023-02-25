@@ -1,6 +1,7 @@
 [
     {
         "name": "Rhodos",
+        "id": 0,
         "resources": ["o"],
         "state": [
             {
@@ -40,6 +41,7 @@
     },
     {
         "name": "Alexandria",
+        "id": 1,
         "resources": ["g"],
         "state": [
             {
@@ -79,6 +81,7 @@
     },
     {
         "name": "Ephesos",
+        "id": 2,
         "resources": ["p"],
         "state": [
             {
@@ -118,6 +121,7 @@
     },
     {
         "name": "Babylon",
+        "id": 3,
         "resources": ["b"],
         "state": [
             {
@@ -157,6 +161,7 @@
     },
     {
         "name": "Olympia",
+        "id": 4,
         "resources": ["w"],
         "state": [
             {
@@ -191,6 +196,7 @@
     },
     {
         "name": "Halicarnassus",
+        "id": 5,
         "resources": ["p"],
         "state": [
             {
@@ -230,6 +236,7 @@
     },
     {
         "name": "Gizah",
+        "id": 6,
         "resources": ["b"],
         "state": [
             {
