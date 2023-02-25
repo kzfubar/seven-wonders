@@ -32,10 +32,15 @@ async def take_turn(player: Player):
     hand_payment_options = [
         calculate_payment_options(player, card) for card in player.hand
     ]
-    wonder_payment_options = calculate_payment_options(
-        player,
-        player.wonder.get_next_power()
-    )
+
+    if not player.wonder.is_max_level():
+        wonder_payment_options = calculate_payment_options(
+            player,
+            player.wonder.get_next_power()
+        )
+    else:
+        wonder_payment_options = [0, 0, 0]
+
     player.display("\n".join(player.updates))
     player.updates = []
     player.display(player.discounts)
@@ -60,6 +65,8 @@ def _hand_to_str(player: Player, hand_payment_options: List[List[Tuple[int, int,
 
 async def _take_action(player: Player) -> None:
     actions = [PLAY, DISCARD, BURY]
+    if player.wonder.is_max_level():
+        actions.remove(BURY)
     available_coupons = player.available_coupons()
     if available_coupons:
         player.display("Coupon(s) available!: " + str(available_coupons))

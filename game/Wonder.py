@@ -10,6 +10,7 @@ class Wonder:
         self.resource = resource
         self.powers = powers
         self.level = 0
+        self.is_max_level = False
 
     def __repr__(self):
         return (
@@ -27,10 +28,13 @@ class Wonder:
         )
         return f"{self.name} \n" f"resource = {self.resource} \n" f"{powers} "
 
-    def get_next_power(
-        self
-    ) -> Card:  # todo we should check to make sure we can't bury if level exceeded
-        return self.powers[self.level]  # todo this will throw an exception at max level
+    def get_next_power(self) -> Card:
+        return self.powers[self.level]
 
-    def increment_level(self):  # todo we can check if this is incremented too much
+    def increment_level(self):
         self.level += 1
+        if self.level >= len(self.powers):
+            self.is_max_level = True
+
+    def is_max_level(self):
+        return self.is_max_level
