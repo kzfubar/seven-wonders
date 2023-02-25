@@ -4,7 +4,7 @@ import sys
 from networking.Config import Config
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
-from networking.messaging.messageTypes import MESSAGE
+from networking.messaging.messageTypes import MESSAGE, EVENT
 from networking.messaging.messageUtil import MSG_TYPE
 
 
@@ -60,6 +60,8 @@ class AsyncClient:
                         break
                     if msg[MSG_TYPE] == MESSAGE:  # todo handle error message from the server
                         self._handle_message(msg)
+                    elif msg[MSG_TYPE] == EVENT:
+                        continue
                     else:
                         print(msg)
         except OSError:

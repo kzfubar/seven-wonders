@@ -6,7 +6,7 @@ from networking.Config import Config
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
 from networking.messaging.messageTypes import MESSAGE, COMMAND, LOGON
-from networking.messaging.messageUtil import MSG_TYPE
+from networking.messaging.messageUtil import MSG_TYPE, DATA
 from networking.server.ClientConnection import ClientConnection
 from networking.server.Room import Room
 from util.constants import KNOWN_IP
@@ -96,7 +96,7 @@ class AsyncServer:
             connection_open = False
 
         print(f"Received logon: {logon}")
-        player_name = logon["playerName"]
+        player_name = logon[DATA]
         client = ClientConnection(player_name, addr, sender)
         client.send_message(f"{player_name} logged on")
 
