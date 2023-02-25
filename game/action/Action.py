@@ -27,11 +27,15 @@ async def _get_card(player: Player, cards: List[Card], arg: Optional[str]) -> Op
     if arg is None:
         player.display("please select a card: ")
         arg = await player.get_input()
-    arg = int(arg)
-    if arg >= len(cards):
-        player.display("out of range!")
+    try:
+        arg = int(arg)
+        return cards[arg]
+    except ValueError:
+        player.display("invalid argument!")
         return None
-    return cards[arg]
+    except IndexError:
+        player.display(f"{arg} is out of range!")
+        return None
 
 
 async def _play_card(player: Player, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:

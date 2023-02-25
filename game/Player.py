@@ -11,7 +11,7 @@ from networking.server.ClientConnection import ClientConnection
 from util.constants import (
     LEFT,
     RIGHT,
-    LUXURY_GOODS,
+    LUXURY_GOODS, COINS,
 )
 
 
@@ -29,7 +29,7 @@ class Player:
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
         self.flags: Dict[Flag, bool] = dict()
         self.board: DefaultDict[str, int] = defaultdict(int)
-        self.board["coins"] = 3
+        self.board[COINS] = 3
         self.neighbors: Dict[str, Optional[Player]] = {
             LEFT: None,
             RIGHT: None,
@@ -76,11 +76,8 @@ class Player:
         for flag in self.flags:
             self.flags[flag] = True
 
-    def coupon_available(self) -> bool:
-        for card in self.hand:
-            if card.name in self.coupons:
-                return True
-        return False
+    def available_coupons(self) -> Set[str]:
+        return set(card.name for card in self.hand).intersection(self.coupons)
 
     def discard_hand(self) -> None:
         self.discards.append(*self.hand)
@@ -93,7 +90,7 @@ class Player:
 
     def update_coins(self):
         for k, v in self.next_coins.items():
-            self.board["coins"] += v
+            self.board[COINS] += v
             if k in (LEFT, RIGHT) and v != 0:
                 self.updates.append(f"Received {v} coins from {self.neighbors[k].name}")
         self.next_coins = defaultdict(int)
@@ -101,10 +98,11 @@ class Player:
     def get_effect_resources(self, effect: Effect) -> Tuple[str, int]:
         count = 0
         for direction in effect.direction:
-            player = self if direction == "self" else self.neighbors[direction]
+            player = self.neighbors[direction]
             if effect.target:
                 for target in effect.target:
                     count += player.board[target] * effect.resources[0][1]
+                    # todo fix this if (multiple generate?)
             else:
                 count += effect.resources[0][1]
         return effect.resources[0][0], count
@@ -112,7 +110,7 @@ class Player:
     def get_victory(self):
         vp = defaultdict(int)
         vp["military"] = self.board["military_points"] - self.board["shame"]
-        vp["coins"] = self.board["coins"] // 3
+        vp[COINS] = self.board[COINS] // 3
 
         # covers wonder, civil, guild, and commercial cards
         for effect in self.effects["victory"]:

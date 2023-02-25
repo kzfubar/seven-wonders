@@ -19,7 +19,7 @@ class BuryAction(Action):
             return False
         player.display(f"burying {card.name}")
         wonder_power = player.wonder.get_next_power()
-        payment_options = calculate_payment_options(player, card)
+        payment_options = calculate_payment_options(player, wonder_power)
         successfully_played = await _play_card(player, wonder_power, payment_options)
         if successfully_played:
             player.wonder.increment_level()

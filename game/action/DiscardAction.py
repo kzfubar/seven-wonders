@@ -3,6 +3,7 @@ from typing import Optional, List
 from game.Card import Card
 from game.Player import Player
 from game.action.Action import Action, _get_card
+from util.constants import COINS
 
 
 class DiscardAction(Action):
@@ -17,7 +18,7 @@ class DiscardAction(Action):
         if card is None:
             return False
         player.display(f"discarding {card}")
-        player.board["coins"] += 3
+        player.board[COINS] += 3
         cards.remove(card)
         player.discards.append(card)
         return True

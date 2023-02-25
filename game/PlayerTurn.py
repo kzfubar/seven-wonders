@@ -9,23 +9,23 @@ from game.action.CouponAction import COUPON
 from game.action.DiscardAction import DISCARD
 from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
-from util.constants import LEFT, RIGHT, MILITARY_POINTS
+from util.constants import LEFT, RIGHT, MILITARY_POINTS, COINS
 from util.util import min_cost, display_cards
 
 
 def run_military(player: Player, age):
-    for neighbor in (LEFT, RIGHT):
-        if (
-                player.board["military_might"]
-                > player.neighbors[neighbor].board["military_might"]
-        ):
+    for direction in (LEFT, RIGHT):
+        neighbor = player.neighbors[direction]
+        if player.board["military_might"] > neighbor.board["military_might"]:
+            player.display(f"you win against {neighbor}! you gain {MILITARY_POINTS[age]}")
             player.board["military_points"] += MILITARY_POINTS[age]
 
-        if (
-                player.board["military_might"]
-                < player.neighbors[neighbor].board["military_might"]
-        ):
+        elif player.board["military_might"] < neighbor.board["military_might"]:
+            player.display(f"you lost against {neighbor}! you gain 1 shame!")
             player.board["shame"] += 1
+
+        else:
+            player.display(f"you drew against {neighbor}!")
 
 
 async def take_turn(player: Player):
@@ -39,7 +39,7 @@ async def take_turn(player: Player):
     player.display("\n".join(player.updates))
     player.updates = []
     player.display(player.discounts)
-    player.display(f"You have {player.board['coins']} coins")
+    player.display(f"You have {player.board[COINS]} coins")
     player.display(f"Your hand is:\n{_hand_to_str(player, hand_payment_options)}")
     player.display(f"Bury cost: {min_cost(wonder_payment_options)}")
     await _take_action(player)
@@ -60,11 +60,13 @@ def _hand_to_str(player: Player, hand_payment_options: List[List[Tuple[int, int,
 
 async def _take_action(player: Player) -> None:
     actions = [PLAY, DISCARD, BURY]
+    available_coupons = player.available_coupons()
+    if available_coupons:
+        player.display("Coupon(s) available!: " + str(available_coupons))
+        actions.append(COUPON)
+
     turn_over = False
     while not turn_over:
-        if player.coupon_available():
-            player.display("Coupon(s) available!: " + str(player.coupons))
-            actions.append(COUPON)
         if Flag.FREE_BUILD in player.flags and player.flags[Flag.FREE_BUILD]:
             player.display("Free build available!")
             actions.append(FREE_BUILD)

@@ -79,7 +79,9 @@ class Game:
     async def _play_round(self, player: Player):
         player.display(f"{player.name}, take your turn")
         await PlayerTurn.take_turn(player)
-        player.display(player.effects)
+        for _, effects in player.effects.items():
+            for effect in effects:
+                player.display(str(effect))
 
     async def _end_round(self, round_number: int, age: int):
         if round_number == self.NUM_ROUNDS - 1:
@@ -97,8 +99,11 @@ class Game:
     def _end_age(self, age: int):
         self._update_military(age)
         for player in self.players:
+            self._message_players(f"{player} has {player.board['victory_points']} victory points!")
+            self._message_players(f"{player} has {player.board['military_points']} military points!")
+            self._message_players(f"{player} has {player.board['shame']} shame!\n")
+            # todo add more?
             player.enable_flags()
-            print(player)
         pass
 
     def _end_game(self):

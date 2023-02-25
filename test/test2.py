@@ -1,4 +1,5 @@
 from game.Card import Effect
+from util.constants import COINS
 
 effects = {
     "victory": [
@@ -9,7 +10,7 @@ effects = {
 board = {
     "shame": 0,
     "military_points": 0,
-    "coins": 3,
+    COINS: 3,
     "common": 1,
     "luxury": 1,
     "civilian": 0,

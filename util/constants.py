@@ -9,6 +9,7 @@ LEFT = "left"
 RIGHT = "right"
 KNOWN_IP = "known_ip"
 
+COINS = "coins"
 RESOURCE_MAP = {
     # common
     "w": "wood",
@@ -22,7 +23,7 @@ RESOURCE_MAP = {
     # token
     "v": "victory_point",
     "m": "military_might",
-    "c": "coin",
+    "c": COINS,
     # science
     "y": "cog",
     "x": "compass",
