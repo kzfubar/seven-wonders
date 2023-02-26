@@ -5,7 +5,7 @@ from typing import List, Tuple, Optional
 from game.Card import Card
 from game.Flag import Flag
 from game.Player import Player
-from util.constants import LEFT, RIGHT, RESOURCE_MAP
+from util.constants import LEFT, RIGHT, RESOURCE_MAP, COINS
 from util.util import total_payment, left_payment, right_payment, min_cost
 
 
@@ -45,6 +45,10 @@ async def _play_card(player: Player, card: Card, payment_options: List[Tuple[int
 
     if payment_options[0][2] != 0:
         # cost is coins to bank
+        payment = payment_options[0][2]
+        if not _valid_payment(player, payment):
+            player.display("Cannot afford this card")
+            return False
         player.handle_next_coins(-payment_options[0][2], "spent")
 
     elif min_cost(payment_options) != "0":
@@ -57,6 +61,10 @@ async def _play_card(player: Player, card: Card, payment_options: List[Tuple[int
         player_input = int(player_input)
         if player_input > len(payment_options):
             player.display("out of range!")
+            return False
+        payment = payment_options[player_input][0] + payment_options[player_input][1]
+        if not _valid_payment(player, payment):
+            player.display("Cannot afford this payment")
             return False
         _do_payment(player, payment_options[player_input])
 
@@ -98,9 +106,13 @@ def _activate_card(player: Player, card: Card):
             player.effects[effect.effect].append(effect)
 
 
-def _do_payment(player: Player, payment: Tuple[int, int, int]):
-    player.neighbors[LEFT].handle_next_coins(left_payment(payment), RIGHT)
-    player.neighbors[RIGHT].handle_next_coins(right_payment(payment), LEFT)
+def _do_payment(player: Player, payment_option: Tuple[int, int, int]):
+    player.neighbors[LEFT].handle_next_coins(left_payment(payment_option), RIGHT)
+    player.neighbors[RIGHT].handle_next_coins(right_payment(payment_option), LEFT)
     player.handle_next_coins(
-        -1 * total_payment(payment), "spent"
+        -1 * total_payment(payment_option), "spent"
     )  # -1 for decrement own coins
+
+
+def _valid_payment(player: Player, payment: int) -> bool:
+    return payment > player.board[COINS]
