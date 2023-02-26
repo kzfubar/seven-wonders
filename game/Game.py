@@ -99,9 +99,9 @@ class Game:
     def _end_age(self, age: int):
         self._update_military(age)
         for player in self.players:
-            self._message_players(f"{player} has {player.board['victory_points']} victory points!")
-            self._message_players(f"{player} has {player.board['military_points']} military points!")
-            self._message_players(f"{player} has {player.board['shame']} shame!\n")
+            self._message_players(f"{player.name} has {player.board['victory_points']} victory points!")
+            self._message_players(f"{player.name} has {player.board['military_points']} military points!")
+            self._message_players(f"{player.name} has {player.board['shame']} shame!\n")
             # todo add more?
             player.enable_flags()
         pass

@@ -17,15 +17,15 @@ def run_military(player: Player, age):
     for direction in (LEFT, RIGHT):
         neighbor = player.neighbors[direction]
         if player.board["military_might"] > neighbor.board["military_might"]:
-            player.display(f"you win against {neighbor}! you gain {MILITARY_POINTS[age]}")
+            player.display(f"you win against {neighbor.name}! you gain {MILITARY_POINTS[age]}")
             player.board["military_points"] += MILITARY_POINTS[age]
 
         elif player.board["military_might"] < neighbor.board["military_might"]:
-            player.display(f"you lost against {neighbor}! you gain 1 shame!")
+            player.display(f"you lost against {neighbor.name}! you gain 1 shame!")
             player.board["shame"] += 1
 
         else:
-            player.display(f"you drew against {neighbor}!")
+            player.display(f"you drew against {neighbor.name}!")
 
 
 async def take_turn(player: Player):
