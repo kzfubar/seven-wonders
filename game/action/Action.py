@@ -25,8 +25,7 @@ class Action:
 
 async def _get_card(player: Player, cards: List[Card], arg: Optional[str]) -> Optional[Card]:
     if arg is None:
-        player.display("please select a card: ")
-        arg = await player.get_input()
+        arg = await player.get_input("please select a card: ")
     try:
         arg = int(arg)
         return cards[arg]
@@ -54,8 +53,7 @@ async def _play_card(player: Player, card: Card, payment_options: List[Tuple[int
     elif min_cost(payment_options) != "0":
         # something has to be paid to a different player
         _display_payment_options(player, payment_options)
-        player.display("select a payment option: ")
-        player_input = await player.get_input()
+        player_input = await player.get_input("select a payment option: ")
         if player_input == "q":
             return False
         player_input = int(player_input)

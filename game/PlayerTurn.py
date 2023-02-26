@@ -77,8 +77,7 @@ async def _take_action(player: Player) -> None:
         if Flag.FREE_BUILD in player.flags and player.flags[Flag.FREE_BUILD]:
             player.display("Free build available!")
             actions.append(FREE_BUILD)
-        player.display(", ".join([a.get_name() for a in actions]) + " a card: ")
-        player_input = await player.get_input()
+        player_input = await player.get_input(", ".join([a.get_name() for a in actions]) + " a card: ")
         action = player_input[0]
         arg = player_input[1::] if len(player_input) > 1 else None
         found_action = False
@@ -104,7 +103,6 @@ async def _discard_build(player: Player):
         f"({i}) {discard_str[i]:80}"
         for i in range(len(all_discards))
     ))
-    player.display("Free build from all previous discards: ")
-    arg = (await player.get_input())[0::]
+    arg = (await player.get_input("Free build from all previous discards: "))[0::]
     await FREE_BUILD.take_action(player, all_discards, arg)
     del player.flags[Flag.DISCARD_BUILD]

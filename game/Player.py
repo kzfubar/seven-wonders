@@ -73,8 +73,8 @@ class Player:
     def display(self, message: Any):
         self.client.send_message(message)
 
-    async def get_input(self) -> str:
-        self.client.clear_message_buffer()
+    async def get_input(self, msg: str) -> str:
+        self.display(msg)
         return await self.client.get_message()
 
     def enable_flags(self):

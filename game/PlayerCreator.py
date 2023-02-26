@@ -19,7 +19,6 @@ async def _create_player(client: ClientConnection, players: List[Player]) -> Non
     wonder_name = ""
     client.send_message("Enter your wonder")
     while wonder_name == "":
-        client.clear_message_buffer()
         msg = await client.get_message()
 
         matched_wonders = [wn for wn in all_wonder_names if wn.startswith(msg.lower())]
