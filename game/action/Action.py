@@ -115,4 +115,4 @@ def _do_payment(player: Player, payment_option: Tuple[int, int, int]):
 
 
 def _valid_payment(player: Player, payment: int) -> bool:
-    return payment > player.board[COINS]
+    return payment <= player.board[COINS]
