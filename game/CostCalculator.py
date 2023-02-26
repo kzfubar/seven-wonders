@@ -15,8 +15,6 @@ def calculate_payment_options(player: Player, card: Card) -> List[Tuple[int, int
     luxury_reqs = [good for good in card.cost if good in LUXURY_GOODS]
     common_reqs = [good for good in card.cost if good in COMMON_GOODS]
 
-    print(luxury_reqs, common_reqs)
-
     luxury_choices = simplify_cost_search(
         player.effects["produce"], luxury_reqs, LUXURY_GOODS
     )
