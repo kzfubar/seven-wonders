@@ -3,7 +3,14 @@ from typing import Optional, List
 from game.Card import Card
 from game.Player import Player
 from game.action.Action import Action, _get_card
+from game.action.Actionable import Actionable
 from util.constants import COINS
+
+
+def _take_action(player: Player, card: Card, cards: List[Card]) -> None:
+    player.board[COINS] += 3
+    player.discards.append(card)
+    cards.remove(card)
 
 
 class DiscardAction(Action):
@@ -13,15 +20,12 @@ class DiscardAction(Action):
     def get_symbol(self) -> str:
         return "d"
 
-    async def take_action(self, player: Player, cards: List[Card], arg: Optional[str]) -> bool:
+    async def select_card(self, player: Player, cards: List[Card], arg: Optional[str]) -> Optional[Actionable]:
         card = await _get_card(player, cards, arg)
         if card is None:
-            return False
+            return None
         player.display(f"discarding {card}")
-        player.board[COINS] += 3
-        cards.remove(card)
-        player.discards.append(card)
-        return True
+        return Actionable(_take_action, [player, card, cards])
 
 
 DISCARD = DiscardAction()

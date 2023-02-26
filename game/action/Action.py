@@ -19,7 +19,7 @@ class Action:
         pass
 
     @abstractmethod
-    async def take_action(self, player: Player, cards: List[Card], arg: str) -> bool:
+    async def select_card(self, player: Player, cards: List[Card], arg: str) -> bool:
         pass
 
 
@@ -37,7 +37,7 @@ async def _get_card(player: Player, cards: List[Card], arg: Optional[str]) -> Op
         return None
 
 
-async def _play_card(player: Player, card: Card, payment_options: List[Tuple[int, int, int]]) -> bool:
+async def _select_payment_option(player: Player, payment_options: List[Tuple[int, int, int]]) -> bool:
     if len(payment_options) == 0:
         player.display("card cannot be purchased")
         return False
@@ -65,9 +65,6 @@ async def _play_card(player: Player, card: Card, payment_options: List[Tuple[int
             player.display("Cannot afford this payment")
             return False
         _do_payment(player, payment_options[player_input])
-
-    _activate_card(player, card)
-    player.board[card.card_type] += 1
     return True
 
 
@@ -80,8 +77,8 @@ def _display_payment_options(player: Player, payment_options: List[Tuple[int, in
 
 
 def _activate_card(player: Player, card: Card):
+    player.board[card.card_type] += 1
     player.add_coupons(set(card.coupons))
-
     for effect in card.effects:
         if effect.effect == "generate":
             resource_key, count = player.get_effect_resources(effect)

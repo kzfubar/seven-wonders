@@ -4,9 +4,10 @@ import asyncio
 import random
 from typing import Dict, List, Tuple
 
-from game import PlayerCreator, PlayerTurn
+from game import PlayerCreator
 from game.Card import Card
 from game.Player import Player
+from game.PlayerActionPhase import PlayerActionPhase
 from networking.server.ClientConnection import ClientConnection
 from util.cardUtils import get_all_cards
 from util.constants import LEFT, RIGHT
@@ -16,6 +17,7 @@ from util.wonderUtils import ALL_WONDERS
 class Game:
     NUM_ROUNDS: int = 7
     age: int
+    player_action_phase: PlayerActionPhase
 
     @classmethod
     async def create(cls, clients: List[ClientConnection]):
@@ -36,6 +38,7 @@ class Game:
         self.players: List[Player] = await PlayerCreator.create_players(clients)
         self.cards: List[Card] = get_all_cards(num_players)
         self.pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
+        self.player_action_phase = PlayerActionPhase(self.players)
 
         self._message_players(f"creating game with {num_players}...")
         [print(p) for p in self.players]
@@ -76,25 +79,18 @@ class Game:
         for player in self.players:
             player.update_coins()
 
-    async def _play_round(self, player: Player):
-        player.display(f"{player.name}, take your turn")
-        await PlayerTurn.take_turn(player)
-        for _, effects in player.effects.items():
-            for effect in effects:
-                player.display(str(effect))
-
     async def _end_round(self, round_number: int, age: int):
         if round_number == self.NUM_ROUNDS - 1:
             [player.discard_hand() for player in self.players]
         # do player end rounds synchronously, future expansions introduce end round effect order
         for player in self.players:
-            await PlayerTurn.end_round(player)
+            await self.player_action_phase.end_round(player)
         self._pass_hands(self.pass_order[age])
         self._update_coins()
 
     def _update_military(self, age: int):
         for player in self.players:
-            PlayerTurn.run_military(player, age)
+            self.player_action_phase.run_military(player, age)
 
     def _end_age(self, age: int):
         self._update_military(age)
@@ -122,7 +118,8 @@ class Game:
             self._deal_cards(self.age)
             for round_number in range(1, self.NUM_ROUNDS):
                 self._message_players(f"begin round: {round_number}")
-                await asyncio.gather(*(self._play_round(player) for player in self.players))
+                await self.player_action_phase.select_actions()
+                self.player_action_phase.execute_actions()
                 await self._end_round(round_number, self.age)
             self._end_age(self.age)
         self._end_game()
