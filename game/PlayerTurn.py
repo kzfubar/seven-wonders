@@ -33,7 +33,7 @@ async def take_turn(player: Player):
         calculate_payment_options(player, card) for card in player.hand
     ]
 
-    if not player.wonder.is_max_level():
+    if not player.wonder.is_max_level:
         wonder_payment_options = calculate_payment_options(
             player,
             player.wonder.get_next_power()
