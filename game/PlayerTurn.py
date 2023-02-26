@@ -65,7 +65,7 @@ def _hand_to_str(player: Player, hand_payment_options: List[List[Tuple[int, int,
 
 async def _take_action(player: Player) -> None:
     actions = [PLAY, DISCARD, BURY]
-    if player.wonder.is_max_level():
+    if player.wonder.is_max_level:
         actions.remove(BURY)
     available_coupons = player.available_coupons()
     if available_coupons:
