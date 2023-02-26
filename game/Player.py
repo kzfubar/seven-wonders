@@ -55,11 +55,16 @@ class Player:
             f"effects = {self.effects}, \n"
         )
 
-    def __str__(self):  # todo make this nicer
+    def __str__(self):  # todo make this nicer!!
+        e = []
+        for _, effects in self.effects.items():
+            for effect in effects:
+                e.append(str(effect))
+        effects = '\n'.join(e)
         return (
             f"wonder = {self.wonder} \n"
-            f"board = {self.board} \n"
-            f"effects = {self.effects}, \n"
+            f"board = {dict(self.board)} \n"
+            f"effects = {effects}, \n"
             f"neighbors = {self.neighbors[LEFT].name if self.neighbors[LEFT] is not None else 'NONE'} <-"
             f" {self.name} -> "
             f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
