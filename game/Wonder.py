@@ -36,6 +36,3 @@ class Wonder:
         self.level += 1
         if self.level >= len(self.powers):
             self.is_max_level = True
-
-    def is_max_level(self):
-        return self.is_max_level
