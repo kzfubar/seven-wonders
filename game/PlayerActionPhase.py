@@ -61,7 +61,7 @@ class PlayerActionPhase:
                 player.wonder.get_next_power()
             )
         else:
-            wonder_payment_options = [[0, 0, 0]]
+            wonder_payment_options = []
 
         player.display("\n".join(player.updates))
         player.updates = []
