@@ -22,3 +22,6 @@ class Room:
     def join(self, client: ClientConnection):
         self.clients.append(client)
         client.send_message(f"Joined room: {self.name}")
+        client.send_message(f"Currently in room: {[c.name for c in self.clients]}")
+        for c in self.clients:
+            c.send_message(f"{self.name} has joined the room")
