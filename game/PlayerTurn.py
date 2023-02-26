@@ -39,7 +39,7 @@ async def take_turn(player: Player):
             player.wonder.get_next_power()
         )
     else:
-        wonder_payment_options = [0, 0, 0]
+        wonder_payment_options = [[0, 0, 0]]
 
     player.display("\n".join(player.updates))
     player.updates = []
