@@ -1,9 +1,9 @@
 from game.Card import Effect
-from util.constants import COINS
+from util.constants import COINS, COMMON, LUXURY
 
 effects = {
     "victory": [
-        Effect("victory", [("v", 2)], ["luxury", "common"], ["self"], False),
+        Effect("victory", [("v", 2)], [LUXURY, COMMON], ["self"], False),
         Effect("victory", [("v", 2)], [], ["self"], False),
     ]
 }
@@ -11,8 +11,8 @@ board = {
     "shame": 0,
     "military_points": 0,
     COINS: 3,
-    "common": 1,
-    "luxury": 1,
+    COMMON: 1,
+    LUXURY: 1,
     "civilian": 0,
     "commercial": 0,
     "military": 0,

@@ -1,9 +1,10 @@
 MILITARY_POINTS = (0, 1, 3, 5)
 
-TRADABLE_TYPES = set(("common", "luxury"))
 LUXURY_GOODS = set("lgp")
 COMMON_GOODS = set("wsbo")
-
+COMMON = "common"
+LUXURY = "luxury"
+TRADABLE_TYPES = set((COMMON, LUXURY))
 
 LEFT = "left"
 RIGHT = "right"

@@ -7,7 +7,7 @@ from game.Card import Card, Effect
 from game.Player import Player
 from game.Wonder import Wonder
 from util.cardUtils import get_all_cards
-from util.constants import LEFT, RIGHT
+from util.constants import COMMON, LEFT, RIGHT
 
 
 class CostCalculatorTest(TestCase):
@@ -34,49 +34,49 @@ class CostCalculatorTest(TestCase):
     def test_caravansery_playable_when_self_production(self):
         caravansery = self._get_card("Caravansery")
 
-        self.victim.effects["produce"].append(Effect("produce", [("w", 2)], [], ["self"], "common"))
+        self.victim.effects["produce"].append(Effect("produce", [("w", 2)], [], ["self"], COMMON))
         one_production_cost = CostCalculator.calculate_payment_options(self.victim, caravansery)
         self.assertTrue(one_production_cost)
 
         self._clear_effects()
 
-        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], "common"))
-        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], "common"))
+        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], COMMON))
+        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], COMMON))
         multiple_production_cost = CostCalculator.calculate_payment_options(self.victim, caravansery)
         self.assertTrue(multiple_production_cost)
 
         self._clear_effects()
 
-        self.victim.effects["produce"].append(Effect("produce", [("w", 1), ("b", 1)], [], ["self"], "common"))
-        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], "common"))
+        self.victim.effects["produce"].append(Effect("produce", [("w", 1), ("b", 1)], [], ["self"], COMMON))
+        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], COMMON))
         optional_production_cost = CostCalculator.calculate_payment_options(self.victim, caravansery)
         self.assertTrue(optional_production_cost)
 
-    def test_caravansery_playable_when_neighbhors_production(self):
+    def test_caravansery_playable_when_neighbors_production(self):
         caravansery = self._get_card("Caravansery")
 
-        self.left.effects["produce"].append(Effect("produce", [("w", 2)], [], ["self"], "common"))
+        self.left.effects["produce"].append(Effect("produce", [("w", 2)], [], ["self"], COMMON))
         left_cost = CostCalculator.calculate_payment_options(self.victim, caravansery)
         self.assertTrue(left_cost)
 
         self._clear_effects()
 
-        self.right.effects["produce"].append(Effect("produce", [("w", 2)], [], ["self"], "common"))
+        self.right.effects["produce"].append(Effect("produce", [("w", 2)], [], ["self"], COMMON))
         right_cost = CostCalculator.calculate_payment_options(self.victim, caravansery)
         self.assertTrue(right_cost)
 
     def test_caravansery_playable_when_shared_production(self):
         caravansery = self._get_card("Caravansery")
 
-        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], "common"))
-        self.left.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], "common"))
+        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], COMMON))
+        self.left.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], COMMON))
         shared_left_cost = CostCalculator.calculate_payment_options(self.victim, caravansery)
         self.assertTrue(shared_left_cost)
 
         self._clear_effects()
 
-        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], "common"))
-        self.right.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], "common"))
+        self.victim.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], COMMON))
+        self.right.effects["produce"].append(Effect("produce", [("w", 1)], [], ["self"], COMMON))
         shared_right_cost = CostCalculator.calculate_payment_options(self.victim, caravansery)
         self.assertTrue(shared_right_cost)
 

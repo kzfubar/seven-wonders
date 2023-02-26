@@ -1,5 +1,7 @@
 import json
 
+from util.constants import COMMON, LUXURY
+
 
 def give_effect(c, name, effect):
     if c["type"] == name:
@@ -18,8 +20,8 @@ def give_effects():
         cards = json.load(f)
 
     for card in cards:
-        give_effect(card, "common", "produce")
-        give_effect(card, "luxury", "produce")
+        give_effect(card, COMMON, "produce")
+        give_effect(card, LUXURY, "produce")
         give_effect(card, "military", "strength")
         give_effect(card, "civilian", "victory")
         # tmp(card, 'commercial') ignore commercial b/c wacky-doodle

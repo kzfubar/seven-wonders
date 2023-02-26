@@ -9,7 +9,9 @@ from game.Flag import Flag
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
 from util.constants import (
+    COMMON,
     LEFT,
+    LUXURY,
     RIGHT,
     LUXURY_GOODS, COINS,
 )
@@ -41,7 +43,7 @@ class Player:
                 resources=[(wonder.resource, 1)],
                 target=[],
                 direction=["self"],
-                card_type="luxury" if wonder.resource in LUXURY_GOODS else "common",
+                card_type=LUXURY if wonder.resource in LUXURY_GOODS else COMMON,
             )
         )
 
