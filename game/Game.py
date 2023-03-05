@@ -19,23 +19,29 @@ class Game:
     age: int
     player_action_phase: PlayerActionPhase
 
-    @classmethod
-    async def create(cls, clients: List[ClientConnection]):
-        game = Game()
-        await game._init(clients)
-        return game
+    def __init__(self):
+        pass
 
     def __str__(self):
         return f"players = {self._get_player_order()}"
 
-    async def _init(self, clients: List[ClientConnection]):
+    async def start(self, clients: List[ClientConnection]):
+        await self._start(clients)
+        asyncio.create_task(self.play())
+
+    async def _start(self, clients: List[ClientConnection]):
         num_players = len(clients)
         if num_players < 3:
             raise Exception(f"min players is 3, cannot start the game with {num_players}")
             # todo make this actually message the player with error
         if num_players > len(ALL_WONDERS):
             raise Exception(f"more players than wonders, cannot start the game with {num_players}")
-        self.players: List[Player] = await PlayerCreator.create_players(clients)
+
+        self.players = []
+        self.players = await PlayerCreator.create_players(clients)
+        self.players_by_client: Dict[ClientConnection, Player] = {p.client: p for p in self.players}
+        self.players_by_name: Dict[str, Player] = {p.name: p for p in self.players}
+
         self.cards: List[Card] = get_all_cards(num_players)
         self.pass_order: Dict[int, str] = {1: LEFT, 2: RIGHT, 3: LEFT}
         self.player_action_phase = PlayerActionPhase(self.players)
@@ -123,10 +129,4 @@ class Game:
                 await self._end_round(round_number, self.age)
             self._end_age(self.age)
         self._end_game()
-
-    def command(self, client: ClientConnection, args):
-        player_name = args[1]
-        for player in self.players:
-            if player_name == player.name:
-                client.send_message(str(player))
 
