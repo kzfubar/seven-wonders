@@ -1,7 +1,7 @@
 from abc import ABC
 
 from game.Game import Game
-from networking.command.Command import Command
+from networking.server.command.Command import Command
 
 
 class GameCommand(Command, ABC):

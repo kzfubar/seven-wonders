@@ -3,7 +3,7 @@ from asyncio import StreamWriter
 from typing import Dict, Optional, List
 
 from networking.Config import Config
-from networking.command.Command import Command
+from networking.server.command.Command import Command
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
 from networking.messaging.messageTypes import MESSAGE, COMMAND, LOGON

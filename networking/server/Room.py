@@ -3,7 +3,7 @@ from typing import List, Dict
 
 from game.Game import Game
 from game.command.InfoCommand import InfoCommand
-from networking.command.Command import Command
+from networking.server.command.Command import Command
 from networking.server.ClientConnection import ClientConnection
 
 
