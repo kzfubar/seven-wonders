@@ -124,14 +124,12 @@ class Game:
     def _end_game(self):
         player_points: List[Tuple[str, int]] = []
         for player in self.players:
+            self._message_players(f"{player} has {player.get_victory()}")
             player_points.append((player.name, sum(player.get_victory().values())))
         player_points.sort(key=lambda x: x[1], reverse=True)
-        self._message_players(
-            f"{player_points[0][0]} wins with {player_points[0][1]} points!"
-        )
         self._message_players(f"{player_points} total point count")
         self._message_players(
-            f"overall point distribution: {player_points}"
+            f"{player_points[0][0]} wins with {player_points[0][1]} points!"
         )
         self.running = False
 
