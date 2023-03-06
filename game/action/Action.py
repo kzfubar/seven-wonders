@@ -19,7 +19,7 @@ class Action:
         pass
 
     @abstractmethod
-    async def select_card(self, player: Player, cards: List[Card], arg: str) -> bool:
+    async def select_card(self, player: Player, cards: List[Card], arg: str, players: List[Player]) -> bool:
         pass
 
 
@@ -113,3 +113,8 @@ def _do_payment(player: Player, payment_option: Tuple[int, int, int]):
 
 def _valid_payment(player: Player, payment: int) -> bool:
     return payment <= player.coins()
+
+
+def _announce(msg: str, players: List[Player]):
+    for player in players:
+        player.display(msg)

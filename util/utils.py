@@ -13,7 +13,7 @@ def is_resource(effect: Effect) -> bool:
 
 def min_cost(payment_options: List[Tuple[int, int, int]]) -> str:
     if len(payment_options) == 0:
-        return "-"
+        return ""
     return str(min(total_payment(payment) for payment in payment_options))
 
 
@@ -53,8 +53,9 @@ def cards_as_string(cards: List[Card]) -> Tuple[str, Dict[Card, str]]:
     card_str_dict = dict()
     for card in cards:
         color = TYPE_COLOR_MAP[card.card_type] if card.card_type in TYPE_COLOR_MAP else ANSI.ANSI.BRIGHT_WHITE
+        ansi_card_name = ANSI.use(color, card.name)
         ansi_card_type = ANSI.use(color, card.card_type)
-        card_str = f"{card.name:{max_name_len}} | " \
+        card_str = f"{ansi_card_name:{max_name_len + ANSI.ansilen(ansi_card_name)}} | " \
                    + f"{ansi_card_type:{max_type_len + ANSI.ansilen(ansi_card_type)}} | " \
                    + f"{card.effects_to_str():{max_eff_len + ANSI.ansilen(card.effects_to_str())}} | " \
                    + f"{card.resource_to_str():{max_res_len}} "

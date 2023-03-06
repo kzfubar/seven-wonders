@@ -72,7 +72,8 @@ class Card:
         )
 
     def __str__(self):
-        return f"{self.name} | {self.card_type} | {self.effects_to_str()} | {self.resource_to_str()}"
+        color = TYPE_COLOR_MAP[self.card_type] if self.card_type in TYPE_COLOR_MAP else ANSI.ANSI.BRIGHT_WHITE
+        return f"{ANSI.use(color, self.name)} - {self.effects_to_str()}"
 
     def effects_to_str(self) -> str:
         effects = [str(e) for e in self.effects]

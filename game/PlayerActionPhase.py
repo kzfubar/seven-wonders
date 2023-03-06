@@ -12,7 +12,7 @@ from game.action.DiscardAction import DISCARD
 from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
 from util import ANSI
-from util.constants import LEFT, RIGHT, MILITARY_POINTS_PER_AGE, COINS, DEFEAT, MILITARY_MIGHT, MILITARY_POINTS
+from util.constants import LEFT, RIGHT, MILITARY_POINTS_PER_AGE, DEFEAT, MILITARY_POINTS
 from util.utils import min_cost, cards_as_string
 
 
@@ -22,7 +22,8 @@ def _hand_to_str(
     header, hand_str = cards_as_string(player.hand)
     max_len = ANSI.linelen(header)
     return "    " + header + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n" + "\n".join(
-        f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| {min_cost(hand_payment_options[card])} coins"
+        f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| " \
+        + f"{'-' if min_cost(hand_payment_options[card]) == '' else min_cost(hand_payment_options[card]) + ' coins'}"
         for i, (card, card_str) in enumerate(hand_str.items())
     )
 
@@ -33,7 +34,7 @@ class PlayerActionPhase:
         self.actions: List[Actionable] = []
 
     async def select_actions(self):
-        await asyncio.gather(*(self._select_action(player) for player in self.players))
+        await asyncio.gather(*(self._select_action(player, self.players) for player in self.players))
 
     def execute_actions(self):
         for actionable in self.actions:
@@ -56,7 +57,7 @@ class PlayerActionPhase:
             else:
                 player.display(f"you drew against {neighbor.name}!")
 
-    async def _select_action(self, player: Player):
+    async def _select_action(self, player: Player, players: List[Player]):
         hand_payment_options = {
             card: calculate_payment_options(player, card) for card in player.hand
         }
@@ -97,7 +98,7 @@ class PlayerActionPhase:
             for ac in actions:
                 if action == ac.get_symbol():
                     found_action = True
-                    actionable = await ac.select_card(player, player.hand, arg)
+                    actionable = await ac.select_card(player, player.hand, arg, players)
                     break
             if not found_action:
                 player.display(f"Invalid action! {action}")
