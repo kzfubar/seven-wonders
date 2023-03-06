@@ -8,7 +8,7 @@ from util.constants import COINS
 
 
 def _take_action(player: Player, card: Card, cards: List[Card]) -> None:
-    player.board[COINS] += 3
+    player.add_token(COINS, 3)
     player.discards.append(card)
     cards.remove(card)
 

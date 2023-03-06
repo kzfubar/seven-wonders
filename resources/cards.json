@@ -1267,7 +1267,7 @@
             {
                 "effect": "victory",
                 "resources": [ ["v", 1] ],
-                "target": ["shame"],
+                "target": ["defeat"],
                 "direction": ["left", "right"]
             }
         ],

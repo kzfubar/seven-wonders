@@ -12,7 +12,7 @@ from game.action.DiscardAction import DISCARD
 from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
 from util import ANSI
-from util.constants import LEFT, RIGHT, MILITARY_POINTS, COINS
+from util.constants import LEFT, RIGHT, MILITARY_POINTS_PER_AGE, COINS, DEFEAT, MILITARY_MIGHT, MILITARY_POINTS
 from util.utils import min_cost, cards_as_string
 
 
@@ -43,15 +43,15 @@ class PlayerActionPhase:
     def run_military(self, player: Player, age):
         for direction in (LEFT, RIGHT):
             neighbor = player.neighbors[direction]
-            if player.board["military_might"] > neighbor.board["military_might"]:
+            if player.military_might() > neighbor.military_might():
                 player.display(
-                    f"you win against {neighbor.name}! you gain {MILITARY_POINTS[age]}"
+                    f"you win against {neighbor.name}! you gain {MILITARY_POINTS_PER_AGE[age]}"
                 )
-                player.board["military_points"] += MILITARY_POINTS[age]
+                player.add_token(MILITARY_POINTS, MILITARY_POINTS_PER_AGE[age])
 
-            elif player.board["military_might"] < neighbor.board["military_might"]:
-                player.display(f"you lost against {neighbor.name}! you gain 1 shame!")
-                player.board["shame"] += 1
+            elif player.military_might() < neighbor.military_might():
+                player.display(f"you lost against {neighbor.name} - you gain 1 defeat!")
+                player.add_token(DEFEAT, 1)
 
             else:
                 player.display(f"you drew against {neighbor.name}!")
@@ -70,9 +70,9 @@ class PlayerActionPhase:
 
         player.display("\n".join(player.updates))
         player.updates = []
-        player.display(f"You have {player.board[COINS]} coins")
         player.display(f"{_hand_to_str(player, hand_payment_options)}")
         player.display(f"Bury cost: {min_cost(wonder_payment_options)}")
+        player.display(f"You have {player.coins()} coins")
 
         actions = [PLAY, DISCARD, BURY]
         if player.wonder.is_max_level:

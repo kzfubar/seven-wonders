@@ -87,8 +87,7 @@ def _activate_card(player: Player, card: Card):
     for effect in card.effects:
         if effect.effect == "generate":
             resource_key, count = player.get_effect_resources(effect)
-            resource = RESOURCE_MAP[resource_key]
-            player.board[resource] += count
+            player.add_token(RESOURCE_MAP[resource_key], count)
 
         elif effect.effect == "discount":
             for target, direction in itertools.product(effect.target, effect.direction):
@@ -113,4 +112,4 @@ def _do_payment(player: Player, payment_option: Tuple[int, int, int]):
 
 
 def _valid_payment(player: Player, payment: int) -> bool:
-    return payment <= player.board[COINS]
+    return payment <= player.coins()

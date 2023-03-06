@@ -28,7 +28,7 @@ class PlayAction(Action):
         payment_options = calculate_payment_options(player, card)
         player.display(f"playing {card.name}")
         successfully_played = await _select_payment_option(player, payment_options)
-        player.board[card.card_type] += 1
+        player.add_card_type(card.card_type)
 
         return (
             Actionable(_take_action, [player, card, cards])

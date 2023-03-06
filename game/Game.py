@@ -9,7 +9,7 @@ from game.PlayerActionPhase import PlayerActionPhase
 from game.PlayerCreator import create_players
 from networking.server.ClientConnection import ClientConnection
 from util.cardUtils import get_all_cards
-from util.constants import LEFT, RIGHT, MAX_PLAYERS
+from util.constants import LEFT, RIGHT, MAX_PLAYERS, DEFEAT, MILITARY_POINTS
 
 
 class Game:
@@ -112,12 +112,9 @@ class Game:
         self._update_military(age)
         for player in self.players:
             self._message_players(
-                f"{player.name} has {player.board['victory_points']} victory points!"
+                f"{player.name} has {player.military_points()} military points!"
             )
-            self._message_players(
-                f"{player.name} has {player.board['military_points']} military points!"
-            )
-            self._message_players(f"{player.name} has {player.board['shame']} shame!\n")
+            self._message_players(f"{player.name} has {player.defeat()} defeats!\n")
             # todo add more?
             player.enable_flags()
         pass

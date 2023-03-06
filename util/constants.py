@@ -1,6 +1,6 @@
 from util.ANSI import ANSI
 
-MILITARY_POINTS = (0, 1, 3, 5)
+MILITARY_POINTS_PER_AGE = (0, 1, 3, 5)
 MAX_PLAYERS: int = 7
 
 LUXURY_GOODS = set("lgp")
@@ -13,6 +13,7 @@ COMMERCIAL = "commercial"
 MILITARY = "military"
 SCIENCE = "science"
 GUILD = "guild"
+
 WONDER = "wonder"
 
 TYPE_COLOR_MAP = {
@@ -32,6 +33,10 @@ RIGHT = "right"
 KNOWN_IP = "known_ip"
 
 COINS = "coins"
+MILITARY_MIGHT = "military_might"
+MILITARY_POINTS = "military_points"
+DEFEAT = "defeat"
+
 RESOURCE_MAP = {
     # common
     "w": "wood",
@@ -44,7 +49,7 @@ RESOURCE_MAP = {
     "p": "paper",
     # token
     "v": "victory_point",
-    "m": "military_might",
+    "m": MILITARY_MIGHT,
     "c": COINS,
     # science
     "y": "cog",

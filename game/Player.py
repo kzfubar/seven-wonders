@@ -6,13 +6,16 @@ from typing import Dict, Set, Any, List, Optional, Tuple
 
 from game.Card import Card, Effect, resource_to_human
 from game.Flag import Flag
+from game.Tableau import Tableau
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
-from util.constants import COMMON, LEFT, LUXURY, RIGHT, LUXURY_GOODS, COINS, WONDER
+from util.constants import LEFT, RIGHT, COINS, WONDER, TRADABLE_TYPES, DEFEAT, MILITARY_POINTS, MILITARY_MIGHT
 
 
 class Player:
     def __init__(self, wonder: Wonder, client: ClientConnection):
+        self._tableau = Tableau()
+
         self.client = client
         self.name: str = client.name
         self.wonder: Wonder = wonder
@@ -26,8 +29,7 @@ class Player:
         self.coupons: Set[str] = set()
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
         self.flags: Dict[Flag, bool] = dict()
-        self.board: DefaultDict[str, int] = defaultdict(int)
-        self.board[COINS] = 3
+        self.add_token(COINS, 3)
         self.neighbors: Dict[str, Optional[Player]] = {
             LEFT: None,
             RIGHT: None,
@@ -48,7 +50,7 @@ class Player:
     def __repr__(self):
         return (
             f"Player{{wonder = {self.wonder}, \n"
-            f"board = {self.board}, \n"
+            f"tableau = {self._tableau}, \n"
             f"hand = {self.hand}, \n"
             f"effects = {self.effects}, \n"
         )
@@ -58,14 +60,38 @@ class Player:
         for _, effects in self.effects.items():
             for effect in effects:
                 e.append(str(effect))
+        effects = "\n".join(e)
         return (
             f"wonder = {self.wonder} \n"
-            f"board = {dict(self.board)} \n"
-            f"effects = {self.consolidated_effects()} \n"
+            f"tableau = {self._tableau} \n"
+            f"effects = {effects} \n"
             f"neighbors = {self.neighbors[LEFT].name if self.neighbors[LEFT] is not None else 'NONE'} <-"
             f" {self.name} -> "
             f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
         )
+
+    def token_count(self, token: str) -> int:
+        if token == "wonder_level":
+            return self.wonder.level
+        return self._tableau.count(token)
+
+    def add_token(self, token: str, count: int) -> bool:
+        return self._tableau.add(token, count)
+
+    def add_card_type(self, card_type: str) -> bool:
+        return self._tableau.add_card_type(card_type)
+
+    def coins(self) -> int:
+        return self._tableau.tokens[COINS]
+
+    def military_might(self) -> int:
+        return self._tableau.tokens[MILITARY_MIGHT]
+
+    def military_points(self) -> int:
+        return self._tableau.tokens[MILITARY_POINTS]
+
+    def defeat(self) -> int:
+        return self._tableau.tokens[DEFEAT]
 
     def consolidated_effects(self) -> str:
         consolidated = []
@@ -73,7 +99,7 @@ class Player:
             d = defaultdict(int)
             complicated = []
             for effect in effects:
-                if len(effect.resources) == 1:
+                if effect.card_type in TRADABLE_TYPES and len(effect.resources) == 1:
                     resources = effect.resources[0]
                     d[resources[0]] += resources[1]
                 else:
@@ -99,7 +125,7 @@ class Player:
     def discard_hand(self) -> None:
         self.discards.append(*self.hand)
 
-    def handle_next_coins(self, coins: int, direction):
+    def handle_next_coins(self, coins: int, direction: str):
         self.next_coins[direction] += coins
 
     def add_coupons(self, coupons: Set[str]):
@@ -107,7 +133,7 @@ class Player:
 
     def update_coins(self):
         for k, v in self.next_coins.items():
-            self.board[COINS] += v
+            self._tableau.add(COINS, v)
             if k in (LEFT, RIGHT) and v != 0:
                 self.updates.append(f"Received {v} coins from {self.neighbors[k].name}")
         self.next_coins = defaultdict(int)
@@ -118,7 +144,7 @@ class Player:
             player = self.neighbors[direction]
             if effect.target:
                 for target in effect.target:
-                    count += player.board[target] * effect.resources[0][1]
+                    count += player.token_count(target) * effect.resources[0][1]
                     # todo fix this if (multiple generate?)
             else:
                 count += effect.resources[0][1]
@@ -126,17 +152,17 @@ class Player:
 
     def get_victory(self) -> Dict:
         vp = defaultdict(int)
-        vp["military"] = self.board["military_points"] - self.board["shame"]
-        vp[COINS] = self.board[COINS] // 3
+        vp["military"] = self.military_points() - self.defeat()
+        vp[COINS] = self.coins() // 3
 
         # covers wonder, civil, guild, and commercial cards
         for effect in self.effects["victory"]:
             if effect.target:
                 for target, direction in itertools.product(
-                    effect.target, effect.direction
+                        effect.target, effect.direction
                 ):
                     vp[effect.card_type] += (
-                        self.neighbors[direction].board[target] * effect.resources[0][1]
+                            self.neighbors[direction].token_count(target) * effect.resources[0][1]
                     )
 
             else:
