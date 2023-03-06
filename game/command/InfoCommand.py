@@ -9,6 +9,9 @@ class InfoCommand(GameCommand):
 
     def execute(self, args: List, client: ClientConnection):
         game = self.game
+        if len(args) == 0:
+            player = self.game.players_by_client[client]
+            client.send_message(player)
         player_name = args[0]
         if player_name in game.players_by_name.keys():
             client.send_message(str(game.players_by_name[player_name]))
