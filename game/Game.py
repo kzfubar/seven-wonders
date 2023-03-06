@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import asyncio
 import random
-from collections import defaultdict
 from typing import Dict, List, Tuple
 
-from game.PlayerCreator import create_players
-from game.Card import Card, resource_to_human
+from game.Card import Card
 from game.Player import Player
 from game.PlayerActionPhase import PlayerActionPhase
+from game.PlayerCreator import create_players
 from networking.server.ClientConnection import ClientConnection
 from util.cardUtils import get_all_cards
 from util.constants import LEFT, RIGHT, MAX_PLAYERS
@@ -75,7 +74,7 @@ class Game:
         card_list = self._get_cards_for_age(age)
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
-            player.hand = card_list[i :: len(self.players)]
+            player.hand = card_list[i:: len(self.players)]
 
     def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
@@ -124,7 +123,7 @@ class Game:
     def _end_game(self):
         player_points: List[Tuple[str, int]] = []
         for player in self.players:
-            self._message_players(f"{player} has {player.get_victory()}")
+            self._message_players(f"{player.name} has {player.get_victory()}")
             player_points.append((player.name, sum(player.get_victory().values())))
         player_points.sort(key=lambda x: x[1], reverse=True)
         self._message_players(f"{player_points} total point count")
