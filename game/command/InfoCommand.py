@@ -12,9 +12,9 @@ class InfoCommand(GameCommand):
         game = self.game
         if len(args) == 0:
             player = self.game.players_by_client[client]
-            client.send_message(player)
-            client.send_message(player.neighbors[LEFT])
-            client.send_message(player.neighbors[RIGHT])
+            client.send_message("On your left: " + player.neighbors[LEFT].short_info() + "\n")
+            client.send_message("You are: " + player.short_info() + "\n")
+            client.send_message("On your right: " + player.neighbors[RIGHT].short_info() + "\n")
 
         else:
             player_name = args[0]

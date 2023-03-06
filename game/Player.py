@@ -70,6 +70,12 @@ class Player:
             f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
         )
 
+    def short_info(self) -> str:
+        return f"{self.name} on {self.wonder.name} at level {self.wonder.level}\n" \
+               + f"\t{self._tableau.token_info()}\n" \
+               + f"\t{self._tableau.card_type_info()}\n" \
+               + f"\t{self.consolidated_effects()}"
+
     def token_count(self, token: str) -> int:
         if token == "wonder_level":
             return self.wonder.level
@@ -96,17 +102,46 @@ class Player:
     def consolidated_effects(self) -> str:
         consolidated = []
         for e, effects in self.effects.items():
-            d = defaultdict(int)
-            complicated = []
-            for effect in effects:
-                if effect.card_type in TRADABLE_TYPES and len(effect.resources) == 1:
-                    resources = effect.resources[0]
-                    d[resources[0]] += resources[1]
-                else:
-                    complicated.append(effect)
-            consolidated.append(f'{e} {", ".join(resource_to_human(d.items()))}')
-            consolidated.extend(str(x) for x in complicated)
+            if e == "produce":
+                consolidated.extend(self._consolidated_production(effects))
+            else:
+                d = defaultdict(int)
+                complicated = []
+                for effect in effects:
+                    if effect.card_type in TRADABLE_TYPES and len(effect.resources) == 1:
+                        resources = effect.resources[0]
+                        d[resources[0]] += resources[1]
+                    else:
+                        complicated.append(effect)
         return '\n'.join(consolidated)
+
+    def _consolidated_production(self, effects: List[Effect]) -> List[str]:
+        consolidated = []
+        t_simple = defaultdict(int)
+        t_multi = []
+        nt_simple = defaultdict(int)
+        nt_multi = []
+        for effect in effects:
+            if len(effect.resources) == 1:
+                resources = effect.resources[0]
+                if effect.card_type in TRADABLE_TYPES:
+                    t_simple[resources[0]] += resources[1]
+                else:
+                    nt_simple[resources[0]] += resources[1]
+            else:
+                if effect.card_type in TRADABLE_TYPES:
+                    t_multi.append(effect)
+                else:
+                    nt_multi.append(effect)
+        tradeable = resource_to_human(t_simple.items())
+        tradeable.extend([str(e) for e in t_multi])
+        if tradeable:
+            consolidated.append(f'Tradeable Production : {", ".join(tradeable)}')
+        nontradeable = resource_to_human(nt_simple.items())
+        nontradeable.extend([str(e) for e in nt_multi])
+        if nontradeable:
+            consolidated.append(f'Non-Tradeable Production: {", ".join(nontradeable)}')
+        return consolidated
 
     def display(self, message: Any):
         self.client.send_message(message)
