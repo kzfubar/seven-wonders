@@ -28,6 +28,7 @@ class FreeBuildAction(Action):
             return None
         player.display(f"free building {card.name}")
         successfully_played = await _select_payment_option(player, [(0, 0, 0)])
+        player.board[card.card_type] += 1
 
         return (
             Actionable(_take_action, [player, card, cards])

@@ -83,7 +83,6 @@ def _display_payment_options(
 
 
 def _activate_card(player: Player, card: Card):
-    player.board[card.card_type] += 1
     player.add_coupons(set(card.coupons))
     for effect in card.effects:
         if effect.effect == "generate":
