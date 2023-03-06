@@ -62,8 +62,7 @@ def calculate_payment_options(player: Player, card: Card) -> List[Tuple[int, int
             )
         )
 
-    # TODO: sort and slim down options
-    return list(options)
+    return sorted(list(options), key=lambda x: sum(x))
 
 
 def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods):
