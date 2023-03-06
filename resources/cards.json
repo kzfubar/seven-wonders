@@ -512,7 +512,7 @@
     {
         "name": "Palace",
         "players": [3, 7],
-        "cost": ["g", "p", "l", "l", "w", "o", "s"],
+        "cost": ["g", "p", "l", "b", "w", "o", "s"],
         "coupon": [],
         "age": 3,
         "type": "civilian",
