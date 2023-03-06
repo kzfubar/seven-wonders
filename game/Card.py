@@ -34,7 +34,7 @@ class Effect:
         targets = []
         if self.target:
             for target in self.target:
-                color = TYPE_COLOR_MAP[target] if target in TYPE_COLOR_MAP else ANSI.ANSI.WHITE
+                color = TYPE_COLOR_MAP[target] if target in TYPE_COLOR_MAP else ANSI.ANSI.BRIGHT_WHITE
                 targets.append(ANSI.use(color, target))
         if self.resources:
             resources = " or ".join(resource_to_human(self.resources))

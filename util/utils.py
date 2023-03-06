@@ -49,7 +49,7 @@ def cards_as_string(cards: List[Card]) -> Tuple[str, Dict[Card, str]]:
     header = f"{name:{max_name_len}} | {typ:{max_type_len}} | {effect:{max_eff_len}} | {resource:{max_res_len}}"
     card_str_dict = dict()
     for card in cards:
-        color = TYPE_COLOR_MAP[card.card_type] if card.card_type in TYPE_COLOR_MAP else ANSI.ANSI.WHITE
+        color = TYPE_COLOR_MAP[card.card_type] if card.card_type in TYPE_COLOR_MAP else ANSI.ANSI.BRIGHT_WHITE
         ansi_card_type = ANSI.use(color, card.card_type)
         card_str = f"{card.name:{max_name_len}} | " \
                    + f"{ansi_card_type:{max_type_len + ANSI.ansilen(ansi_card_type)}} | " \

@@ -11,6 +11,7 @@ from game.action.CouponAction import COUPON
 from game.action.DiscardAction import DISCARD
 from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
+from util import ANSI
 from util.constants import LEFT, RIGHT, MILITARY_POINTS, COINS
 from util.utils import min_cost, cards_as_string
 
@@ -20,7 +21,7 @@ def _hand_to_str(
 ) -> str:
     header, hand_str = cards_as_string(player.hand)
     return "    " + header + "\n" + "\n".join(
-        f"({i}) {card_str:80} | Cost: {min_cost(hand_payment_options[card])}"
+        f"({i}) {card_str:{80 + ANSI.ansilen(card_str)}} | Cost: {min_cost(hand_payment_options[card])}"
         for i, (card, card_str) in enumerate(hand_str.items())
     )
 
@@ -113,7 +114,7 @@ class PlayerActionPhase:
             cur = cur.neighbors[LEFT]
         all_discards: List[Card] = [card for p in all_players for card in p.discards]
         header, discard_str = cards_as_string(all_discards)
-        player.display(header)
+        player.display("    " + header)
         player.display(
             "\n".join(f"({i}) {discard_str[card]:80}" for i, card in enumerate(all_discards))
         )

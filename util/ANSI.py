@@ -17,6 +17,7 @@ class ANSI(Enum):
     YELLOW = '\033[93m'
     RED = '\033[91m'
     WHITE = "\u001b[37m"
+    BRIGHT_WHITE = "\u001b[97m"
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
     END = '\033[0m'
