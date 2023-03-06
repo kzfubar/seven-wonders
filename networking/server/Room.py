@@ -3,12 +3,14 @@ from typing import List, Dict
 
 from game.Game import Game
 from game.command.InfoCommand import InfoCommand
+from game.command.TellCommand import TellCommand
 from networking.server.command.Command import Command
 from networking.server.ClientConnection import ClientConnection
 
 
 def _game_commands(game: Game) -> Dict[str, Command]:
-    commands = [InfoCommand(game)]
+    commands = [InfoCommand(game),
+                TellCommand(game)]
     return {cmd.name: cmd for cmd in commands}
 
 
