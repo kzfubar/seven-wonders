@@ -76,7 +76,7 @@ def _display_payment_options(
     player: Player, payment_options: List[Tuple[int, int, int]]
 ):
     player.display("Payment options:")
-    for i, option in enumerate(payment_options):
+    for i, option in enumerate(sorted(payment_options, key=lambda x: sum(x))):
         player.display(
             f"({i}) {player.neighbors[LEFT].name} <- {option[0]}, {option[1]} -> {player.neighbors[RIGHT].name}"
         )
