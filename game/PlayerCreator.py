@@ -38,7 +38,11 @@ async def _create_player(client: ClientConnection, players: List[Player]) -> Non
             wonder_name = wn
 
     wonder = get_wonder(wonder_name, wonders)
-    players.append(Player(wonder, client))
+    player = Player(wonder, client)
+    players.append(player)
+    for p in players:
+        if p is not player:
+            p.display(f"{player} has selected {wonder_name}")
 
 
 def _set_neighbors(players: List[Player]):
