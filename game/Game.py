@@ -10,8 +10,7 @@ from game.Player import Player
 from game.PlayerActionPhase import PlayerActionPhase
 from networking.server.ClientConnection import ClientConnection
 from util.cardUtils import get_all_cards
-from util.constants import LEFT, RIGHT
-from util.wonderUtils import ALL_WONDERS
+from util.constants import LEFT, RIGHT, MAX_PLAYERS
 
 
 class Game:
@@ -36,7 +35,7 @@ class Game:
                 f"min players is 3, cannot start the game with {num_players}"
             )
             # todo make this actually message the player with error
-        if num_players > len(ALL_WONDERS):
+        if num_players > MAX_PLAYERS:
             raise Exception(
                 f"more players than wonders, cannot start the game with {num_players}"
             )

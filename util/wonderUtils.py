@@ -1,15 +1,14 @@
 from __future__ import annotations
-from game.Wonder import Wonder
 
 import json
-import pprint
-from typing import Optional, List
+from typing import List
 
 from game.Card import Card
+from game.Wonder import Wonder
 from util.cardUtils import get_effects
 
 
-def all_wonders() -> List[Wonder]:
+def create_wonders() -> List[Wonder]:
     with open("resources/wonders.json") as f:
         data = json.load(f)
         return [
@@ -30,15 +29,3 @@ def all_wonders() -> List[Wonder]:
             )
             for wonder in data
         ]
-
-
-def get_wonder(wonder_name: str) -> Optional[Wonder]:
-    for wonder in ALL_WONDERS:
-        if wonder.name.lower() == wonder_name.lower():
-            return wonder
-    print("Wonder not found!")
-    return None
-
-
-ALL_WONDERS = all_wonders()
-pprint.pprint(ALL_WONDERS)

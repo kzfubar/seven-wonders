@@ -1,4 +1,5 @@
 MILITARY_POINTS = (0, 1, 3, 5)
+MAX_PLAYERS: int = 7
 
 LUXURY_GOODS = set("lgp")
 COMMON_GOODS = set("wsbo")

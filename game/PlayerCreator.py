@@ -1,10 +1,11 @@
 import asyncio
-from typing import List
+from typing import List, Optional
 
 from game.Player import Player
+from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
 from util.constants import LEFT, RIGHT
-from util.wonderUtils import ALL_WONDERS, get_wonder
+from util.wonderUtils import create_wonders
 
 
 async def create_players(clients: List[ClientConnection]) -> List[Player]:
@@ -15,7 +16,8 @@ async def create_players(clients: List[ClientConnection]) -> List[Player]:
 
 
 async def _create_player(client: ClientConnection, players: List[Player]) -> None:
-    all_wonder_names = [wonder.name.lower() for wonder in ALL_WONDERS]
+    wonders = create_wonders()
+    all_wonder_names = [wonder.name.lower() for wonder in wonders]
     wonder_name = ""
     client.send_message("Enter your wonder")
     while wonder_name == "":
@@ -35,7 +37,7 @@ async def _create_player(client: ClientConnection, players: List[Player]) -> Non
         else:
             wonder_name = wn
 
-    wonder = get_wonder(wonder_name)
+    wonder = get_wonder(wonder_name, wonders)
     players.append(Player(wonder, client))
 
 
@@ -45,3 +47,11 @@ def _set_neighbors(players: List[Player]):
         player.neighbors[LEFT] = left
         player.neighbors[LEFT].neighbors[RIGHT] = player
         left = player
+
+
+def get_wonder(wonder_name: str, wonders: List[Wonder]) -> Optional[Wonder]:
+    for wonder in wonders:
+        if wonder.name.lower() == wonder_name.lower():
+            return wonder
+    print("Wonder not found!")
+    return None
