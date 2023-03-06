@@ -30,23 +30,26 @@ def right_payment(payment: Tuple[int, int, int]):
 
 
 def cards_as_string(cards: List[Card]) -> Tuple[str, Dict[Card, str]]:
-    name = "Name"
-    typ = "Type"
-    effect = "Effect"
-    resource = "Resource"
+    name = ANSI.use(ANSI.ANSI.BOLD, "Name")
+    typ = ANSI.use(ANSI.ANSI.BOLD, "Type")
+    effect = ANSI.use(ANSI.ANSI.BOLD, "Effect")
+    resource = ANSI.use(ANSI.ANSI.BOLD, "Resource")
 
-    max_name_len = len(name)
-    max_type_len = len(typ)
-    max_eff_len = len(effect)
-    max_res_len = len(resource)
+    max_name_len = ANSI.linelen(name)
+    max_type_len = ANSI.linelen(typ)
+    max_eff_len = ANSI.linelen(effect)
+    max_res_len = ANSI.linelen(resource)
 
     for card in cards:
         max_name_len = max(max_name_len, len(card.name))
         max_type_len = max(max_type_len, len(card.card_type))
-        max_eff_len = max(max_eff_len, len(card.effects_to_str()) - ANSI.ansilen(card.effects_to_str()))
+        max_eff_len = max(max_eff_len, ANSI.linelen(card.effects_to_str()))
         max_res_len = max(max_res_len, len(card.resource_to_str()))
 
-    header = f"{name:{max_name_len}} | {typ:{max_type_len}} | {effect:{max_eff_len}} | {resource:{max_res_len}}"
+    header = f"{name:{max_name_len + ANSI.ansilen(name)}} | " \
+             + f"{typ:{max_type_len + ANSI.ansilen(typ)}} | " \
+             + f"{effect:{max_eff_len + ANSI.ansilen(effect)}} | " \
+             + f"{resource:{max_res_len + ANSI.ansilen(resource)}}"
     card_str_dict = dict()
     for card in cards:
         color = TYPE_COLOR_MAP[card.card_type] if card.card_type in TYPE_COLOR_MAP else ANSI.ANSI.BRIGHT_WHITE

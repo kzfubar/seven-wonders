@@ -20,8 +20,9 @@ def _hand_to_str(
         player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
 ) -> str:
     header, hand_str = cards_as_string(player.hand)
-    return "    " + header + "\n" + "\n".join(
-        f"({i}) {card_str:{80 + ANSI.ansilen(card_str)}} | Cost: {min_cost(hand_payment_options[card])}"
+    max_len = ANSI.linelen(header)
+    return "    " + header + " | Cost \n" + "\n".join(
+        f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| {min_cost(hand_payment_options[card])} coins"
         for i, (card, card_str) in enumerate(hand_str.items())
     )
 

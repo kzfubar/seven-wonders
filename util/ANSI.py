@@ -1,5 +1,5 @@
-from enum import Enum
 import re
+from enum import Enum
 
 ANSI_ESCAPE = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
 
@@ -27,5 +27,9 @@ def use(c: ANSI, s: str) -> str:
     return str(c) + s + str(ANSI.END)
 
 
+def linelen(s: str) -> int:
+    return len(ANSI_ESCAPE.sub('', s))
+
+
 def ansilen(s: str) -> int:
-    return len(s) - len(ANSI_ESCAPE.sub('', s))
+    return len(s) - linelen(s)
