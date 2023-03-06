@@ -21,8 +21,16 @@ class Room:
         self.commands: Dict[str, Command] = _game_commands(self.game)
         self.clients: List[ClientConnection] = list()
 
-    async def start_game(self):
-        asyncio.create_task(self.game.start(self.clients))
+    def start_game(self) -> bool:
+        if self.game.running:
+            return False
+        asyncio.create_task(self._start_game())
+        return True
+
+    async def _start_game(self):
+        await self.game.start(self.clients)
+        for client in self.clients:
+            client.send_message("game is over.")
 
     def handle_command(self, cmd: str, args: List, client: ClientConnection) -> bool:
         if cmd in self.commands:

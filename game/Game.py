@@ -20,12 +20,13 @@ class Game:
     player_action_phase: PlayerActionPhase
 
     def __init__(self):
-        pass
+        self.running = False
 
     def __str__(self):
         return f"players = {self._get_player_order()}"
 
     async def start(self, clients: List[ClientConnection]):
+        self.running = True
         await self._start(clients)
         asyncio.create_task(self.play())
 
@@ -132,6 +133,7 @@ class Game:
         self._message_players(
             f"overall point distribution: {player_points}"
         )
+        self.running = False
 
     async def play(self):
         self._message_players("starting game!")
