@@ -10,7 +10,7 @@ class TellCommand(GameCommand):
     def execute(self, args: List, client: ClientConnection):
         player_name = args.pop(0)
         msg = ' '.join(args)
-        messenger = self.game.players_by_client[client]
+        messenger = self.game.players_by_client[client].name
         if player_name in self.game.players_by_name.keys():
             self.game.players_by_name[player_name].display(f"{messenger}: {msg}")
         else:

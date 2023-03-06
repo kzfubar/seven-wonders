@@ -10,12 +10,12 @@ from util.wonderUtils import create_wonders
 
 async def create_players(clients: List[ClientConnection]) -> List[Player]:
     players = []
-    await asyncio.gather(*(_create_player(client, players) for client in clients))
+    await asyncio.gather(*(_create_player(client, players, clients) for client in clients))
     _set_neighbors(players)
     return players
 
 
-async def _create_player(client: ClientConnection, players: List[Player]) -> None:
+async def _create_player(client: ClientConnection, players: List[Player], clients: List[ClientConnection]) -> None:
     wonders = create_wonders()
     all_wonder_names = [wonder.name.lower() for wonder in wonders]
     wonder_name = ""
@@ -40,9 +40,9 @@ async def _create_player(client: ClientConnection, players: List[Player]) -> Non
     wonder = get_wonder(wonder_name, wonders)
     player = Player(wonder, client)
     players.append(player)
-    for p in players:
-        if p is not player:
-            p.display(f"{player} has selected {wonder_name}")
+    for c in clients:
+        if player.client is not client:
+            c.send_message(f"{player.name} has selected {wonder_name}")
 
 
 def _set_neighbors(players: List[Player]):
