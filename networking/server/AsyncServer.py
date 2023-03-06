@@ -24,7 +24,8 @@ async def _close_connection(addr, writer: StreamWriter) -> None:
 def _handle_message(msg: Dict, client: ClientConnection):
     print(f"{client.name} received message: {msg}")
     clean_data = msg["data"].strip("\n")
-    client.msg_queue.put(clean_data)
+    if clean_data:
+        client.msg_queue.put(clean_data)
 
 
 def _server_commands(server: GameServer) -> Dict[str, Command]:
