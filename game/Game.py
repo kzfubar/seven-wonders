@@ -75,6 +75,7 @@ class Game:
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
             player.hand = card_list[i:: len(self.players)]
+            player.hand = sorted(player.hand, key=lambda card: card.card_type)
 
     def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
@@ -86,6 +87,8 @@ class Game:
         temp_hand = []
         for player in player_order:
             player.hand, temp_hand = temp_hand, player.hand
+        for player in player_order:
+            player.hand = sorted(player.hand, key=lambda card: card.card_type)
 
     def _update_coins(self):
         for player in self.players:
