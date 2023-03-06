@@ -27,7 +27,7 @@ class Game:
     async def start(self, clients: List[ClientConnection]):
         self.running = True
         await self._start(clients)
-        asyncio.create_task(self.play())
+        await self.play()
 
     async def _start(self, clients: List[ClientConnection]):
         num_players = len(clients)
