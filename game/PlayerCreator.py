@@ -42,7 +42,7 @@ async def _create_player(client: ClientConnection, players: List[Player], client
     players.append(player)
     for c in clients:
         if player.client is not c:
-            c.send_message(f"{player.name} has selected {wonder_name}")
+            c.send_message(f"{player.name} has selected {wonder.name}")
 
 
 def _set_neighbors(players: List[Player]):
