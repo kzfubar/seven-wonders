@@ -18,9 +18,7 @@ class MessageSender:
         self._send(msg)
 
     def send_event(self, event_type: str, event_data: Dict):
-        msg = {MSG_TYPE: EVENT,
-               EVENT_TYPE: event_type,
-               DATA: event_data}
+        msg = {MSG_TYPE: EVENT, EVENT_TYPE: event_type, DATA: event_data}
         self._send(msg)
 
     def send_command(self, message: str):

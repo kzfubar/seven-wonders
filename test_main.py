@@ -2,6 +2,5 @@ import unittest
 
 from test.CostCalculatorTest import CostCalculatorTest
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main(verbosity=2)
-

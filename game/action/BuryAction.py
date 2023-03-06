@@ -7,7 +7,9 @@ from game.action.Action import Action, _select_payment_option, _get_card, _activ
 from game.action.Actionable import Actionable
 
 
-def _take_action(player: Player, wonder_card: Card, card: Card, cards: List[Card]) -> None:
+def _take_action(
+    player: Player, wonder_card: Card, card: Card, cards: List[Card]
+) -> None:
     _activate_card(player, wonder_card)
     player.wonder.increment_level()
     cards.remove(card)
@@ -20,7 +22,9 @@ class BuryAction(Action):
     def get_symbol(self) -> str:
         return "b"
 
-    async def select_card(self, player: Player, cards: List[Card], arg: Optional[str]) -> Optional[Actionable]:
+    async def select_card(
+        self, player: Player, cards: List[Card], arg: Optional[str]
+    ) -> Optional[Actionable]:
         card = await _get_card(player, cards, arg)
         if card is None:
             return None
@@ -29,7 +33,11 @@ class BuryAction(Action):
         payment_options = calculate_payment_options(player, wonder_power)
         successfully_played = await _select_payment_option(player, payment_options)
 
-        return Actionable(_take_action, [player, wonder_power, card, cards]) if successfully_played else None
+        return (
+            Actionable(_take_action, [player, wonder_power, card, cards])
+            if successfully_played
+            else None
+        )
 
 
 BURY = BuryAction()

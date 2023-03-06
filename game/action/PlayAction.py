@@ -19,7 +19,9 @@ class PlayAction(Action):
     def get_symbol(self) -> str:
         return "p"
 
-    async def select_card(self, player: Player, cards: List[Card], arg: Optional[str]) -> Optional[Actionable]:
+    async def select_card(
+        self, player: Player, cards: List[Card], arg: Optional[str]
+    ) -> Optional[Actionable]:
         card = await _get_card(player, cards, arg)
         if card is None:
             return None
@@ -27,7 +29,11 @@ class PlayAction(Action):
         player.display(f"playing {card.name}")
         successfully_played = await _select_payment_option(player, payment_options)
 
-        return Actionable(_take_action, [player, card, cards]) if successfully_played else None
+        return (
+            Actionable(_take_action, [player, card, cards])
+            if successfully_played
+            else None
+        )
 
 
 PLAY = PlayAction()

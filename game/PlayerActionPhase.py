@@ -15,7 +15,9 @@ from util.constants import LEFT, RIGHT, MILITARY_POINTS, COINS
 from util.util import min_cost, display_cards
 
 
-def _hand_to_str(player: Player, hand_payment_options: List[List[Tuple[int, int, int]]]) -> str:
+def _hand_to_str(
+    player: Player, hand_payment_options: List[List[Tuple[int, int, int]]]
+) -> str:
     hand_str = display_cards(player.hand)
     return "\n".join(
         f"({i}) {hand_str[i]:80} | Cost: {min_cost(payment_options)}"
@@ -40,7 +42,9 @@ class PlayerActionPhase:
         for direction in (LEFT, RIGHT):
             neighbor = player.neighbors[direction]
             if player.board["military_might"] > neighbor.board["military_might"]:
-                player.display(f"you win against {neighbor.name}! you gain {MILITARY_POINTS[age]}")
+                player.display(
+                    f"you win against {neighbor.name}! you gain {MILITARY_POINTS[age]}"
+                )
                 player.board["military_points"] += MILITARY_POINTS[age]
 
             elif player.board["military_might"] < neighbor.board["military_might"]:
@@ -57,8 +61,7 @@ class PlayerActionPhase:
 
         if not player.wonder.is_max_level:
             wonder_payment_options = calculate_payment_options(
-                player,
-                player.wonder.get_next_power()
+                player, player.wonder.get_next_power()
             )
         else:
             wonder_payment_options = []
@@ -83,7 +86,9 @@ class PlayerActionPhase:
 
         actionable = None
         while actionable is None:
-            player_input = await player.get_input(", ".join([a.get_name() for a in actions]) + " a card: ")
+            player_input = await player.get_input(
+                ", ".join([a.get_name() for a in actions]) + " a card: "
+            )
             action = player_input[0]
             arg = player_input[1::] if len(player_input) > 1 else None
             found_action = False
@@ -109,10 +114,9 @@ class PlayerActionPhase:
             cur = cur.neighbors[LEFT]
         all_discards: List[Card] = [card for p in all_players for card in p.discards]
         discard_str = display_cards(all_discards)
-        player.display("\n".join(
-            f"({i}) {discard_str[i]:80}"
-            for i in range(len(all_discards))
-        ))
+        player.display(
+            "\n".join(f"({i}) {discard_str[i]:80}" for i in range(len(all_discards)))
+        )
         arg = (await player.get_input("Free build from all previous discards: "))[0::]
         await FREE_BUILD.select_card(player, all_discards, arg)
         del player.flags[Flag.DISCARD_BUILD]

@@ -1,4 +1,4 @@
-from typing import List, Tuple, Optional
+from typing import List, Optional
 
 from game.Card import Card
 from game.Player import Player
@@ -18,7 +18,9 @@ class CouponAction(Action):
     def get_symbol(self) -> str:
         return "c"
 
-    async def select_card(self, player: Player, cards: List[Card], arg: Optional[str]) -> Optional[Actionable]:
+    async def select_card(
+        self, player: Player, cards: List[Card], arg: Optional[str]
+    ) -> Optional[Actionable]:
         card = await _get_card(player, cards, arg)
         if card is None:
             return None
@@ -29,7 +31,11 @@ class CouponAction(Action):
         player.display(f"playing {card.name} with coupon")
         successfully_played = await _select_payment_option(player, [(0, 0, 0)])
 
-        return Actionable(_take_action, [player, card, cards]) if successfully_played else None
+        return (
+            Actionable(_take_action, [player, card, cards])
+            if successfully_played
+            else None
+        )
 
 
 COUPON = CouponAction()

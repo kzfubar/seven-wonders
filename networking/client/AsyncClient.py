@@ -58,7 +58,9 @@ class AsyncClient:
                     if msg is None:
                         print()
                         break
-                    if msg[MSG_TYPE] == MESSAGE:  # todo handle error message from the server
+                    if (
+                        msg[MSG_TYPE] == MESSAGE
+                    ):  # todo handle error message from the server
                         self._handle_message(msg)
                     elif msg[MSG_TYPE] == EVENT:
                         continue
@@ -79,6 +81,6 @@ class AsyncClient:
 
     async def ainput(self, string: str = "") -> str:
         await asyncio.get_event_loop().run_in_executor(
-            None, lambda s=string: sys.stdout.write(s + ' '))
-        return await asyncio.get_event_loop().run_in_executor(
-            None, sys.stdin.readline)
+            None, lambda s=string: sys.stdout.write(s + " ")
+        )
+        return await asyncio.get_event_loop().run_in_executor(None, sys.stdin.readline)

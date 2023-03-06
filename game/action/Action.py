@@ -23,7 +23,9 @@ class Action:
         pass
 
 
-async def _get_card(player: Player, cards: List[Card], arg: Optional[str]) -> Optional[Card]:
+async def _get_card(
+    player: Player, cards: List[Card], arg: Optional[str]
+) -> Optional[Card]:
     if arg is None:
         arg = await player.get_input("please select a card: ")
     try:
@@ -37,7 +39,9 @@ async def _get_card(player: Player, cards: List[Card], arg: Optional[str]) -> Op
         return None
 
 
-async def _select_payment_option(player: Player, payment_options: List[Tuple[int, int, int]]) -> bool:
+async def _select_payment_option(
+    player: Player, payment_options: List[Tuple[int, int, int]]
+) -> bool:
     if len(payment_options) == 0:
         player.display("card cannot be purchased")
         return False
@@ -68,7 +72,9 @@ async def _select_payment_option(player: Player, payment_options: List[Tuple[int
     return True
 
 
-def _display_payment_options(player: Player, payment_options: List[Tuple[int, int, int]]):
+def _display_payment_options(
+    player: Player, payment_options: List[Tuple[int, int, int]]
+):
     player.display("Payment options:")
     for i, option in enumerate(payment_options):
         player.display(
@@ -86,9 +92,7 @@ def _activate_card(player: Player, card: Card):
             player.board[resource] += count
 
         elif effect.effect == "discount":
-            for target, direction in itertools.product(
-                    effect.target, effect.direction
-            ):
+            for target, direction in itertools.product(effect.target, effect.direction):
                 player.discounts[direction].add(target)
 
         elif effect.effect == "free_build":

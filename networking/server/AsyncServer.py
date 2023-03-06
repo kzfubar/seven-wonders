@@ -29,8 +29,7 @@ def _handle_message(msg: Dict, client: ClientConnection):
 
 
 def _server_commands(server: GameServer) -> Dict[str, Command]:
-    commands = [RoomCommand(server),
-                StartCommand(server)]
+    commands = [RoomCommand(server), StartCommand(server)]
     return {cmd.name: cmd for cmd in commands}
 
 
@@ -52,7 +51,9 @@ class AsyncServer:
     def add_ip(self, ip: str):
         self.config.add(KNOWN_IP, ip)
 
-    async def _handle_command(self, msg: Optional[Dict], client: ClientConnection) -> None:
+    async def _handle_command(
+        self, msg: Optional[Dict], client: ClientConnection
+    ) -> None:
         print(f"Received command from {client.name}: {msg}")
         args: List = msg["data"].split()
         cmd = args.pop(0)
@@ -65,7 +66,7 @@ class AsyncServer:
             client.send_message(f"Command [{cmd}] not found")
 
     async def handle(self, reader, writer: StreamWriter):
-        addr = writer.get_extra_info('peername')
+        addr = writer.get_extra_info("peername")
         print(f"Received Connection from {addr}")
         ip = addr[0]
         if not self._verify_ip(ip):
@@ -92,14 +93,14 @@ class AsyncServer:
             connection_open = False
 
         print(f"Received logon: {logon}")
-        player_name = logon[DATA].strip('\n')
+        player_name = logon[DATA].strip("\n")
         client = ClientConnection(player_name, addr, sender)
         client.send_message(f"{player_name} logged on")
 
         while connection_open:
             msg = await receiver.get_message()
             print(f"Received {msg!r} from {addr!r}")
-            if msg == '':
+            if msg == "":
                 await _close_connection(addr, writer)
                 connection_open = False
             if msg[MSG_TYPE] == MESSAGE:
@@ -111,7 +112,7 @@ class AsyncServer:
 
     async def start(self):
         server = await asyncio.start_server(self.handle, self.host, 9999)
-        addrs = ', '.join(str(sock.getsockname()) for sock in server.sockets)
-        print(f'Serving on {addrs}')
+        addrs = ", ".join(str(sock.getsockname()) for sock in server.sockets)
+        print(f"Serving on {addrs}")
         async with server:
             await server.serve_forever()

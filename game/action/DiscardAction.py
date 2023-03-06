@@ -20,7 +20,9 @@ class DiscardAction(Action):
     def get_symbol(self) -> str:
         return "d"
 
-    async def select_card(self, player: Player, cards: List[Card], arg: Optional[str]) -> Optional[Actionable]:
+    async def select_card(
+        self, player: Player, cards: List[Card], arg: Optional[str]
+    ) -> Optional[Actionable]:
         card = await _get_card(player, cards, arg)
         if card is None:
             return None

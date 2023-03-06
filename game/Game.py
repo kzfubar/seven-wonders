@@ -4,7 +4,7 @@ import asyncio
 import random
 from typing import Dict, List, Tuple
 
-from game import PlayerCreator
+from game.PlayerCreator import create_players
 from game.Card import Card
 from game.Player import Player
 from game.PlayerActionPhase import PlayerActionPhase
@@ -32,14 +32,20 @@ class Game:
     async def _start(self, clients: List[ClientConnection]):
         num_players = len(clients)
         if num_players < 3:
-            raise Exception(f"min players is 3, cannot start the game with {num_players}")
+            raise Exception(
+                f"min players is 3, cannot start the game with {num_players}"
+            )
             # todo make this actually message the player with error
         if num_players > len(ALL_WONDERS):
-            raise Exception(f"more players than wonders, cannot start the game with {num_players}")
+            raise Exception(
+                f"more players than wonders, cannot start the game with {num_players}"
+            )
 
         self.players = []
-        self.players = await PlayerCreator.create_players(clients)
-        self.players_by_client: Dict[ClientConnection, Player] = {p.client: p for p in self.players}
+        self.players = await create_players(clients)
+        self.players_by_client: Dict[ClientConnection, Player] = {
+            p.client: p for p in self.players
+        }
         self.players_by_name: Dict[str, Player] = {p.name: p for p in self.players}
 
         self.cards: List[Card] = get_all_cards(num_players)
@@ -68,7 +74,7 @@ class Game:
         card_list = self._get_cards_for_age(age)
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
-            player.hand = card_list[i:: len(self.players)]
+            player.hand = card_list[i :: len(self.players)]
 
     def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
@@ -108,8 +114,12 @@ class Game:
     def _end_age(self, age: int):
         self._update_military(age)
         for player in self.players:
-            self._message_players(f"{player.name} has {player.board['victory_points']} victory points!")
-            self._message_players(f"{player.name} has {player.board['military_points']} military points!")
+            self._message_players(
+                f"{player.name} has {player.board['victory_points']} victory points!"
+            )
+            self._message_players(
+                f"{player.name} has {player.board['military_points']} military points!"
+            )
             self._message_players(f"{player.name} has {player.board['shame']} shame!\n")
             # todo add more?
             player.enable_flags()
@@ -120,7 +130,9 @@ class Game:
         for player in self.players:
             player_points.append((player.name, sum(player.get_victory().values())))
         player_points.sort(key=lambda x: x[1], reverse=True)
-        self._message_players(f"{player_points[0][0]} wins with {player_points[0][1]} points!")
+        self._message_players(
+            f"{player_points[0][0]} wins with {player_points[0][1]} points!"
+        )
         self._message_players(f"{player_points} total point distribution")
 
     async def play(self):

@@ -27,7 +27,11 @@ class Wonder:
             f"({'x' if self.level > i else ' '}) {power}"
             for i, power in enumerate(powers_str)
         )
-        return f"{self.name} \n" f"resource = {RESOURCE_MAP[self.resource]} \n" f"{powers} "
+        return (
+            f"{self.name} \n"
+            f"resource = {RESOURCE_MAP[self.resource]} \n"
+            f"{powers} "
+        )
 
     def get_next_power(self) -> Card:
         return self.powers[self.level]

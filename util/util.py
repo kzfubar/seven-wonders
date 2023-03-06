@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing import Tuple, List
-import itertools
 
 from game.Card import Card, Effect
 from util.constants import COMMON, LUXURY

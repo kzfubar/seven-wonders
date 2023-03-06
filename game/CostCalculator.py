@@ -3,7 +3,15 @@ from typing import List, Tuple
 
 from game.Card import Card
 from game.Player import Player
-from util.constants import COMMON, COMMON_GOODS, LUXURY, LUXURY_GOODS, LEFT, TRADABLE_TYPES, RIGHT
+from util.constants import (
+    COMMON,
+    COMMON_GOODS,
+    LUXURY,
+    LUXURY_GOODS,
+    LEFT,
+    TRADABLE_TYPES,
+    RIGHT,
+)
 
 
 def calculate_payment_options(player: Player, card: Card) -> List[Tuple[int, int, int]]:
@@ -42,7 +50,7 @@ def calculate_payment_options(player: Player, card: Card) -> List[Tuple[int, int
     options = set()
 
     for (lux_left, lux_right), (com_left, com_right) in itertools.product(
-            luxury_spread, common_spread
+        luxury_spread, common_spread
     ):
         options.add(
             (
@@ -56,6 +64,7 @@ def calculate_payment_options(player: Player, card: Card) -> List[Tuple[int, int
 
     # TODO: sort and slim down options
     return list(options)
+
 
 def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods):
     outcomes = set()
@@ -108,6 +117,7 @@ def valid_resources(choices, reqs):
             return True
 
     return False
+
 
 def simplify_cost_search(effects, reqs, goods):
     choices = []

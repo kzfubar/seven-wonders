@@ -8,13 +8,7 @@ from game.Card import Card, Effect
 from game.Flag import Flag
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
-from util.constants import (
-    COMMON,
-    LEFT,
-    LUXURY,
-    RIGHT,
-    LUXURY_GOODS, COINS,
-)
+from util.constants import COMMON, LEFT, LUXURY, RIGHT, LUXURY_GOODS, COINS
 
 
 class Player:
@@ -24,7 +18,9 @@ class Player:
         self.wonder: Wonder = wonder
         self.hand: List[Card] = []
         self.discards: List[Card] = []
-        self.updates: List[str] = []  # update queue to display at start of player's turn
+        self.updates: List[
+            str
+        ] = []  # update queue to display at start of player's turn
         self.discounts: DefaultDict[str, set] = defaultdict(set)
         self.next_coins: DefaultDict[str, int] = defaultdict(int)
         self.coupons: Set[str] = set()
@@ -62,7 +58,7 @@ class Player:
         for _, effects in self.effects.items():
             for effect in effects:
                 e.append(str(effect))
-        effects = '\n'.join(e)
+        effects = "\n".join(e)
         return (
             f"wonder = {self.wonder} \n"
             f"board = {dict(self.board)} \n"
@@ -123,10 +119,10 @@ class Player:
         for effect in self.effects["victory"]:
             if effect.target:
                 for target, direction in itertools.product(
-                        effect.target, effect.direction
+                    effect.target, effect.direction
                 ):
                     vp[effect.card_type] += (
-                            self.neighbors[direction].board[target] * effect.resources[0][1]
+                        self.neighbors[direction].board[target] * effect.resources[0][1]
                     )
 
             else:
@@ -153,8 +149,7 @@ class Player:
             min_count = min(0, *curr_counts.values())
             vp["science"] = max(
                 vp["science"],
-                min_count * 7
-                + sum(count * count for count in curr_counts.values()),
+                min_count * 7 + sum(count * count for count in curr_counts.values()),
             )
 
         return vp
