@@ -12,14 +12,14 @@ from game.action.DiscardAction import DISCARD
 from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
 from util.constants import LEFT, RIGHT, MILITARY_POINTS, COINS
-from util.util import min_cost, cards_as_string
+from util.utils import min_cost, cards_as_string
 
 
 def _hand_to_str(
         player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
 ) -> str:
-    hand_str = cards_as_string(player.hand)
-    return "\n".join(
+    header, hand_str = cards_as_string(player.hand)
+    return "    " + header + "\n" + "\n".join(
         f"({i}) {card_str:80} | Cost: {min_cost(hand_payment_options[card])}"
         for i, (card, card_str) in enumerate(hand_str.items())
     )
@@ -69,7 +69,7 @@ class PlayerActionPhase:
         player.display("\n".join(player.updates))
         player.updates = []
         player.display(f"You have {player.board[COINS]} coins")
-        player.display(f"Your hand is:\n{_hand_to_str(player, hand_payment_options)}")
+        player.display(f"{_hand_to_str(player, hand_payment_options)}")
         player.display(f"Bury cost: {min_cost(wonder_payment_options)}")
 
         actions = [PLAY, DISCARD, BURY]
@@ -112,7 +112,8 @@ class PlayerActionPhase:
             all_players.append(cur.neighbors[LEFT])
             cur = cur.neighbors[LEFT]
         all_discards: List[Card] = [card for p in all_players for card in p.discards]
-        discard_str = cards_as_string(all_discards)
+        header, discard_str = cards_as_string(all_discards)
+        player.display(header)
         player.display(
             "\n".join(f"({i}) {discard_str[card]:80}" for i, card in enumerate(all_discards))
         )

@@ -6,7 +6,7 @@ from game.Card import Card
 from game.Flag import Flag
 from game.Player import Player
 from util.constants import LEFT, RIGHT, RESOURCE_MAP, COINS
-from util.util import total_payment, left_payment, right_payment, min_cost
+from util.utils import total_payment, left_payment, right_payment, min_cost
 
 
 class Action:
