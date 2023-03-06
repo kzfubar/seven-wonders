@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 
 from game.Card import Card, Effect
 from util.constants import COMMON, LUXURY
@@ -28,7 +28,7 @@ def right_payment(payment: Tuple[int, int, int]):
     return payment[1]
 
 
-def display_cards(cards: List[Card]) -> List[str]:
+def cards_as_string(cards: List[Card]) -> Dict[Card, str]:
     max_name_len = 0
     max_type_len = 0
     max_effect_len = 0
@@ -40,10 +40,8 @@ def display_cards(cards: List[Card]) -> List[str]:
         max_effect_len = max(max_effect_len, len(card.effects_to_str()))
         max_resource_len = max(max_resource_len, len(card.resource_to_str()))
 
-    return [
-        f"{card.name:{max_name_len}} | "
-        f"{card.card_type:{max_type_len}} | "
-        f"{card.effects_to_str():{max_effect_len}} |"
-        f" {card.resource_to_str():{max_resource_len}}"
-        for card in cards
-    ]
+    return {card: f"{card.name:{max_name_len}} | "
+                  + f"{card.card_type:{max_type_len}} | "
+                  + f"{card.effects_to_str():{max_effect_len}} | "
+                  + f"{card.resource_to_str():{max_resource_len}} "
+            for card in cards}

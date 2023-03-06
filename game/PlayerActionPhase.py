@@ -1,5 +1,5 @@
 import asyncio
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 from game.Card import Card
 from game.CostCalculator import calculate_payment_options
@@ -12,16 +12,16 @@ from game.action.DiscardAction import DISCARD
 from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
 from util.constants import LEFT, RIGHT, MILITARY_POINTS, COINS
-from util.util import min_cost, display_cards
+from util.util import min_cost, cards_as_string
 
 
 def _hand_to_str(
-    player: Player, hand_payment_options: List[List[Tuple[int, int, int]]]
+        player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
 ) -> str:
-    hand_str = display_cards(player.hand)
+    hand_str = cards_as_string(player.hand)
     return "\n".join(
-        f"({i}) {hand_str[i]:80} | Cost: {min_cost(payment_options)}"
-        for i, payment_options in enumerate(hand_payment_options)
+        f"({i}) {card_str:80} | Cost: {min_cost(hand_payment_options[card])}"
+        for i, (card, card_str) in enumerate(hand_str.items())
     )
 
 
@@ -55,9 +55,9 @@ class PlayerActionPhase:
                 player.display(f"you drew against {neighbor.name}!")
 
     async def _select_action(self, player: Player):
-        hand_payment_options = [
-            calculate_payment_options(player, card) for card in player.hand
-        ]
+        hand_payment_options = {
+            card: calculate_payment_options(player, card) for card in player.hand
+        }
 
         if not player.wonder.is_max_level:
             wonder_payment_options = calculate_payment_options(
@@ -112,9 +112,9 @@ class PlayerActionPhase:
             all_players.append(cur.neighbors[LEFT])
             cur = cur.neighbors[LEFT]
         all_discards: List[Card] = [card for p in all_players for card in p.discards]
-        discard_str = display_cards(all_discards)
+        discard_str = cards_as_string(all_discards)
         player.display(
-            "\n".join(f"({i}) {discard_str[i]:80}" for i in range(len(all_discards)))
+            "\n".join(f"({i}) {discard_str[card]:80}" for i, card in enumerate(all_discards))
         )
         arg = (await player.get_input("Free build from all previous discards: "))[0::]
         await FREE_BUILD.select_card(player, all_discards, arg)

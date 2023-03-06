@@ -2,7 +2,7 @@ from typing import List
 
 from game.Card import Card
 from util.constants import RESOURCE_MAP
-from util.util import display_cards
+from util.util import cards_as_string
 
 
 class Wonder:
@@ -22,10 +22,10 @@ class Wonder:
         )
 
     def __str__(self):
-        powers_str = display_cards(self.powers)
+        powers_str = cards_as_string(self.powers)
         powers = "\n".join(
-            f"({'x' if self.level > i else ' '}) {power}"
-            for i, power in enumerate(powers_str)
+            f"({'x' if self.level > i else ' '}) {powers_str[power]}"
+            for i, power in enumerate(self.powers)
         )
         return (
             f"{self.name} \n"
