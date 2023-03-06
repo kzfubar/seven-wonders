@@ -22,7 +22,7 @@ def _hand_to_str(
     header, hand_str = cards_as_string(player.hand)
     max_len = ANSI.linelen(header)
     return "    " + header + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n" + "\n".join(
-        f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| " \
+        f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| "
         + f"{'-' if min_cost(hand_payment_options[card]) == '' else min_cost(hand_payment_options[card]) + ' coins'}"
         for i, (card, card_str) in enumerate(hand_str.items())
     )
