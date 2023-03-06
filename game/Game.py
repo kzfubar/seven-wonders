@@ -91,12 +91,19 @@ class Game:
         # do player end rounds synchronously, future expansions introduce end round effect order
         for player in self.players:
             await self.player_action_phase.end_round(player)
+        for player in self.players:
+            self._display_effects(player)
         self._pass_hands(self.pass_order[age])
         self._update_coins()
 
     def _update_military(self, age: int):
         for player in self.players:
             self.player_action_phase.run_military(player, age)
+
+    def _display_effects(self, player: Player) -> None:
+        for effects in player.effects.values():
+            for effect in effects:
+                player.display(str(effect))
 
     def _end_age(self, age: int):
         self._update_military(age)
@@ -129,4 +136,3 @@ class Game:
                 await self._end_round(round_number, self.age)
             self._end_age(self.age)
         self._end_game()
-
