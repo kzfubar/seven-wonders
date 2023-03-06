@@ -45,7 +45,15 @@ class AsyncClient:
         self.sender.send_logon(player_name=player_name)
 
     def _handle_message(self, msg: dict):
-        print(msg["data"])
+        print("\u001B[s", end="")  # Save current cursor position
+        print("\u001B[A", end="")  # Move cursor up one line
+        print("\u001B[999D", end="")  # Move cursor to beginning of line
+        print("\u001B[S", end="")  # Scroll up/pan window down 1 line
+        print("\u001B[L", end="")  # Insert new line
+
+        print(msg["data"], end="")  # Print output msg
+
+        print("\u001B[u", end="")  # Jump back to saved cursor position
 
     async def _recv(self):
         # receive data back from the server
