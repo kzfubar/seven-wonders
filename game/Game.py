@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import asyncio
 import random
+from collections import defaultdict
 from typing import Dict, List, Tuple
 
 from game.PlayerCreator import create_players
-from game.Card import Card
+from game.Card import Card, resource_to_human
 from game.Player import Player
 from game.PlayerActionPhase import PlayerActionPhase
 from networking.server.ClientConnection import ClientConnection
@@ -97,18 +98,13 @@ class Game:
         for player in self.players:
             await self.player_action_phase.end_round(player)
         for player in self.players:
-            self._display_effects(player)
+            player.display(player.consolidated_effects())
         self._pass_hands(self.pass_order[age])
         self._update_coins()
 
     def _update_military(self, age: int):
         for player in self.players:
             self.player_action_phase.run_military(player, age)
-
-    def _display_effects(self, player: Player) -> None:
-        for effects in player.effects.values():
-            for effect in effects:
-                player.display(str(effect))
 
     def _end_age(self, age: int):
         self._update_military(age)

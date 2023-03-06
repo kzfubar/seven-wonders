@@ -68,7 +68,6 @@ class PlayerActionPhase:
 
         player.display("\n".join(player.updates))
         player.updates = []
-        player.display(player.discounts)
         player.display(f"You have {player.board[COINS]} coins")
         player.display(f"Your hand is:\n{_hand_to_str(player, hand_payment_options)}")
         player.display(f"Bury cost: {min_cost(wonder_payment_options)}")

@@ -4,7 +4,7 @@ from collections import defaultdict
 from typing import DefaultDict
 from typing import Dict, Set, Any, List, Optional, Tuple
 
-from game.Card import Card, Effect
+from game.Card import Card, Effect, resource_to_human
 from game.Flag import Flag
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
@@ -58,15 +58,29 @@ class Player:
         for _, effects in self.effects.items():
             for effect in effects:
                 e.append(str(effect))
-        effects = "\n".join(e)
         return (
             f"wonder = {self.wonder} \n"
             f"board = {dict(self.board)} \n"
-            f"effects = {effects}, \n"
+            f"effects = {self.consolidated_effects()} \n"
             f"neighbors = {self.neighbors[LEFT].name if self.neighbors[LEFT] is not None else 'NONE'} <-"
             f" {self.name} -> "
             f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
         )
+
+    def consolidated_effects(self) -> str:
+        consolidated = []
+        for e, effects in self.effects.items():
+            d = defaultdict(int)
+            complicated = []
+            for effect in effects:
+                if len(effect.resources) == 1:
+                    resources = effect.resources[0]
+                    d[resources[0]] += resources[1]
+                else:
+                    complicated.append(effect)
+            consolidated.append(f'{e} {", ".join(resource_to_human(d.items()))}')
+            consolidated.extend(str(x) for x in complicated)
+        return '\n'.join(consolidated)
 
     def display(self, message: Any):
         self.client.send_message(message)
