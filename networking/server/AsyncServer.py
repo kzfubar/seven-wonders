@@ -22,7 +22,6 @@ async def _close_connection(addr, writer: StreamWriter) -> None:
 
 
 def _handle_message(msg: Dict, client: ClientConnection):
-    print(f"{client.name} received message: {msg}")
     clean_data = msg["data"].strip("\n")
     if clean_data:
         client.msg_queue.put(clean_data)
@@ -54,7 +53,6 @@ class AsyncServer:
     async def _handle_command(
         self, msg: Optional[Dict], client: ClientConnection
     ) -> None:
-        print(f"Received command from {client.name}: {msg}")
         args: List = msg["data"].split()
         cmd = args.pop(0)
 
@@ -99,7 +97,7 @@ class AsyncServer:
 
         while connection_open:
             msg = await receiver.get_message()
-            print(f"Received {msg!r} from {addr!r}")
+            print(f"Received {msg} from {client.name}")
             if msg == "":
                 await _close_connection(addr, writer)
                 connection_open = False
