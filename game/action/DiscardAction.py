@@ -26,7 +26,7 @@ class DiscardAction(Action):
         card = await _get_card(player, cards, arg)
         if card is None:
             return None
-        player.display(f"discarding {card}")
+        player.display(f"discarding {card.name}")
         return Actionable(_take_action, [player, card, cards])
 
 
