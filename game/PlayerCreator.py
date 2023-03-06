@@ -41,7 +41,7 @@ async def _create_player(client: ClientConnection, players: List[Player], client
     player = Player(wonder, client)
     players.append(player)
     for c in clients:
-        if player.client is not client:
+        if player.client is not c:
             c.send_message(f"{player.name} has selected {wonder_name}")
 
 
