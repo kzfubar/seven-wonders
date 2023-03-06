@@ -1,3 +1,5 @@
+from typing import List
+
 from game.command.GameCommand import GameCommand
 from networking.server.ClientConnection import ClientConnection
 
@@ -5,7 +7,7 @@ from networking.server.ClientConnection import ClientConnection
 class InfoCommand(GameCommand):
     name: str = "info"
 
-    def execute(self, args: str, client: ClientConnection):
+    def execute(self, args: List, client: ClientConnection):
         game = self.game
         player_name = args[0]
         if player_name in game.players_by_name.keys():
