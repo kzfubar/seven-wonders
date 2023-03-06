@@ -73,7 +73,7 @@ class AsyncClient:
                     elif msg[MSG_TYPE] == EVENT:
                         continue
                     else:
-                        print(msg)
+                        print("Received unknown msg" + msg)
         except OSError:
             print("\nClosing recv thread")
 

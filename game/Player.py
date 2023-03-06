@@ -44,7 +44,7 @@ class Player:
                 card_type=WONDER,
             )
         )
-
+        self.hand_printouts = []
         self.display(f"Created player {client.name} with {wonder.name}")
 
     def __repr__(self):
@@ -142,6 +142,17 @@ class Player:
         if nontradeable:
             consolidated.append(f'Non-Tradeable Production: {", ".join(nontradeable)}')
         return consolidated
+
+    def cache_printout(self, message: str):
+        if message:
+            self.hand_printouts.append(message)
+
+    def clear_printouts(self):
+        self.hand_printouts.clear()
+
+    def display_printouts(self):
+        for printout in self.hand_printouts:
+            self.display(printout)
 
     def display(self, message: Any):
         self.client.send_message(message)

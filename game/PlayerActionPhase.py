@@ -68,22 +68,23 @@ class PlayerActionPhase:
         else:
             wonder_payment_options = []
 
-        player.display("\n".join(player.updates))
+        player.cache_printout("\n".join(player.updates))
         player.updates = []
-        player.display(f"{_hand_to_str(player, hand_payment_options)}")
-        player.display(f"Bury cost: {min_cost(wonder_payment_options)}")
-        player.display(f"You have {player.coins()} coins")
+        player.cache_printout(f"{_hand_to_str(player, hand_payment_options)}")
+        player.cache_printout(f"Bury cost: {min_cost(wonder_payment_options)}")
+        player.cache_printout(f"You have {player.coins()} coins")
 
         actions = [PLAY, DISCARD, BURY]
         if player.wonder.is_max_level:
             actions.remove(BURY)
         available_coupons = player.available_coupons()
         if available_coupons:
-            player.display("Coupon(s) available!: " + str(available_coupons))
+            player.cache_printout("Coupon(s) available!: " + str(available_coupons))
             actions.append(COUPON)
         if Flag.FREE_BUILD in player.flags and player.flags[Flag.FREE_BUILD]:
-            player.display("Free build available!")
+            player.cache_printout("Free build available!")
             actions.append(FREE_BUILD)
+        player.display_printouts()
 
         actionable = None
         while actionable is None:
@@ -104,6 +105,7 @@ class PlayerActionPhase:
         player.display("turn over")
 
     async def end_round(self, player: Player):
+        player.clear_printouts()
         if Flag.DISCARD_BUILD in player.flags and player.flags[Flag.DISCARD_BUILD]:
             await self._discard_build(player)
 
