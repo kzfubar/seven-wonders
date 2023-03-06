@@ -51,7 +51,7 @@ class AsyncClient:
         print("\u001B[S", end="")  # Scroll up/pan window down 1 line
         print("\u001B[L", end="")  # Insert new line
 
-        print(msg["data"], end="")  # Print output msg
+        print(msg["data"])  # Print output msg
 
         print("\u001B[u", end="")  # Jump back to saved cursor position
 
