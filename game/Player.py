@@ -110,7 +110,7 @@ class Player:
                 count += effect.resources[0][1]
         return effect.resources[0][0], count
 
-    def get_victory(self):
+    def get_victory(self) -> Dict:
         vp = defaultdict(int)
         vp["military"] = self.board["military_points"] - self.board["shame"]
         vp[COINS] = self.board[COINS] // 3
@@ -152,4 +152,4 @@ class Player:
                 min_count * 7 + sum(count * count for count in curr_counts.values()),
             )
 
-        return vp
+        return dict(vp)

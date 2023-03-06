@@ -132,7 +132,10 @@ class Game:
         self._message_players(
             f"{player_points[0][0]} wins with {player_points[0][1]} points!"
         )
-        self._message_players(f"{player_points} total point distribution")
+        self._message_players(f"{player_points} total point count")
+        self._message_players(
+            f"overall point distribution: {player_points}"
+        )
 
     async def play(self):
         self._message_players("starting game!")
