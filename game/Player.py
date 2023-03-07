@@ -59,7 +59,7 @@ class Player:
             f"effects = {self.effects}, \n"
         )
 
-    def __str__(self):  # todo make this nicer!!
+    def __str__(self):
         e = []
         for _, effects in self.effects.items():
             for effect in effects:

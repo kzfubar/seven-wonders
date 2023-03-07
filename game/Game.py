@@ -9,7 +9,7 @@ from game.PlayerActionPhase import PlayerActionPhase
 from game.PlayerCreator import create_players
 from networking.server.ClientConnection import ClientConnection
 from util.cardUtils import get_all_cards
-from util.constants import LEFT, RIGHT, MAX_PLAYERS, DEFEAT, MILITARY_POINTS
+from util.constants import LEFT, RIGHT, MAX_PLAYERS
 from util.toggles import EOR_EFFECTS
 
 
