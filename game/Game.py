@@ -100,7 +100,8 @@ class Game:
         for player in self.players:
             await self.player_action_phase.end_round(player)
         for player in self.players:
-            player.display(player.consolidated_effects())
+            if player.toggles[EOR_EFFECTS]:
+                player.display(player.consolidated_effects())
         self._pass_hands(self.pass_order[age])
         self._update_coins()
 

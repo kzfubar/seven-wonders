@@ -2,6 +2,7 @@ import asyncio
 from typing import List, Dict
 
 from game.Game import Game
+from game.command.ToggleCommand import ToggleCommand
 from game.command.HandCommand import HandCommand
 from game.command.InfoCommand import InfoCommand
 from game.command.TellCommand import TellCommand
@@ -14,7 +15,8 @@ def _game_commands(game: Game) -> Dict[str, Command]:
     commands = [InfoCommand(game),
                 TellCommand(game),
                 WondersCommand(game),
-                HandCommand(game)]
+                HandCommand(game),
+                ToggleCommand(game)]
     return {cmd.name: cmd for cmd in commands}
 
 

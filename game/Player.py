@@ -10,6 +10,7 @@ from game.Tableau import Tableau
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
 from util.constants import LEFT, RIGHT, COINS, WONDER, TRADABLE_TYPES, DEFEAT, MILITARY_POINTS, MILITARY_MIGHT
+from util.toggles import DISPLAY_TYPE
 
 
 class Player:
@@ -45,6 +46,9 @@ class Player:
             )
         )
         self.hand_printouts = []
+        self.toggles = {DISPLAY_TYPE: True,
+                        EOR_EFFECTS: True}
+
         self.display(f"Created player {client.name} with {wonder.name}")
 
     def __repr__(self):

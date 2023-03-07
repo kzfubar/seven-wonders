@@ -13,13 +13,14 @@ from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
 from util import ANSI
 from util.constants import LEFT, RIGHT, MILITARY_POINTS_PER_AGE, DEFEAT, MILITARY_POINTS
+from util.toggles import DISPLAY_TYPE
 from util.utils import min_cost, cards_as_string
 
 
 def _hand_to_str(
         player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
 ) -> str:
-    header, hand_str = cards_as_string(player.hand)
+    header, hand_str = cards_as_string(player.hand, player.toggles[DISPLAY_TYPE])
     max_len = ANSI.linelen(header)
     return "    " + header + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n" + "\n".join(
         f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| "
@@ -117,7 +118,7 @@ class PlayerActionPhase:
             all_players.append(cur.neighbors[LEFT])
             cur = cur.neighbors[LEFT]
         all_discards: List[Card] = [card for p in all_players for card in p.discards]
-        header, discard_str = cards_as_string(all_discards)
+        header, discard_str = cards_as_string(all_discards, player.toggles[DISPLAY_TYPE])
         player.display("    " + header)
         player.display(
             "\n".join(f"({i}) {discard_str[card]:80}" for i, card in enumerate(all_discards))
