@@ -15,4 +15,3 @@ class ToggleCommand(GameCommand):
             client.send_message(f"set {toggle} to {value}")
         except KeyError:
             client.send_message(f"failed to set {toggle}")
-

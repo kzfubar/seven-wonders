@@ -10,12 +10,16 @@ from util.wonderUtils import create_wonders
 
 async def create_players(clients: List[ClientConnection]) -> List[Player]:
     players = []
-    await asyncio.gather(*(_create_player(client, players, clients) for client in clients))
+    await asyncio.gather(
+        *(_create_player(client, players, clients) for client in clients)
+    )
     _set_neighbors(players)
     return players
 
 
-async def _create_player(client: ClientConnection, players: List[Player], clients: List[ClientConnection]) -> None:
+async def _create_player(
+    client: ClientConnection, players: List[Player], clients: List[ClientConnection]
+) -> None:
     wonders = create_wonders()
     all_wonder_names = [wonder.name.lower() for wonder in wonders]
     wonder_name = ""

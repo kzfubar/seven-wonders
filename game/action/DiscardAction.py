@@ -7,7 +7,9 @@ from game.action.Actionable import Actionable
 from util.constants import COINS
 
 
-def _take_action(player: Player, card: Card, cards: List[Card], players: List[Player]) -> None:
+def _take_action(
+    player: Player, card: Card, cards: List[Card], players: List[Player]
+) -> None:
     _announce(f"{player.name} discarded a card for 3 coins", players)
     player.add_token(COINS, 3)
     player.discards.append(card)
@@ -22,7 +24,11 @@ class DiscardAction(Action):
         return "d"
 
     async def select_card(
-        self, player: Player, cards: List[Card], arg: Optional[str], players: List[Player]
+        self,
+        player: Player,
+        cards: List[Card],
+        arg: Optional[str],
+        players: List[Player],
     ) -> Optional[Actionable]:
         card = await _get_card(player, cards, arg)
         if card is None:

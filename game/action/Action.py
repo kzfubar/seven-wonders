@@ -5,7 +5,7 @@ from typing import List, Tuple, Optional
 from game.Card import Card
 from game.Flag import Flag
 from game.Player import Player
-from util.constants import LEFT, RIGHT, RESOURCE_MAP, COINS
+from util.constants import LEFT, RIGHT, RESOURCE_MAP
 from util.utils import total_payment, left_payment, right_payment, min_cost
 
 
@@ -19,7 +19,9 @@ class Action:
         pass
 
     @abstractmethod
-    async def select_card(self, player: Player, cards: List[Card], arg: str, players: List[Player]) -> bool:
+    async def select_card(
+        self, player: Player, cards: List[Card], arg: str, players: List[Player]
+    ) -> bool:
         pass
 
 

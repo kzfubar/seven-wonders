@@ -34,7 +34,11 @@ class Effect:
         targets = []
         if self.target:
             for target in self.target:
-                color = TYPE_COLOR_MAP[target] if target in TYPE_COLOR_MAP else ANSI.ANSI.BRIGHT_WHITE
+                color = (
+                    TYPE_COLOR_MAP[target]
+                    if target in TYPE_COLOR_MAP
+                    else ANSI.ANSI.BRIGHT_WHITE
+                )
                 targets.append(ANSI.use(color, target))
         if self.resources:
             resources = " or ".join(resource_to_human(self.resources))
@@ -72,7 +76,11 @@ class Card:
         )
 
     def __str__(self):
-        color = TYPE_COLOR_MAP[self.card_type] if self.card_type in TYPE_COLOR_MAP else ANSI.ANSI.BRIGHT_WHITE
+        color = (
+            TYPE_COLOR_MAP[self.card_type]
+            if self.card_type in TYPE_COLOR_MAP
+            else ANSI.ANSI.BRIGHT_WHITE
+        )
         return f"{ANSI.use(color, self.name)} - {self.effects_to_str()}"
 
     def effects_to_str(self) -> str:

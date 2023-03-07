@@ -2,11 +2,19 @@ from typing import List, Optional
 
 from game.Card import Card
 from game.Player import Player
-from game.action.Action import Action, _select_payment_option, _get_card, _activate_card, _announce
+from game.action.Action import (
+    Action,
+    _select_payment_option,
+    _get_card,
+    _activate_card,
+    _announce,
+)
 from game.action.Actionable import Actionable
 
 
-def _take_action(player: Player, card: Card, cards: List[Card], players: List[Player]) -> None:
+def _take_action(
+    player: Player, card: Card, cards: List[Card], players: List[Player]
+) -> None:
     _announce(f"{player.name} used a coupon for {card}", players)
     _activate_card(player, card)
     cards.remove(card)
@@ -20,7 +28,11 @@ class CouponAction(Action):
         return "c"
 
     async def select_card(
-        self, player: Player, cards: List[Card], arg: Optional[str], players: List[Player]
+        self,
+        player: Player,
+        cards: List[Card],
+        arg: Optional[str],
+        players: List[Player],
     ) -> Optional[Actionable]:
         card = await _get_card(player, cards, arg)
         if card is None:

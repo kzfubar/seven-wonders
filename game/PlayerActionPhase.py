@@ -18,14 +18,19 @@ from util.utils import min_cost, cards_as_string
 
 
 def _hand_to_str(
-        player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
+    player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
 ) -> str:
     header, hand_str = cards_as_string(player.hand, player.toggles[DISPLAY_TYPE])
     max_len = ANSI.linelen(header)
-    return "    " + header + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n" + "\n".join(
-        f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| "
-        + f"{'-' if min_cost(hand_payment_options[card]) == '' else min_cost(hand_payment_options[card]) + ' coins'}"
-        for i, (card, card_str) in enumerate(hand_str.items())
+    return (
+        "    "
+        + header
+        + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n"
+        + "\n".join(
+            f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| "
+            + f"{'-' if min_cost(hand_payment_options[card]) == '' else min_cost(hand_payment_options[card]) + ' coins'}"
+            for i, (card, card_str) in enumerate(hand_str.items())
+        )
     )
 
 
@@ -35,7 +40,9 @@ class PlayerActionPhase:
         self.actions: List[Actionable] = []
 
     async def select_actions(self):
-        await asyncio.gather(*(self._select_action(player, self.players) for player in self.players))
+        await asyncio.gather(
+            *(self._select_action(player, self.players) for player in self.players)
+        )
 
     def execute_actions(self):
         for actionable in self.actions:
@@ -118,10 +125,14 @@ class PlayerActionPhase:
             all_players.append(cur.neighbors[LEFT])
             cur = cur.neighbors[LEFT]
         all_discards: List[Card] = [card for p in all_players for card in p.discards]
-        header, discard_str = cards_as_string(all_discards, player.toggles[DISPLAY_TYPE])
+        header, discard_str = cards_as_string(
+            all_discards, player.toggles[DISPLAY_TYPE]
+        )
         player.display("    " + header)
         player.display(
-            "\n".join(f"({i}) {discard_str[card]:80}" for i, card in enumerate(all_discards))
+            "\n".join(
+                f"({i}) {discard_str[card]:80}" for i, card in enumerate(all_discards)
+            )
         )
         arg = (await player.get_input("Free build from all previous discards: "))[0::]
         await FREE_BUILD.select_card(player, all_discards, arg)

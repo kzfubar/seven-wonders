@@ -12,4 +12,3 @@ class WondersCommand(GameCommand):
         for wonder in create_wonders():
             client.send_message(wonder)
             client.send_message("\n")
-

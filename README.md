@@ -3,6 +3,13 @@
 https://j-brooke.github.io/FracturedJson/ 
 for json formatting 
 
+run `black . ` from the top level directory to format all files
+
+run `python3 -m unittest discover -p *Test.py -s test/` to execute tests
+
+run `flake8 --ignore=E501,W503,E203` to test lint rules
+
+
 
 ## todo
 Handle duplicate player names: `handle duplicate player names`

@@ -74,7 +74,7 @@ class Game:
         card_list = self._get_cards_for_age(age)
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
-            player.hand = card_list[i:: len(self.players)]
+            player.hand = card_list[i :: len(self.players)]
             player.hand = sorted(player.hand, key=lambda card: card.card_type)
 
     def _get_cards_for_age(self, age: int) -> List[Card]:

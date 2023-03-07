@@ -23,9 +23,14 @@ class Wonder:
 
     def __str__(self):
         header, powers_str = cards_as_string(self.powers, False)
-        powers = "    " + header + "\n" + "\n".join(
-            f"({'x' if self.level > i else ' '}) {powers_str[power]}"
-            for i, power in enumerate(self.powers)
+        powers = (
+            "    "
+            + header
+            + "\n"
+            + "\n".join(
+                f"({'x' if self.level > i else ' '}) {powers_str[power]}"
+                for i, power in enumerate(self.powers)
+            )
         )
         return (
             f"{self.name} \n"

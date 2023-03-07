@@ -9,7 +9,16 @@ from game.Flag import Flag
 from game.Tableau import Tableau
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
-from util.constants import LEFT, RIGHT, COINS, WONDER, TRADABLE_TYPES, DEFEAT, MILITARY_POINTS, MILITARY_MIGHT
+from util.constants import (
+    LEFT,
+    RIGHT,
+    COINS,
+    WONDER,
+    TRADABLE_TYPES,
+    DEFEAT,
+    MILITARY_POINTS,
+    MILITARY_MIGHT,
+)
 from util.toggles import DISPLAY_TYPE, EOR_EFFECTS
 
 
@@ -46,8 +55,7 @@ class Player:
             )
         )
         self.hand_printouts = []
-        self.toggles = {DISPLAY_TYPE: True,
-                        EOR_EFFECTS: True}
+        self.toggles = {DISPLAY_TYPE: True, EOR_EFFECTS: True}
 
         self.display(f"Created player {client.name} with {wonder.name}")
 
@@ -75,10 +83,12 @@ class Player:
         )
 
     def short_info(self) -> str:
-        return f"{self.name} on {self.wonder.name} at level {self.wonder.level}\n" \
-               + f"\t{self._tableau.token_info()}\n" \
-               + f"\t{self._tableau.card_type_info()}\n" \
-               + f"\t{self.consolidated_effects()}"
+        return (
+            f"{self.name} on {self.wonder.name} at level {self.wonder.level}\n"
+            + f"\t{self._tableau.token_info()}\n"
+            + f"\t{self._tableau.card_type_info()}\n"
+            + f"\t{self.consolidated_effects()}"
+        )
 
     def token_count(self, token: str) -> int:
         if token == "wonder_level":
@@ -112,12 +122,15 @@ class Player:
                 d = defaultdict(int)
                 complicated = []
                 for effect in effects:
-                    if effect.card_type in TRADABLE_TYPES and len(effect.resources) == 1:
+                    if (
+                        effect.card_type in TRADABLE_TYPES
+                        and len(effect.resources) == 1
+                    ):
                         resources = effect.resources[0]
                         d[resources[0]] += resources[1]
                     else:
                         complicated.append(effect)
-        return '\n'.join(consolidated)
+        return "\n".join(consolidated)
 
     def _consolidated_production(self, effects: List[Effect]) -> List[str]:
         consolidated = []
@@ -209,10 +222,11 @@ class Player:
         for effect in self.effects["victory"]:
             if effect.target:
                 for target, direction in itertools.product(
-                        effect.target, effect.direction
+                    effect.target, effect.direction
                 ):
                     vp[effect.card_type] += (
-                            self.neighbors[direction].token_count(target) * effect.resources[0][1]
+                        self.neighbors[direction].token_count(target)
+                        * effect.resources[0][1]
                     )
 
             else:

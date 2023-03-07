@@ -12,11 +12,13 @@ from networking.server.ClientConnection import ClientConnection
 
 
 def _game_commands(game: Game) -> Dict[str, Command]:
-    commands = [InfoCommand(game),
-                TellCommand(game),
-                WondersCommand(game),
-                HandCommand(game),
-                ToggleCommand(game)]
+    commands = [
+        InfoCommand(game),
+        TellCommand(game),
+        WondersCommand(game),
+        HandCommand(game),
+        ToggleCommand(game),
+    ]
     return {cmd.name: cmd for cmd in commands}
 
 
