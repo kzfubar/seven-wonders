@@ -10,7 +10,7 @@ from game.Tableau import Tableau
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
 from util.constants import LEFT, RIGHT, COINS, WONDER, TRADABLE_TYPES, DEFEAT, MILITARY_POINTS, MILITARY_MIGHT
-from util.toggles import DISPLAY_TYPE
+from util.toggles import DISPLAY_TYPE, EOR_EFFECTS
 
 
 class Player:
