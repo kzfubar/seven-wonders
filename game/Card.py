@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import ItemsView, List, Tuple, DefaultDict, Union
 
-from util import ANSI
+from util.ANSI import ANSI, use
 from util.constants import RESOURCE_MAP, TYPE_COLOR_MAP
 
 
@@ -37,9 +37,9 @@ class Effect:
                 color = (
                     TYPE_COLOR_MAP[target]
                     if target in TYPE_COLOR_MAP
-                    else ANSI.ANSI.BRIGHT_WHITE
+                    else ANSI.BRIGHT_WHITE
                 )
-                targets.append(ANSI.use(color, target))
+                targets.append(use(color, target))
         if self.resources:
             resources = " or ".join(resource_to_human(self.resources))
             s += f" {resources}"
@@ -79,9 +79,9 @@ class Card:
         color = (
             TYPE_COLOR_MAP[self.card_type]
             if self.card_type in TYPE_COLOR_MAP
-            else ANSI.ANSI.BRIGHT_WHITE
+            else ANSI.BRIGHT_WHITE
         )
-        return f"{ANSI.use(color, self.name)} - {self.effects_to_str()}"
+        return f"{use(color, self.name)} - {self.effects_to_str()}"
 
     def effects_to_str(self) -> str:
         effects = [str(e) for e in self.effects]

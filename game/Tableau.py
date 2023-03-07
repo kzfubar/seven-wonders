@@ -1,4 +1,4 @@
-from util import ANSI
+from util.ANSI import use, ANSI
 from util.constants import (
     COINS,
     MILITARY_MIGHT,
@@ -40,9 +40,9 @@ class Tableau:
             color = (
                 TYPE_COLOR_MAP[card_type]
                 if card_type in TYPE_COLOR_MAP
-                else ANSI.ANSI.BRIGHT_WHITE
+                else ANSI.BRIGHT_WHITE
             )
-            types_l.append(f"{ANSI.use(color, card_type)}: {count}")
+            types_l.append(f"{use(color, card_type)}: {count}")
         return ", ".join(types_l)
 
     def count(self, token: str) -> int:

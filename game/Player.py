@@ -233,7 +233,7 @@ class Player:
                 vp[effect.card_type] += effect.resources[0][1]
 
         # calculate science
-        science_counts = defaultdict(int)
+        science_counts = {"x": 0, "y": 0, "z": 0}
         science_choices = []
 
         for effect in self.effects["research"]:
@@ -241,8 +241,8 @@ class Player:
                 science_choices.append(
                     tuple(resource[0] for resource in effect.resources)
                 )
-
-            science_counts[effect.resources[0][0]] += 1
+            else:
+                science_counts[effect.resources[0][0]] += 1
 
         for options in itertools.product([""], *science_choices):
             curr_counts = copy.copy(science_counts)
