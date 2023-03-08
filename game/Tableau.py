@@ -28,6 +28,9 @@ class Tableau:
             GUILD: 0,
         }
 
+    def __str__(self):
+        return self.token_info() + '\n' + self.card_type_info()
+
     def token_info(self) -> str:
         tok_l = []
         for token, count in self.tokens.items():
@@ -48,7 +51,7 @@ class Tableau:
     def count(self, token: str) -> int:
         if token in self.tokens:
             return self.tokens[token]
-        if token in self.card_types_played[token]:
+        if token in self.card_types_played:
             return self.card_types_played[token]
         raise KeyError
 
