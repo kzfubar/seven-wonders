@@ -85,9 +85,9 @@ class Player:
     def short_info(self) -> str:
         return (
             f"{self.name} on {self.wonder.name} at level {self.wonder.level}\n"
-            + f"\t{self._tableau.token_info()}\n"
-            + f"\t{self._tableau.card_type_info()}\n"
-            + f"\t{self.consolidated_effects()}"
+            + f"{self._tableau.token_info()}\n"
+            + f"{self._tableau.card_type_info()}\n"
+            + f"{self.consolidated_effects()}"
         )
 
     def token_count(self, token: str) -> int:
