@@ -1,7 +1,7 @@
 import asyncio
 
 from bot.GamePlayer import GamePlayer
-from bot.RandomPlayer import RandomPlayer
+from bot.SequentialPlayer import SequentialPlayer
 from networking.Config import Config
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
@@ -14,7 +14,7 @@ class BotClient:
 
     def __init__(self):
         print("Client created")
-        self._game_player: GamePlayer = RandomPlayer()
+        self._game_player: GamePlayer = SequentialPlayer()
         self.receiver = None
         self.config = Config()
 
