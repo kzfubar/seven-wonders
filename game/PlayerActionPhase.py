@@ -97,6 +97,7 @@ class PlayerActionPhase:
 
         actionable = None
         while actionable is None:
+            player.client.send_event("game", {"type": "input", "options": [a.get_symbol() for a in actions]})
             player_input = await player.get_input(
                 ", ".join([a.get_name() for a in actions]) + " a card: "
             )

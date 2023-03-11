@@ -26,7 +26,7 @@ class Player:
     def __init__(self, wonder: Wonder, client: ClientConnection):
         self._tableau = Tableau()
 
-        self.client = client
+        self.client: ClientConnection = client
         self.name: str = client.name
         self.wonder: Wonder = wonder
         self.hand: List[Card] = []
@@ -81,6 +81,13 @@ class Player:
             f" {self.name} -> "
             f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
         )
+
+    def event_hand(self):
+        hand = {
+            "type": "hand",
+            "hand": [card.id for card in self.hand]
+        }
+        self.client.send_event("game", hand)
 
     def short_info(self) -> str:
         return (

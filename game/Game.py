@@ -76,6 +76,7 @@ class Game:
         for i, player in enumerate(self.players):
             player.hand = card_list[i :: len(self.players)]
             player.hand = sorted(player.hand, key=lambda card: card.card_type)
+            player.event_hand()
 
     def _get_cards_for_age(self, age: int) -> List[Card]:
         return [card for card in self.cards if card.age == age]
@@ -84,11 +85,12 @@ class Game:
         player_order = self.players + [self.players[0]]
         if direction == LEFT:
             player_order.reverse()
-        temp_hand = []
+        temp_hand: List[Card] = []
         for player in player_order:
             player.hand, temp_hand = temp_hand, player.hand
         for player in player_order:
             player.hand = sorted(player.hand, key=lambda card: card.card_type)
+            player.event_hand()
 
     def _update_coins(self):
         for player in self.players:

@@ -59,6 +59,7 @@ async def _select_payment_option(
     elif min_cost(payment_options) != "0":
         # something has to be paid to a different player
         _display_payment_options(player, payment_options)
+        player.client.send_event("game", {"type": "payment", "options": [i for i, _ in enumerate(payment_options)]})
         player_input = await player.get_input("select a payment option: ")
         if player_input == "q":
             return False

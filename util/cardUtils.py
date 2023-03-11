@@ -31,6 +31,7 @@ def get_all_cards(num_players: int) -> List[Card]:
         if card["type"] == "guild":
             guilds.append(
                 Card(
+                    id=card["id"],
                     name=card["name"],
                     age=card["age"],
                     card_type=card["type"],
@@ -45,6 +46,7 @@ def get_all_cards(num_players: int) -> List[Card]:
             if num_players >= player_count:
                 all_cards.append(
                     Card(
+                        id=card["id"],
                         name=card["name"],
                         age=card["age"],
                         card_type=card["type"],

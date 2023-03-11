@@ -25,6 +25,7 @@ async def _create_player(
     wonder_name = ""
     client.send_message("Enter your wonder")
     while wonder_name == "":
+        client.send_event("game", {"type": "wonder_selection", "options": ["r", "b", "g", "e", "a"]})
         msg = await client.get_message()
 
         matched_wonders = [wn for wn in all_wonder_names if wn.startswith(msg.lower())]

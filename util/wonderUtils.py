@@ -17,6 +17,7 @@ def create_wonders() -> List[Wonder]:
                 wonder["resources"][0],
                 [
                     Card(
+                        -1,
                         f"{wonder['name']}{i}",
                         0,
                         "wonder_power",

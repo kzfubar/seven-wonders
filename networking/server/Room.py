@@ -53,3 +53,4 @@ class Room:
         client.send_message(f"Currently in room: {[c.name for c in self.clients]}")
         for c in self.clients:
             c.send_message(f"{client.name} has joined the room")
+        client.send_event("room", {"type": "room", "clients": [c.name for c in self.clients]})

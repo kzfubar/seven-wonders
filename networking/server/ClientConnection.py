@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import queue
-from typing import Any
+from typing import Any, Dict
 
 from networking.messaging.MessageSender import MessageSender
 
@@ -29,6 +29,9 @@ class ClientConnection:
 
     def send_message(self, message: Any):
         self.sender.send_message(message)
+
+    def send_event(self, event_type: str, data: Dict):
+        self.sender.send_event(event_type, data)
 
     def _on_message(self, callback):
         msg = ""

@@ -51,6 +51,7 @@ class Effect:
 class Card:
     def __init__(
         self,
+        id: int,
         name: str,
         age: int,
         card_type: str,
@@ -58,6 +59,7 @@ class Card:
         coupons: List[str],
         effects: List[Effect],
     ):
+        self.id = id
         self.name = name
         self.age = age
         self.card_type = card_type
