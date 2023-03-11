@@ -1,11 +1,12 @@
 import asyncio
-import random
 
+from bot.GamePlayer import GamePlayer
+from bot.RandomPlayer import RandomPlayer
 from networking.Config import Config
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
 from networking.messaging.messageTypes import MESSAGE, EVENT
-from networking.messaging.messageUtil import MSG_TYPE, EVENT_TYPE, DATA
+from networking.messaging.messageUtil import MSG_TYPE, DATA, EVENT_TYPE, ROOM, GAME
 
 
 class BotClient:
@@ -13,7 +14,7 @@ class BotClient:
 
     def __init__(self):
         print("Client created")
-        self.player_state = {'hand': []}
+        self._game_player: GamePlayer = RandomPlayer()
         self.receiver = None
         self.config = Config()
 
@@ -49,18 +50,14 @@ class BotClient:
         event_type = event[EVENT_TYPE]
         data = event[DATA]
         data_type = data["type"]
-        if data_type == "room":
-            if len(data["clients"]) == 3:
-                self.sender.send_command("start")
-        elif data_type == "hand":
-            self.player_state["hand"] = data["hand"]
-            print(self.player_state)
-        elif data_type == "wonder_selection":
-            self.sender.send_message(random.choice(data["options"]))
-        elif data_type == "input":
-            self.sender.send_message(random.choice(data["options"]) + str(random.randrange(0, len(self.player_state["hand"]))))
-        elif data_type == "payment":
-            self.sender.send_message(random.choice(data["options"]))
+        if event_type == ROOM:
+            if data_type == "room":
+                if len(data["clients"]) == 3:
+                    self.sender.send_command("start")
+        elif event_type == GAME:
+            response = self._game_player.handle_event(event)
+            if response is not None:
+                self.sender.send_message(response)
 
     async def _recv(self):
         # receive data back from the server
@@ -74,7 +71,7 @@ class BotClient:
                         print()
                         break
                     if (
-                        msg[MSG_TYPE] == MESSAGE
+                            msg[MSG_TYPE] == MESSAGE
                     ):  # todo handle error message from the server
                         self._handle_message(msg)
                     elif msg[MSG_TYPE] == EVENT:
@@ -84,4 +81,3 @@ class BotClient:
                         print("Received unknown msg" + msg)
         except OSError:
             print("\nClosing recv thread")
-

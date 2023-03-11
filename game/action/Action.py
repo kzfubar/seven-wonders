@@ -5,6 +5,7 @@ from typing import List, Tuple, Optional
 from game.Card import Card
 from game.Flag import Flag
 from game.Player import Player
+from networking.messaging.messageUtil import GAME
 from util.constants import LEFT, RIGHT, RESOURCE_MAP
 from util.utils import total_payment, left_payment, right_payment, min_cost
 
@@ -29,6 +30,7 @@ async def _get_card(
     player: Player, cards: List[Card], arg: Optional[str]
 ) -> Optional[Card]:
     if arg is None:
+        player.client.clear_message_buffer()
         arg = await player.get_input("please select a card: ")
     try:
         arg = int(arg)
@@ -59,7 +61,8 @@ async def _select_payment_option(
     elif min_cost(payment_options) != "0":
         # something has to be paid to a different player
         _display_payment_options(player, payment_options)
-        player.client.send_event("game", {"type": "payment", "options": [i for i, _ in enumerate(payment_options)]})
+        player.client.clear_message_buffer()
+        player.client.send_event(GAME, {"type": "payment", "options": [i for i, _ in enumerate(payment_options)]})
         player_input = await player.get_input("select a payment option: ")
         if player_input == "q":
             return False

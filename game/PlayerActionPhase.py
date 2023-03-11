@@ -97,6 +97,7 @@ class PlayerActionPhase:
 
         actionable = None
         while actionable is None:
+            player.client.clear_message_buffer()
             player.client.send_event("game", {"type": "input", "options": [a.get_symbol() for a in actions]})
             player_input = await player.get_input(
                 ", ".join([a.get_name() for a in actions]) + " a card: "
@@ -135,6 +136,7 @@ class PlayerActionPhase:
                 f"({i}) {discard_str[card]:80}" for i, card in enumerate(all_discards)
             )
         )
+        player.client.clear_message_buffer()
         arg = (await player.get_input("Free build from all previous discards: "))[0::]
         await FREE_BUILD.select_card(player, all_discards, arg)
         del player.flags[Flag.DISCARD_BUILD]

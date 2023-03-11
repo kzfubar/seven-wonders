@@ -23,6 +23,7 @@ async def _create_player(
     wonders = create_wonders()
     all_wonder_names = [wonder.name.lower() for wonder in wonders]
     wonder_name = ""
+    client.clear_message_buffer()
     client.send_message("Enter your wonder")
     while wonder_name == "":
         client.send_event("game", {"type": "wonder_selection", "options": ["r", "b", "g", "e", "a"]})

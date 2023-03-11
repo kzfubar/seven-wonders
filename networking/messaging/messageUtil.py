@@ -4,4 +4,7 @@ BUFFER_SIZE = 1024
 
 MSG_TYPE = "msgType"
 EVENT_TYPE = "eventType"
+GAME = "game"
+ROOM = "room"
+SERVER = "server"
 DATA = "data"
