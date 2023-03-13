@@ -35,7 +35,7 @@ class CheapPlayer(GamePlayer):
                             if sum(cost[i]) < payment_option:
                                 payment_option = i
                         payment_cost = min_cost
-                        index = self.game_state["hand"].index(card)
+                        index = self.game_state["hand"].index(str(card))
                 if payment_cost > self.game_state["coins"]:
                     return "d0"
                 else:

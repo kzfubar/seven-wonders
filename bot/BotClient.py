@@ -2,38 +2,30 @@ import asyncio
 
 from bot.CheapPlayer import CheapPlayer
 from bot.GamePlayer import GamePlayer
-from networking.messaging.MessageReceiver import MessageReceiver, EMPTY_RECEIVER
-from networking.messaging.MessageSender import MessageSender, EMPTY_SENDER
+from networking.messaging.MessageReceiver import MessageReceiver
+from networking.messaging.MessageSender import MessageSender
 from networking.messaging.messageTypes import MESSAGE, EVENT
 from networking.messaging.messageUtil import MSG_TYPE, DATA, EVENT_TYPE, ROOM, GAME
 
 
 class BotClient:
-    def __init__(self):
-        self.sender: MessageSender = EMPTY_SENDER
-        self.receiver: MessageReceiver = EMPTY_RECEIVER
+    def __init__(self, player_name: str, sender: MessageSender, receiver: MessageReceiver):
+        self.player_name: str = player_name
+        self.sender: MessageSender = sender
+        self.receiver: MessageReceiver = receiver
 
         self._game_player: GamePlayer = CheapPlayer()
-
         print("Client created")
 
-    async def start(self, player_name: str, sender: MessageSender, receiver: MessageReceiver):
-        self.sender = sender
-        self.receiver = receiver
-        login = asyncio.create_task(self._do_logon(player_name))
+    async def start(self):
         recv = asyncio.create_task(self._recv())
         try:
-            await login
             await recv
         except KeyboardInterrupt:
             self._close()
 
     def _close(self):
         print("\nShutting down!")
-
-    async def _do_logon(self, player_name):
-        self.sender.send_logon(player_name=player_name)
-        self.sender.send_command("room r")
 
     def _handle_message(self, msg: dict):
         print(msg["data"])  # Print output msg
@@ -70,6 +62,6 @@ class BotClient:
                         print(msg)
                         self._handle_event(msg)
                     else:
-                        print("Received unknown msg" + msg)
+                        print("Received unknown msg" + str(msg))
         except OSError:
             print("\nClosing recv thread")

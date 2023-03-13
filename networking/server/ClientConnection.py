@@ -8,16 +8,15 @@ from networking.messaging.MessageSender import MessageSender
 
 
 class ClientConnection:
-    def __init__(self, name: str, addr: str, sender: MessageSender):
+    def __init__(self, name: str, sender: MessageSender):
         self.name = name
         self.sender = sender
-        self.addr = addr
         self.msg_queue: queue.Queue[str] = queue.Queue()
 
     def __repr__(self):
-        return f"{self.name}, {self.addr}"
+        return f"{self.name}"
 
-    def clear_message_buffer(self,):
+    def clear_message_buffer(self, ):
         while not self.msg_queue.empty():
             self.msg_queue.get()
 

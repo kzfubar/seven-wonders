@@ -1,10 +1,11 @@
-import queue
-from typing import Optional, Dict
+from typing import Optional
+
+from networking.messaging.MessageReceiver import MessageReceiver
 
 
-class LocalReceiver:
-    def __init__(self, q: queue.Queue[Dict]):
-        self.queue: queue.Queue[Dict] = q
+class LocalReceiver(MessageReceiver):
+    def __init__(self, q):
+        self.queue = q
 
     def is_empty(self):
         return self.queue.empty()

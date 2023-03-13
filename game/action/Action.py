@@ -70,11 +70,15 @@ async def _select_payment_option(
         if player_input > len(payment_options):
             player.display("out of range!")
             return False
-        payment = payment_options[player_input][0] + payment_options[player_input][1]
-        if not _valid_payment(player, payment):
-            player.display("Cannot afford this payment")
+        try:
+            payment = payment_options[player_input][0] + payment_options[player_input][1]
+            if not _valid_payment(player, payment):
+                player.display("Cannot afford this payment")
+                return False
+            _do_payment(player, payment_options[player_input])
+        except Exception:
+            player.display(f"Failed to pay {player_input}")
             return False
-        _do_payment(player, payment_options[player_input])
     return True
 
 

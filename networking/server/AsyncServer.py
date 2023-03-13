@@ -92,7 +92,7 @@ class AsyncServer:
 
         print(f"Received logon: {logon}")
         player_name = logon[DATA].strip("\n")
-        client = ClientConnection(player_name, addr, sender)
+        client = ClientConnection(player_name, sender)
         client.send_message(f"{player_name} logged on")
 
         while connection_open:

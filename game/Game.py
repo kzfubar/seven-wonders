@@ -20,17 +20,19 @@ class Game:
 
     def __init__(self):
         self.running = False
+        self.clients: List[ClientConnection] = []
 
     def __str__(self):
         return f"players = {self._get_player_order()}"
 
     async def start(self, clients: List[ClientConnection]):
         self.running = True
-        await self._start(clients)
+        self.clients += clients
+        await self._start()
         await self.play()
 
-    async def _start(self, clients: List[ClientConnection]):
-        num_players = len(clients)
+    async def _start(self):
+        num_players = len(self.clients)
         if num_players < 3:
             raise Exception(
                 f"min players is 3, cannot start the game with {num_players}"
@@ -42,7 +44,7 @@ class Game:
             )
 
         self.players = []
-        self.players = await create_players(clients)
+        self.players = await create_players(self.clients)
         self.players_by_client: Dict[ClientConnection, Player] = {
             p.client: p for p in self.players
         }
