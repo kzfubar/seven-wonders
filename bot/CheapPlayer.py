@@ -5,7 +5,7 @@ from bot.GamePlayer import GamePlayer
 from networking.messaging.messageUtil import DATA
 
 
-class SequentialPlayer(GamePlayer):
+class CheapPlayer(GamePlayer):
     def __init__(self):
         self._payment_option = 0
 

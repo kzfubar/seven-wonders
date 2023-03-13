@@ -1,43 +1,39 @@
 from abc import ABC, abstractmethod
 from typing import Dict
 
+from networking.messaging.messageTypes import COMMAND, ERROR, LOGON, MESSAGE, EVENT
+from networking.messaging.messageUtil import EVENT_TYPE, DATA
+from networking.messaging.messageUtil import MSG_TYPE
+
 
 class MessageSender(ABC):
     @abstractmethod
+    def _send(self, msg):
+        pass
+
     def send_message(self, message: str):
-        pass
+        msg = {MSG_TYPE: MESSAGE, DATA: str(message)}
+        self._send(msg)
 
-    @abstractmethod
     def send_event(self, event_type: str, event_data: Dict):
-        pass
+        msg = {MSG_TYPE: EVENT, EVENT_TYPE: event_type, DATA: event_data}
+        self._send(msg)
 
-    @abstractmethod
     def send_command(self, message: str):
-        pass
+        msg = {MSG_TYPE: COMMAND, DATA: str(message)}
+        self._send(msg)
 
-    @abstractmethod
     def send_logon(self, player_name: str):
-        pass
+        msg = {MSG_TYPE: LOGON, DATA: player_name}
+        self._send(msg)
 
-    @abstractmethod
     def send_error(self, error_msg: str, error_code: int):
-        pass
+        msg = {MSG_TYPE: ERROR, DATA: error_msg, "errorCode": error_code}
+        self._send(msg)
 
 
 class EmptySender(MessageSender):
-    def send_message(self, message: str):
-        pass
-
-    def send_event(self, event_type: str, event_data: Dict):
-        pass
-
-    def send_command(self, message: str):
-        pass
-
-    def send_logon(self, player_name: str):
-        pass
-
-    def send_error(self, error_msg: str, error_code: int):
+    def _send(self, msg):
         pass
 
 

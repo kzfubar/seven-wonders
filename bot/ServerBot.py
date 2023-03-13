@@ -1,7 +1,11 @@
 import asyncio
+import queue
+from typing import Dict
 
 from bot.CheapPlayer import CheapPlayer
 from bot.GamePlayer import GamePlayer
+from networking.messaging.LocalReceiver import LocalReceiver
+from networking.messaging.LocalSender import LocalSender
 from networking.messaging.MessageReceiver import MessageReceiver, EMPTY_RECEIVER
 from networking.messaging.MessageSender import MessageSender, EMPTY_SENDER
 from networking.messaging.messageTypes import MESSAGE, EVENT
@@ -17,11 +21,15 @@ class BotClient:
 
         print("Client created")
 
-    async def start(self, player_name: str, sender: MessageSender, receiver: MessageReceiver):
-        self.sender = sender
-        self.receiver = receiver
+    async def start(self, player_name: str):
+        print(f"Starting server bot {player_name}")
+        shared_queue: queue.Queue[Dict] = queue.Queue()
+        self.receiver = LocalReceiver(shared_queue)
+        self.sender = LocalSender(shared_queue)
+
         login = asyncio.create_task(self._do_logon(player_name))
         recv = asyncio.create_task(self._recv())
+
         try:
             await login
             await recv
@@ -30,6 +38,7 @@ class BotClient:
 
     def _close(self):
         print("\nShutting down!")
+        # TODO close reader and writer
 
     async def _do_logon(self, player_name):
         self.sender.send_logon(player_name=player_name)

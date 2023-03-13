@@ -2,10 +2,11 @@ import json
 from asyncio import StreamReader
 from typing import Optional
 
+from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.messageUtil import SEP, UTF8, BUFFER_SIZE
 
 
-class RemoteReceiver:
+class RemoteReceiver(MessageReceiver):
     def __init__(self, reader: StreamReader):
         self.reader = reader
         self.buffer = b""
