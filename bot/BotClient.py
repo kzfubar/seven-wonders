@@ -27,6 +27,10 @@ class BotClient:
     def _close(self):
         print("\nShutting down!")
 
+    async def logon(self):
+        self.sender.send_logon(player_name=self.player_name)
+        self.sender.send_command("room r")
+
     def _handle_message(self, msg: dict):
         print(msg["data"])  # Print output msg
 

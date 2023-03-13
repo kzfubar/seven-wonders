@@ -19,6 +19,7 @@ async def main():
     sender = RemoteSender(writer)
 
     client = BotClient(sys.argv[1], sender, receiver)
+    await client.logon()
     await client.start()
 
 if __name__ == "__main__":
