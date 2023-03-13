@@ -3,29 +3,32 @@ import asyncio
 from bot.GamePlayer import GamePlayer
 from bot.CheapPlayer import SequentialPlayer
 from networking.Config import Config
-from networking.messaging.MessageReceiver import MessageReceiver
-from networking.messaging.MessageSender import MessageSender
+from networking.messaging.MessageReceiver import MessageReceiver, EMPTY_RECEIVER
+from networking.messaging.RemoteReceiver import RemoteReceiver
+from networking.messaging.MessageSender import MessageSender, EMPTY_SENDER
+from networking.messaging.RemoteSender import RemoteSender
 from networking.messaging.messageTypes import MESSAGE, EVENT
 from networking.messaging.messageUtil import MSG_TYPE, DATA, EVENT_TYPE, ROOM, GAME
 
 
 class BotClient:
-    sender: MessageSender
-
     def __init__(self):
-        print("Client created")
+        self.sender: MessageSender = EMPTY_SENDER
+        self.receiver: MessageReceiver = EMPTY_RECEIVER
+
         self._game_player: GamePlayer = SequentialPlayer()
-        self.receiver = None
+
         self.config = Config()
 
         self.host = self.config.get("server_ip")
         self.port = self.config.get("server_port")
+        print("Client created")
 
     async def start(self, player_name: str):
         print(f"Connecting to {self.host}:{self.port}")
         reader, writer = await asyncio.open_connection(host=self.host, port=self.port)
-        self.receiver = MessageReceiver(reader)
-        self.sender = MessageSender(writer)
+        self.receiver = RemoteReceiver(reader)
+        self.sender = RemoteSender(writer)
         login = asyncio.create_task(self._do_logon(player_name))
         recv = asyncio.create_task(self._recv())
 

@@ -2,8 +2,8 @@ import asyncio
 import sys
 
 from networking.Config import Config
-from networking.messaging.MessageReceiver import MessageReceiver
-from networking.messaging.MessageSender import MessageSender
+from networking.messaging.RemoteReceiver import RemoteReceiver
+from networking.messaging.RemoteSender import RemoteSender
 from networking.messaging.messageTypes import MESSAGE, EVENT
 from networking.messaging.messageUtil import MSG_TYPE
 
@@ -22,8 +22,8 @@ class AsyncClient:
     async def start(self, player_name=None):
         print(f"Connecting to {self.host}:{self.port}")
         reader, writer = await asyncio.open_connection(host=self.host, port=self.port)
-        self.receiver = MessageReceiver(reader)
-        self.sender = MessageSender(writer)
+        self.receiver = RemoteReceiver(reader)
+        self.sender = RemoteSender(writer)
         login = asyncio.create_task(self._do_logon(player_name))
         recv = asyncio.create_task(self._recv())
         take_input = asyncio.create_task(self._receive_input())
