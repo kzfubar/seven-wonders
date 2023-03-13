@@ -3,6 +3,7 @@ from typing import List, Dict
 
 from game.Game import Game
 from game.command.BotCommand import BotCommand
+from game.command.SpectateCommand import SpectateCommand
 from game.command.ToggleCommand import ToggleCommand
 from game.command.HandCommand import HandCommand
 from game.command.InfoCommand import InfoCommand
@@ -20,6 +21,7 @@ def _game_commands(game: Game) -> Dict[str, Command]:
         HandCommand(game),
         ToggleCommand(game),
         BotCommand(game),
+        SpectateCommand(game),
     ]
     return {cmd.name: cmd for cmd in commands}
 

@@ -27,6 +27,6 @@ class BotCommand(GameCommand):
         bot = BotClient(bot_name, bot_sender, client_receiver)
 
         bot_client.msg_queue = bot_queue
-        self.game.clients.append(bot_client)
+        self.game.player_clients.append(bot_client)
         asyncio.create_task(bot.start())
-        print(self.game.clients)
+        print(self.game.player_clients)
