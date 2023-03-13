@@ -1,7 +1,7 @@
 import asyncio
 
 from bot.GamePlayer import GamePlayer
-from bot.SequentialPlayer import SequentialPlayer
+from bot.CheapPlayer import SequentialPlayer
 from networking.Config import Config
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender

@@ -82,10 +82,11 @@ class Player:
             f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
         )
 
-    def event_hand(self):
+    def event_update(self):
         hand = {
-            "type": "hand",
-            "hand": [card.id for card in self.hand]
+            "type": "update",
+            "hand": [str(card.id) for card in self.hand],
+            "coins": self._tableau.tokens[COINS]
         }
         self.client.send_event("game", hand)
 

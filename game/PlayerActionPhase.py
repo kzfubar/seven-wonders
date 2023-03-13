@@ -18,20 +18,39 @@ from util.utils import min_cost, cards_as_string
 
 
 def _hand_to_str(
-    player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
+        player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
 ) -> str:
     header, hand_str = cards_as_string(player.hand, player.toggles[DISPLAY_TYPE])
     max_len = ANSI.linelen(header)
     return (
-        "    "
-        + header
-        + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n"
-        + "\n".join(
-            f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| "
-            + f"{'-' if min_cost(hand_payment_options[card]) == '' else min_cost(hand_payment_options[card]) + ' coins'}"
-            for i, (card, card_str) in enumerate(hand_str.items())
-        )
+            "    "
+            + header
+            + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n"
+            + "\n".join(
+        f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| "
+        + f"{'-' if min_cost(hand_payment_options[card]) == '' else min_cost(hand_payment_options[card]) + ' coins'}"
+        for i, (card, card_str) in enumerate(hand_str.items())
     )
+    )
+
+
+def _to_event(player: Player,
+              bury_options: List[Tuple[int, int, int]],
+              hand_options: Dict[Card, List[Tuple[int, int, int]]]) -> Dict[str, Dict[int, List]]:
+    play = {
+        card.id: payment for card, payment in hand_options.items()
+    }
+    discard = {
+        card.id: [] for card, _ in hand_options.items()
+    }
+    bury = dict()
+    if not player.wonder.is_max_level:
+        bury = {
+            player.wonder.get_next_power().id: bury_options
+        }
+    return {"play": play,
+            "discard": discard,
+            "bury": bury}
 
 
 class PlayerActionPhase:
@@ -66,16 +85,16 @@ class PlayerActionPhase:
                 player.display(f"you drew against {neighbor.name}!")
 
     async def _select_action(self, player: Player, players: List[Player]):
+        player.event_update()
         hand_payment_options = {
             card: calculate_payment_options(player, card) for card in player.hand
         }
 
+        wonder_payment_options: List[Tuple[int, int, int]] = []
         if not player.wonder.is_max_level:
             wonder_payment_options = calculate_payment_options(
                 player, player.wonder.get_next_power()
             )
-        else:
-            wonder_payment_options = []
 
         player.cache_printout("\n".join(player.updates))
         player.updates = []
@@ -98,7 +117,10 @@ class PlayerActionPhase:
         actionable = None
         while actionable is None:
             player.client.clear_message_buffer()
-            player.client.send_event("game", {"type": "input", "options": [a.get_symbol() for a in actions]})
+            player.client.send_event("game", {"type": "input",
+                                              "options": _to_event(player,
+                                                                   wonder_payment_options,
+                                                                   hand_payment_options)})
             player_input = await player.get_input(
                 ", ".join([a.get_name() for a in actions]) + " a card: "
             )

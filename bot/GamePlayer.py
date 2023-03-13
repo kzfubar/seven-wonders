@@ -8,7 +8,7 @@ class GamePlayer(ABC):
     _valid_event_type = GAME
 
     def __init__(self):
-        self.game_state = {"hand": []}
+        self.game_state = dict()
 
     @abstractmethod
     def handle_event(self, event: Dict) -> Optional[str]:
