@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Tuple, List, Dict
 
 from game.Card import Card, Effect
+from game.PaymentOption import PaymentOption
 from util import ANSI
 from util.constants import COMMON, LUXURY, TYPE_COLOR_MAP
 
@@ -11,23 +12,10 @@ def is_resource(effect: Effect) -> bool:
     return effect.card_type == COMMON or effect.card_type == LUXURY
 
 
-def min_cost(payment_options: List[Tuple[int, int, int]]) -> str:
+def min_cost(payment_options: List[PaymentOption]) -> str:
     if len(payment_options) == 0:
         return ""
-    return str(min(total_payment(payment) for payment in payment_options))
-
-
-def total_payment(payment: Tuple[int, int, int]):
-    return sum(payment)
-
-
-def left_payment(payment: Tuple[int, int, int]):
-    return payment[0]
-
-
-def right_payment(payment: Tuple[int, int, int]):
-    return payment[1]
-
+    return str(min(payment.total() for payment in payment_options))
 
 def cards_as_string(
     cards: List[Card], display_type: bool

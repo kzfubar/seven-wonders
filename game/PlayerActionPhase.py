@@ -1,9 +1,10 @@
 import asyncio
-from typing import List, Tuple, Dict
+from typing import List, Dict
 
 from game.Card import Card
 from game.CostCalculator import calculate_payment_options
 from game.Flag import Flag
+from game.PaymentOption import PaymentOption
 from game.Player import Player
 from game.action.Actionable import Actionable
 from game.action.BuryAction import BURY
@@ -18,7 +19,7 @@ from util.utils import min_cost, cards_as_string
 
 
 def _hand_to_str(
-        player: Player, hand_payment_options: Dict[Card, List[Tuple[int, int, int]]]
+        player: Player, hand_payment_options: Dict[Card, List[PaymentOption]]
 ) -> str:
     header, hand_str = cards_as_string(player.hand, player.toggles[DISPLAY_TYPE])
     max_len = ANSI.linelen(header)
@@ -35,10 +36,10 @@ def _hand_to_str(
 
 
 def _to_event(player: Player,
-              bury_options: List[Tuple[int, int, int]],
-              hand_options: Dict[Card, List[Tuple[int, int, int]]]) -> Dict[str, Dict[int, List]]:
+              bury_options: List[PaymentOption],
+              hand_options: Dict[Card, List[PaymentOption]]) -> Dict[str, Dict[int, List]]:
     play = {
-        card.id: payment for card, payment in hand_options.items()
+        card.id: [p.as_tuple() for p in payments] for card, payments in hand_options.items()
     }
     discard = {
         card.id: [] for card, _ in hand_options.items()
@@ -46,7 +47,7 @@ def _to_event(player: Player,
     bury = dict()
     if not player.wonder.is_max_level:
         bury = {
-            player.wonder.get_next_power().id: bury_options
+            player.wonder.get_next_power().id: [p.as_tuple() for p in bury_options]
         }
     return {"play": play,
             "discard": discard,
@@ -90,7 +91,7 @@ class PlayerActionPhase:
             card: calculate_payment_options(player, card) for card in player.hand
         }
 
-        wonder_payment_options: List[Tuple[int, int, int]] = []
+        wonder_payment_options: List[PaymentOption] = []
         if not player.wonder.is_max_level:
             wonder_payment_options = calculate_payment_options(
                 player, player.wonder.get_next_power()

@@ -1,7 +1,8 @@
 import itertools
-from typing import List, Tuple
+from typing import List, Set
 
 from game.Card import Card
+from game.PaymentOption import PaymentOption, payment, bank_payment
 from game.Player import Player
 from util.constants import (
     COMMON,
@@ -14,10 +15,10 @@ from util.constants import (
 )
 
 
-def calculate_payment_options(player: Player, card: Card) -> List[Tuple[int, int, int]]:
+def calculate_payment_options(player: Player, card: Card) -> List[PaymentOption]:
     # this depends on the assumption that if a card has a cost, then there is no resource cost
     if "c" in card.cost:
-        return [(0, 0, card.cost.count("c"))]
+        return [bank_payment(card.cost.count("c"))]
 
     luxury_reqs = [good for good in card.cost if good in LUXURY_GOODS]
     common_reqs = [good for good in card.cost if good in COMMON_GOODS]
@@ -47,22 +48,14 @@ def calculate_payment_options(player: Player, card: Card) -> List[Tuple[int, int
         left_effects, right_effects, common_choices, common_reqs, COMMON_GOODS
     )
 
-    options = set()
-
-    for (lux_left, lux_right), (com_left, com_right) in itertools.product(
-        luxury_spread, common_spread
-    ):
-        options.add(
-            (
-                lux_left * (1 if LUXURY in player.discounts[LEFT] else 2)
-                + com_left * (1 if COMMON in player.discounts[LEFT] else 2),
-                lux_right * (1 if LUXURY in player.discounts[RIGHT] else 2)
-                + com_right * (1 if COMMON in player.discounts[RIGHT] else 2),
-                0,
-            )
-        )
-
-    return sorted(list(options), key=lambda x: sum(x))
+    options: Set[PaymentOption] = set()
+    for (lux_left, lux_right), (com_left, com_right) in itertools.product(luxury_spread, common_spread):
+        l_payment = lux_left * (1 if LUXURY in player.discounts[LEFT] else 2) \
+                    + com_left * (1 if COMMON in player.discounts[LEFT] else 2)
+        r_payment = lux_right * (1 if LUXURY in player.discounts[RIGHT] else 2) \
+                    + com_right * (1 if COMMON in player.discounts[RIGHT] else 2)
+        options.add((payment(l_payment=l_payment, r_payment=r_payment)))
+    return sorted(list(options), key=lambda p: p.total())
 
 
 def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods):
@@ -90,12 +83,12 @@ def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods):
                 continue
 
             if not valid_resources(
-                simplify_cost_search(left_effects, left_reqs, goods), left_reqs
+                    simplify_cost_search(left_effects, left_reqs, goods), left_reqs
             ):
                 continue
 
             if not valid_resources(
-                simplify_cost_search(right_effects, right_reqs, goods), right_reqs
+                    simplify_cost_search(right_effects, right_reqs, goods), right_reqs
             ):
                 continue
 

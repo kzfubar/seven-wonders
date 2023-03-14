@@ -1,13 +1,14 @@
 import itertools
 from abc import abstractmethod
-from typing import List, Tuple, Optional
+from typing import List, Optional
 
 from game.Card import Card
 from game.Flag import Flag
+from game.PaymentOption import PaymentOption
 from game.Player import Player
 from networking.messaging.messageUtil import GAME
 from util.constants import LEFT, RIGHT, RESOURCE_MAP
-from util.utils import total_payment, left_payment, right_payment, min_cost
+from util.utils import min_cost
 
 
 class Action:
@@ -21,13 +22,13 @@ class Action:
 
     @abstractmethod
     async def select_card(
-        self, player: Player, cards: List[Card], arg: str, players: List[Player]
+            self, player: Player, cards: List[Card], arg: str, players: List[Player]
     ) -> bool:
         pass
 
 
 async def _get_card(
-    player: Player, cards: List[Card], arg: Optional[str]
+        player: Player, cards: List[Card], arg: Optional[str]
 ) -> Optional[Card]:
     if arg is None:
         player.client.clear_message_buffer()
@@ -44,19 +45,19 @@ async def _get_card(
 
 
 async def _select_payment_option(
-    player: Player, payment_options: List[Tuple[int, int, int]]
+        player: Player, payment_options: List[PaymentOption]
 ) -> bool:
     if len(payment_options) == 0:
         player.display("card cannot be purchased")
         return False
 
-    if payment_options[0][2] != 0:
+    bank_payment = payment_options[0].bank_payment
+    if bank_payment != 0:
         # cost is coins to bank
-        payment = payment_options[0][2]
-        if not _valid_payment(player, payment):
+        if not _valid_payment(player, bank_payment):
             player.display("Cannot afford this card")
             return False
-        player.handle_next_coins(-payment_options[0][2], "spent")
+        player.handle_next_coins(-bank_payment, "spent")
 
     elif min_cost(payment_options) != "0":
         # something has to be paid to a different player
@@ -71,7 +72,7 @@ async def _select_payment_option(
             player.display("out of range!")
             return False
         try:
-            payment = payment_options[player_input][0] + payment_options[player_input][1]
+            payment = payment_options[player_input].total()
             if not _valid_payment(player, payment):
                 player.display("Cannot afford this payment")
                 return False
@@ -83,12 +84,12 @@ async def _select_payment_option(
 
 
 def _display_payment_options(
-    player: Player, payment_options: List[Tuple[int, int, int]]
+        player: Player, payment_options: List[PaymentOption]
 ):
     player.display("Payment options:")
     for i, option in enumerate(payment_options):
         player.display(
-            f"({i}) {player.neighbors[LEFT].name} <- {option[0]}, {option[1]} -> {player.neighbors[RIGHT].name}"
+            f"({i}) {player.neighbors[LEFT].name} <- {option.left_payment}, {option.right_payment} -> {player.neighbors[RIGHT].name}"
         )
 
 
@@ -113,12 +114,11 @@ def _activate_card(player: Player, card: Card):
             player.effects[effect.effect].append(effect)
 
 
-def _do_payment(player: Player, payment_option: Tuple[int, int, int]):
-    player.neighbors[LEFT].handle_next_coins(left_payment(payment_option), RIGHT)
-    player.neighbors[RIGHT].handle_next_coins(right_payment(payment_option), LEFT)
-    player.handle_next_coins(
-        -1 * total_payment(payment_option), "spent"
-    )  # -1 for decrement own coins
+def _do_payment(player: Player, payment_option: PaymentOption):
+    player.neighbors[LEFT].handle_next_coins(payment_option.left_payment, RIGHT)
+    player.neighbors[RIGHT].handle_next_coins(payment_option.right_payment, LEFT)
+    # -1 for decrement own coins
+    player.handle_next_coins(-1 * payment_option.total(), "spent")
 
 
 def _valid_payment(player: Player, payment: int) -> bool:
