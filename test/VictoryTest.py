@@ -28,7 +28,7 @@ class VictoryPointsTest(TestCase):
             Effect("research", [("z", 1)], [], ["self"], SCIENCE)
         )
 
-        vp = self.victim.get_victory()
+        vp = self.victim.get_victory()[0]
 
         self.assertEqual(vp["science"], 10)
 
@@ -46,7 +46,7 @@ class VictoryPointsTest(TestCase):
             Effect("research", [("x", 1), ("y", 1), ("z", 1)], [], ["self"], SCIENCE)
         )
 
-        vp = self.victim.get_victory()
+        vp = self.victim.get_victory()[0]
 
         self.assertEqual(vp["science"], 10)
 
@@ -68,7 +68,7 @@ class VictoryPointsTest(TestCase):
             Effect("research", [("x", 1), ("y", 1), ("z", 1)], [], ["self"], SCIENCE)
         )
 
-        vp = self.victim.get_victory()
+        vp = self.victim.get_victory()[0]
 
         self.assertEqual(vp["science"], 16)
 
@@ -83,6 +83,6 @@ class VictoryPointsTest(TestCase):
                 )
             )
 
-        vp = self.victim.get_victory()
+        vp = self.victim.get_victory()[0]
 
         self.assertEqual(vp["science"], 100)

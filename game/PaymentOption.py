@@ -23,3 +23,6 @@ class PaymentOption:
 
     def as_tuple(self) -> Tuple[int, int, int]:
         return self.left_payment, self.right_payment, self.bank_payment
+
+
+NO_PAYMENT = PaymentOption(0, 0, 0)

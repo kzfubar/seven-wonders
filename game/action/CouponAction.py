@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from game.Card import Card
+from game.PaymentOption import NO_PAYMENT
 from game.Player import Player
 from game.action.Action import (
     Action,
@@ -42,7 +43,7 @@ class CouponAction(Action):
             return None
 
         player.display(f"playing {card.name} with coupon")
-        successfully_played = await _select_payment_option(player, [(0, 0, 0)])
+        successfully_played = await _select_payment_option(player, card, [NO_PAYMENT])
         player.add_card_type(card.card_type)
 
         return (

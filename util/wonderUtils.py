@@ -23,7 +23,8 @@ def create_wonders() -> List[Wonder]:
                         "wonder_power",
                         card["cost"],
                         [],
-                        get_effects({"effects": card["effects"], "type": "wonder"}),
+                        get_effects({"effects": card["effects"], "type": "wonder"}, 0)[0],
+                        # todo wonder effect id?
                     )
                     for i, card in enumerate(wonder["state"])
                 ],

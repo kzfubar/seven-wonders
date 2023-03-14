@@ -13,7 +13,9 @@ class Effect:
         target: List[str],
         direction: List[str],
         card_type: str,
+        effect_id: int = 0,
     ):
+        self.effect_id = effect_id
         self.effect = effect
         self.resources = resources
         self.target = target

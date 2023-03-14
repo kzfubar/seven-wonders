@@ -46,7 +46,7 @@ class BuryAction(Action):
         player.display(f"burying {card.name}")
         wonder_power = player.wonder.get_next_power()
         payment_options = calculate_payment_options(player, wonder_power)
-        successfully_played = await _select_payment_option(player, payment_options)
+        successfully_played = await _select_payment_option(player, wonder_power, payment_options)
 
         return (
             Actionable(_take_action, [player, wonder_power, card, cards, players])

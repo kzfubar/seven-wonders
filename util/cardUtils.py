@@ -1,11 +1,11 @@
 import json
 import random
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 from game.Card import Card, Effect
 
 
-def get_effects(card_raw: Dict) -> List[Effect]:
+def get_effects(card_raw: Dict, effect_id: int) -> Tuple[List[Effect], int]:
     effects_raw = card_raw["effects"]
     effects = []
     for effect in effects_raw:
@@ -16,9 +16,10 @@ def get_effects(card_raw: Dict) -> List[Effect]:
                 target=effect["target"],
                 direction=effect["direction"],
                 card_type=card_raw["type"],
-            )
-        )
-    return effects
+                effect_id=effect_id
+            ))
+        effect_id += 1
+        return effects, effect_id
 
 
 def get_all_cards(num_players: int) -> List[Card]:
@@ -27,32 +28,32 @@ def get_all_cards(num_players: int) -> List[Card]:
 
     all_cards = []
     guilds = []
-    for card in all_cards_raw:
-        if card["type"] == "guild":
-            guilds.append(
-                Card(
-                    id=card["id"],
-                    name=card["name"],
-                    age=card["age"],
-                    card_type=card["type"],
-                    cost=card["cost"],
-                    coupons=card["coupon"],
-                    effects=get_effects(card),
-                )
-            )
+    effect_id = 0
+    for raw_card in all_cards_raw:
+        if raw_card["type"] == "guild":
+            effects, effect_id = get_effects(raw_card, effect_id)
+            guilds.append(Card(
+                id=raw_card["id"],
+                name=raw_card["name"],
+                age=raw_card["age"],
+                card_type=raw_card["type"],
+                cost=raw_card["cost"],
+                coupons=raw_card["coupon"],
+                effects=effects))
             continue
 
-        for player_count in card["players"]:
+        for player_count in raw_card["players"]:
             if num_players >= player_count:
+                effects, effect_id = get_effects(raw_card, effect_id)
                 all_cards.append(
                     Card(
-                        id=card["id"],
-                        name=card["name"],
-                        age=card["age"],
-                        card_type=card["type"],
-                        cost=card["cost"],
-                        coupons=card["coupon"],
-                        effects=get_effects(card),
+                        id=raw_card["id"],
+                        name=raw_card["name"],
+                        age=raw_card["age"],
+                        card_type=raw_card["type"],
+                        cost=raw_card["cost"],
+                        coupons=raw_card["coupon"],
+                        effects=effects,
                     )
                 )
     return all_cards + random.sample(guilds, num_players + 2)

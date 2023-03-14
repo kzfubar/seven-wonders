@@ -45,7 +45,9 @@ async def _get_card(
 
 
 async def _select_payment_option(
-        player: Player, payment_options: List[PaymentOption]
+        player: Player,
+        played_card: Card,
+        payment_options: List[PaymentOption]
 ) -> bool:
     if len(payment_options) == 0:
         player.display("card cannot be purchased")
@@ -76,6 +78,7 @@ async def _select_payment_option(
             if not _valid_payment(player, payment):
                 player.display("Cannot afford this payment")
                 return False
+            player.cards_played[played_card] = {"cost": payment}
             _do_payment(player, payment_options[player_input])
         except Exception:
             player.display(f"Failed to pay {player_input}")
@@ -112,6 +115,7 @@ def _activate_card(player: Player, card: Card):
 
         else:
             player.effects[effect.effect].append(effect)
+            player.effects_id_to_card[effect.effect_id] = card
 
 
 def _do_payment(player: Player, payment_option: PaymentOption):

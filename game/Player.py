@@ -38,6 +38,8 @@ class Player:
         self.next_coins: DefaultDict[str, int] = defaultdict(int)
         self.coupons: Set[str] = set()
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
+        self.effects_id_to_card: Dict[int, Card] = dict()
+        self.cards_played: Dict[Card, Dict] = dict()
         self.flags: Dict[Flag, bool] = dict()
         self.add_token(COINS, 3)
         self.neighbors: Dict[str, Optional[Player]] = {
@@ -221,24 +223,33 @@ class Player:
                 count += effect.resources[0][1]
         return effect.resources[0][0], count
 
-    def get_victory(self) -> Dict:
+    def get_victory(self) -> Tuple[Dict, Dict]:
         vp = defaultdict(int)
+        card_vp = defaultdict(int)
+        for card, play_data in self.cards_played.items():
+            card_vp[card.name] -= play_data["cost"] / 3
         vp["military"] = self.military_points() - self.defeat()
         vp[COINS] = self.coins() // 3
 
         # covers wonder, civil, guild, and commercial cards
         for effect in self.effects["victory"]:
+            card_name = self.effects_id_to_card[effect.effect_id].name \
+                if effect.effect_id in self.effects_id_to_card \
+                else "other"
             if effect.target:
                 for target, direction in itertools.product(
                     effect.target, effect.direction
                 ):
-                    vp[effect.card_type] += (
+                    effect_vp = (
                         self.neighbors[direction].token_count(target)
                         * effect.resources[0][1]
                     )
+                    vp[effect.card_type] += effect_vp
+                    card_vp[card_name] += effect_vp
 
             else:
                 vp[effect.card_type] += effect.resources[0][1]
+                card_vp[card_name] += effect.resources[0][1]
 
         # calculate science
         science_counts = {"x": 0, "y": 0, "z": 0}
@@ -264,4 +275,4 @@ class Player:
                 min_count * 7 + sum(count * count for count in curr_counts.values()),
             )
 
-        return dict(vp)
+        return dict(vp), dict(card_vp)

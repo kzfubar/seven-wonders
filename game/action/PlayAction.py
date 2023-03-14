@@ -40,7 +40,7 @@ class PlayAction(Action):
             return None
         payment_options = calculate_payment_options(player, card)
         player.display(f"playing {card.name}")
-        successfully_played = await _select_payment_option(player, payment_options)
+        successfully_played = await _select_payment_option(player, card, payment_options)
         player.add_card_type(card.card_type)
 
         return (
