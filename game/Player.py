@@ -227,7 +227,7 @@ class Player:
     def get_victory(self) -> Tuple[Dict, Dict]:
         vp = defaultdict(int)
         card_vp = defaultdict(int)
-        # deduct coin cost from card value
+        # deduct coin cost from card value, and distribute defeat across non military cards
         for card, play_data in self.cards_played.items():
             card_vp[card.name] -= play_data["cost"] / 3
             if card.card_type != "military":

@@ -1,5 +1,5 @@
 import itertools
-from typing import List, Set
+from typing import List, Set, Tuple
 
 from game.Card import Card
 from game.PaymentOption import PaymentOption, payment, bank_payment
@@ -58,7 +58,7 @@ def calculate_payment_options(player: Player, card: Card) -> List[PaymentOption]
     return sorted(list(options), key=lambda p: p.total())
 
 
-def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods):
+def find_resource_outcomes(left_effects, right_effects, choices, reqs, goods) -> Set[Tuple]:
     outcomes = set()
     for options in itertools.product([""], *choices):
 
@@ -111,19 +111,19 @@ def valid_resources(choices, reqs):
     return False
 
 
-def simplify_cost_search(effects, reqs, goods):
+def simplify_cost_search(production_effects, reqs, goods):
     choices = []
 
-    for effect in effects:
-        if len(effect.resources) != 1:
-            if effect.resources[0].key in goods:
-                choices.append(tuple(resource.key for resource in effect.resources))
+    for production in production_effects:
+        if len(production.resources) != 1:
+            if production.resources[0].key in goods:
+                choices.append(tuple(resource.key for resource in production.resources))
 
         else:
-            for _ in range(effect.resources[0].amount):
-                if effect.resources[0].key not in reqs:
+            for _ in range(production.resources[0].amount):
+                if production.resources[0].key not in reqs:
                     break
 
-                reqs.remove(effect.resources[0].key)
+                reqs.remove(production.resources[0].key)
 
     return choices
