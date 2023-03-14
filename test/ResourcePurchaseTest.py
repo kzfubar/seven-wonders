@@ -4,6 +4,7 @@ from unittest.mock import patch
 from game.Card import Card, Effect
 from game.CostCalculator import calculate_payment_options
 from game.Player import Player
+from game.Resource import Resource
 from game.Wonder import Wonder
 from util.cardUtils import get_all_cards
 from util.constants import COMMON, LEFT, RIGHT
@@ -33,7 +34,7 @@ class ResourcePurchaseTest(TestCase):
         self.victim.neighbors[RIGHT] = self.right
 
         self.victim.effects["produce"].append(
-            Effect("produce", [("w", 1)], [], ["self"], COMMON)
+            Effect("produce", [Resource("w", 1)], [], ["self"], COMMON)
         )
         cost = calculate_payment_options(self.victim, caravansery)
         self.assertTrue(cost)
@@ -45,7 +46,7 @@ class ResourcePurchaseTest(TestCase):
         self.left = Player(Wonder("wood_wonder", "w", []), connection)
         self.victim.neighbors[LEFT] = self.left
         self.victim.effects["produce"].append(
-            Effect("produce", [("w", 1)], [], ["self"], COMMON)
+            Effect("produce", [Resource("w", 1)], [], ["self"], COMMON)
         )
         cost = calculate_payment_options(self.victim, caravansery)
         self.assertFalse(cost)

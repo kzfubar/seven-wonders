@@ -3,6 +3,7 @@ import random
 from typing import List, Dict, Tuple
 
 from game.Card import Card, Effect
+from game.Resource import Resource
 
 
 def get_effects(card_raw: Dict, effect_id: int) -> Tuple[List[Effect], int]:
@@ -12,7 +13,7 @@ def get_effects(card_raw: Dict, effect_id: int) -> Tuple[List[Effect], int]:
         effects.append(
             Effect(
                 effect=effect["effect"],
-                resources=effect["resources"],
+                resources=[Resource(r[0], r[1]) for r in effect["resources"]],
                 target=effect["target"],
                 direction=effect["direction"],
                 card_type=card_raw["type"],

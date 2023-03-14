@@ -116,14 +116,14 @@ def simplify_cost_search(effects, reqs, goods):
 
     for effect in effects:
         if len(effect.resources) != 1:
-            if effect.resources[0][0] in goods:
-                choices.append(tuple(resource[0] for resource in effect.resources))
+            if effect.resources[0].key in goods:
+                choices.append(tuple(resource.key for resource in effect.resources))
 
         else:
-            for _ in range(effect.resources[0][1]):
-                if effect.resources[0][0] not in reqs:
+            for _ in range(effect.resources[0].amount):
+                if effect.resources[0].key not in reqs:
                     break
 
-                reqs.remove(effect.resources[0][0])
+                reqs.remove(effect.resources[0].key)
 
     return choices

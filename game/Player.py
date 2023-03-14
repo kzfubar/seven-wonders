@@ -6,6 +6,7 @@ from typing import Dict, Set, Any, List, Optional, Tuple
 
 from game.Card import Card, Effect, resource_to_human
 from game.Flag import Flag
+from game.Resource import Resource
 from game.Tableau import Tableau
 from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
@@ -50,7 +51,7 @@ class Player:
         self.effects["produce"].append(
             Effect(
                 effect="produce",
-                resources=[(wonder.resource, 1)],
+                resources=[Resource(wonder.resource, 1)],
                 target=[],
                 direction=["self"],
                 card_type=WONDER,
@@ -136,8 +137,8 @@ class Player:
                         effect.card_type in TRADABLE_TYPES
                         and len(effect.resources) == 1
                     ):
-                        resources = effect.resources[0]
-                        d[resources[0]] += resources[1]
+                        resource = effect.resources[0]
+                        d[resource.key] += resource.amount
                     else:
                         complicated.append(effect)
         return "\n".join(consolidated)
@@ -150,21 +151,21 @@ class Player:
         nt_multi = []
         for effect in effects:
             if len(effect.resources) == 1:
-                resources = effect.resources[0]
+                resource = effect.resources[0]
                 if effect.card_type in TRADABLE_TYPES:
-                    t_simple[resources[0]] += resources[1]
+                    t_simple[resource.key] += resource.amount
                 else:
-                    nt_simple[resources[0]] += resources[1]
+                    nt_simple[resource.key] += resource.amount
             else:
                 if effect.card_type in TRADABLE_TYPES:
                     t_multi.append(effect)
                 else:
                     nt_multi.append(effect)
-        tradeable = resource_to_human(t_simple.items())
+        tradeable = resource_to_human([Resource(key, amount) for key, amount in t_simple.items()])
         tradeable.extend([str(e) for e in t_multi])
         if tradeable:
             consolidated.append(f'Tradeable Production : {", ".join(tradeable)}')
-        nontradeable = resource_to_human(nt_simple.items())
+        nontradeable = resource_to_human([Resource(key, amount) for key, amount in nt_simple.items()])
         nontradeable.extend([str(e) for e in nt_multi])
         if nontradeable:
             consolidated.append(f'Non-Tradeable Production: {", ".join(nontradeable)}')
@@ -217,11 +218,11 @@ class Player:
             player = self.neighbors[direction]
             if effect.target:
                 for target in effect.target:
-                    count += player.token_count(target) * effect.resources[0][1]
+                    count += player.token_count(target) * effect.resources[0].amount
                     # todo fix this if (multiple generate?)
             else:
-                count += effect.resources[0][1]
-        return effect.resources[0][0], count
+                count += effect.resources[0].amount
+        return effect.resources[0].key, count
 
     def get_victory(self) -> Tuple[Dict, Dict]:
         vp = defaultdict(int)
@@ -237,22 +238,22 @@ class Player:
             card_name = self.effects_id_to_card[effect.effect_id].name \
                 if effect.effect_id in self.effects_id_to_card \
                 else "other"
-            resource = effect.resources[0][0]
+            resource = effect.resources[0].key
             if resource == "c":
                 if effect.target:
                     for target, direction in itertools.product(
                         effect.target, effect.direction
                     ):
                         resource_count = (
-                            self.neighbors[direction].token_count(target) * effect.resources[0][1]
+                            self.neighbors[direction].token_count(target) * effect.resources[0].amount
                         )
                         card_vp[card_name] += resource_count / 3
 
                 else:
-                    card_vp[card_name] += effect.resources[0][1] / 3
+                    card_vp[card_name] += effect.resources[0].amount / 3
             if resource == "m":
                 # not possible to have military points without might
-                military_percent = effect.resources[0][1] / self._tableau.tokens[MILITARY_MIGHT]
+                military_percent = effect.resources[0].amount / self._tableau.tokens[MILITARY_MIGHT]
                 card_vp[card_name] += self.military_points() * military_percent
 
         vp[COINS] = self.coins() // 3
@@ -268,14 +269,14 @@ class Player:
                 ):
                     effect_vp = (
                         self.neighbors[direction].token_count(target)
-                        * effect.resources[0][1]
+                        * effect.resources[0].amount
                     )
                     vp[effect.card_type] += effect_vp
                     card_vp[card_name] += effect_vp
 
             else:
-                vp[effect.card_type] += effect.resources[0][1]
-                card_vp[card_name] += effect.resources[0][1]
+                vp[effect.card_type] += effect.resources[0].amount
+                card_vp[card_name] += effect.resources[0].amount
 
         # calculate science
         science_counts = {"x": 0, "y": 0, "z": 0}
@@ -284,10 +285,10 @@ class Player:
         for effect in self.effects["research"]:
             if len(effect.resources) > 1:
                 science_choices.append(
-                    tuple(resource[0] for resource in effect.resources)
+                    tuple(resource.key for resource in effect.resources)
                 )
             else:
-                science_counts[effect.resources[0][0]] += 1
+                science_counts[effect.resources[0].key] += 1
 
         for options in itertools.product([""], *science_choices):
             curr_counts = copy.copy(science_counts)

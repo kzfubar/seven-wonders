@@ -1,6 +1,7 @@
 from collections import defaultdict
 from typing import ItemsView, List, Tuple, DefaultDict, Union
 
+from game.Resource import Resource
 from util.ANSI import ANSI, use
 from util.constants import RESOURCE_MAP, TYPE_COLOR_MAP
 
@@ -9,7 +10,7 @@ class Effect:
     def __init__(
         self,
         effect: str,
-        resources: List[Tuple[str, int]],
+        resources: List[Resource],
         target: List[str],
         direction: List[str],
         card_type: str,
@@ -92,16 +93,17 @@ class Card:
         return " & ".join(effects)
 
     def resource_to_str(self) -> str:
-        resources: DefaultDict[str, int] = defaultdict(int)
+        resource_dict: DefaultDict[str, int] = defaultdict(int)
         for resource in self.cost:
-            resources[resource] += 1
-        resources_str = ", ".join(resource_to_human(resources.items()))
+            resource_dict[resource] += 1
+        resources = [Resource(key, amount) for key, amount in resource_dict.items()]
+        resources_str = ", ".join(resource_to_human(resources))
         return "-" if resources_str == "" else resources_str
 
 
 def resource_to_human(
-    resources: Union[ItemsView[str, int], List[Tuple[str, int]]]
+    resources: List[Resource]
 ) -> List[str]:
     return [
-        f"{count} {RESOURCE_MAP[resource_key]}" for resource_key, count in resources
+        f"{resource.amount} {RESOURCE_MAP[resource.key]}" for resource in resources
     ]

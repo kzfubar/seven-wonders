@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 from game.Card import Effect
 from game.Player import Player
+from game.Resource import Resource
 from game.Wonder import Wonder
 from util.cardUtils import get_all_cards
 from util.constants import SCIENCE
@@ -19,13 +20,13 @@ class VictoryPointsTest(TestCase):
 
         self.victim = Player(Wonder("wood_wonder", "w", []), connection)
         self.victim.effects["research"].append(
-            Effect("research", [("x", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("x", 1)], [], ["self"], SCIENCE)
         )
         self.victim.effects["research"].append(
-            Effect("research", [("y", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("y", 1)], [], ["self"], SCIENCE)
         )
         self.victim.effects["research"].append(
-            Effect("research", [("z", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("z", 1)], [], ["self"], SCIENCE)
         )
 
         vp = self.victim.get_victory()[0]
@@ -37,13 +38,13 @@ class VictoryPointsTest(TestCase):
 
         self.victim = Player(Wonder("wood_wonder", "w", []), connection)
         self.victim.effects["research"].append(
-            Effect("research", [("x", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("x", 1)], [], ["self"], SCIENCE)
         )
         self.victim.effects["research"].append(
-            Effect("research", [("y", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("y", 1)], [], ["self"], SCIENCE)
         )
         self.victim.effects["research"].append(
-            Effect("research", [("x", 1), ("y", 1), ("z", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("x", 1), Resource("y", 1), Resource("z", 1)], [], ["self"], SCIENCE)
         )
 
         vp = self.victim.get_victory()[0]
@@ -55,17 +56,17 @@ class VictoryPointsTest(TestCase):
 
         self.victim = Player(Wonder("wood_wonder", "w", []), connection)
         self.victim.effects["research"].append(
-            Effect("research", [("x", 1), ("y", 1), ("z", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("x", 1), Resource("y", 1), Resource("z", 1)], [], ["self"], SCIENCE)
         )
         self.victim.effects["research"].append(
-            Effect("research", [("x", 1), ("y", 1), ("z", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("x", 1), Resource("y", 1), Resource("z", 1)], [], ["self"], SCIENCE)
         )
 
         self.victim.effects["research"].append(
-            Effect("research", [("x", 1), ("y", 1), ("z", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("x", 1), Resource("y", 1), Resource("z", 1)], [], ["self"], SCIENCE)
         )
         self.victim.effects["research"].append(
-            Effect("research", [("x", 1), ("y", 1), ("z", 1)], [], ["self"], SCIENCE)
+            Effect("research", [Resource("x", 1), Resource("y", 1), Resource("z", 1)], [], ["self"], SCIENCE)
         )
 
         vp = self.victim.get_victory()[0]
@@ -79,7 +80,7 @@ class VictoryPointsTest(TestCase):
         for _ in range(10):
             self.victim.effects["research"].append(
                 Effect(
-                    "research", [("x", 1), ("y", 1), ("z", 1)], [], ["self"], SCIENCE
+                    "research", [Resource("x", 1), Resource("y", 1), Resource("z", 1)], [], ["self"], SCIENCE
                 )
             )
 
