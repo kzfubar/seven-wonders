@@ -55,7 +55,7 @@ class CostCalculatorTest(TestCase):
         self._clear_effects()
 
         self.victim.effects["produce"].append(
-            Effect("produce", [Resource("w", 1), ("b", 1)], [], ["self"], COMMON)
+            Effect("produce", [Resource("w", 1), Resource("b", 1)], [], ["self"], COMMON)
         )
         self.victim.effects["produce"].append(
             Effect("produce", [Resource("w", 1)], [], ["self"], COMMON)
@@ -71,6 +71,7 @@ class CostCalculatorTest(TestCase):
         )
         left_cost = calculate_payment_options(self.victim, caravansery)
         self.assertTrue(left_cost)
+        self.assertEqual(left_cost[0].total(), 4)
 
         self._clear_effects()
 
@@ -79,6 +80,7 @@ class CostCalculatorTest(TestCase):
         )
         right_cost = calculate_payment_options(self.victim, caravansery)
         self.assertTrue(right_cost)
+        self.assertEqual(right_cost[0].total(), 4)
 
     def test_caravansery_playable_when_shared_production(self):
         caravansery = self._get_card("Caravansery")

@@ -1,22 +1,43 @@
-from typing import Tuple
+from typing import Tuple, List
 
 
-def payment(l_payment: int, r_payment: int):
-    return PaymentOption(l_payment, r_payment, 0)
+def payment(cost: int, resources: List[str]) -> int:
+    return cost * len(resources)
 
 
-def bank_payment(bank: int):
-    return PaymentOption(0, 0, bank)
+def to_list(l):
+    if l is None:
+        return []
+    return l
 
 
 class PaymentOption:
     def __init__(self,
-                 l_payment: int,
-                 r_payment: int,
-                 b_payment: int):
-        self.left_payment: int = l_payment
-        self.right_payment: int = r_payment
-        self.bank_payment: int = b_payment
+                 left_lux_cost: int = 2,
+                 right_lux_cost: int = 2,
+                 left_common_cost: int = 2,
+                 right_common_cost: int = 2,
+                 left_lux: List[str] = None,
+                 right_lux: List[str] = None,
+                 left_common: List[str] = None,
+                 right_common: List[str] = None,
+                 bank_payment: int = 0):
+        self.left_lux_cost = left_lux_cost
+        self.right_lux_cost = right_lux_cost
+        self.left_common_cost = left_common_cost
+        self.right_common_cost = right_common_cost
+
+        self.left_lux = to_list(left_lux)
+        self.right_lux = to_list(right_lux)
+        self.left_common = to_list(left_common)
+        self.right_common = to_list(right_common)
+
+        self.left_payment: int = payment(left_lux_cost, self.left_lux) \
+                                 + payment(left_common_cost, self.left_common)
+        self.right_payment: int = payment(right_common_cost, self.right_common) \
+                                  + payment(right_lux_cost, self.right_lux)
+
+        self.bank_payment: int = bank_payment
 
     def total(self):
         return self.left_payment + self.right_payment + self.bank_payment
