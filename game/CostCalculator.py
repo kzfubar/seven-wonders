@@ -51,7 +51,9 @@ def calculate_payment_options(player: Player, card: Card) -> List[PaymentOption]
 
     options: Set[PaymentOption] = set()
     for (left_lux, right_lux), (left_common, right_common) in itertools.product(luxury_spread, common_spread):
-        options.add(PaymentOption(left_lux_cost=1 if LUXURY in player.discounts[LEFT] else 2,
+        options.add(PaymentOption(common_owned=common_owned,
+                                  lux_owned=luxury_owned,
+                                  left_lux_cost=1 if LUXURY in player.discounts[LEFT] else 2,
                                   right_lux_cost=1 if LUXURY in player.discounts[RIGHT] else 2,
                                   left_common_cost=1 if COMMON in player.discounts[LEFT] else 2,
                                   right_common_cost=1 if COMMON in player.discounts[RIGHT] else 2,
@@ -128,6 +130,6 @@ def simplify_cost_search(production_effects, reqs, goods):
                 if resource.key not in updated_reqs:
                     break
                 updated_reqs.remove(resource.key)
-                self_owned.append(resource)
+                self_owned.append(resource.key)
 
     return need_purchase, self_owned, updated_reqs

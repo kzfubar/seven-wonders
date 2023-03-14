@@ -13,6 +13,8 @@ def to_list(l):
 
 class PaymentOption:
     def __init__(self,
+                 common_owned: List[str] = None,
+                 lux_owned: List[str] = None,
                  left_lux_cost: int = 2,
                  right_lux_cost: int = 2,
                  left_common_cost: int = 2,
@@ -22,6 +24,9 @@ class PaymentOption:
                  left_common: List[str] = None,
                  right_common: List[str] = None,
                  bank_payment: int = 0):
+        self.common_owned = to_list(common_owned)
+        self.lux_owned = to_list(lux_owned)
+
         self.left_lux_cost = left_lux_cost
         self.right_lux_cost = right_lux_cost
         self.left_common_cost = left_common_cost
