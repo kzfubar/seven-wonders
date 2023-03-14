@@ -53,9 +53,11 @@ async def _select_payment_option(
         player.display("card cannot be purchased")
         return False
 
+    payment = 0
     bank_payment = payment_options[0].bank_payment
     if bank_payment != 0:
         # cost is coins to bank
+        payment = bank_payment
         if not _valid_payment(player, bank_payment):
             player.display("Cannot afford this card")
             return False
@@ -78,11 +80,11 @@ async def _select_payment_option(
             if not _valid_payment(player, payment):
                 player.display("Cannot afford this payment")
                 return False
-            player.cards_played[played_card] = {"cost": payment}
             _do_payment(player, payment_options[player_input])
         except Exception:
             player.display(f"Failed to pay {player_input}")
             return False
+    player.cards_played[played_card] = {"cost": payment}
     return True
 
 
