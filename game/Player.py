@@ -226,9 +226,35 @@ class Player:
     def get_victory(self) -> Tuple[Dict, Dict]:
         vp = defaultdict(int)
         card_vp = defaultdict(int)
+        # deduct coin cost from card value
         for card, play_data in self.cards_played.items():
             card_vp[card.name] -= play_data["cost"] / 3
+            if card.card_type != "military":
+                card_vp[card.name] -= self.defeat() / len(self.cards_played)
+
         vp["military"] = self.military_points() - self.defeat()
+        for effect in self.effects["generate"]:
+            card_name = self.effects_id_to_card[effect.effect_id].name \
+                if effect.effect_id in self.effects_id_to_card \
+                else "other"
+            resource = effect.resources[0][0]
+            if resource == "c":
+                if effect.target:
+                    for target, direction in itertools.product(
+                        effect.target, effect.direction
+                    ):
+                        resource_count = (
+                            self.neighbors[direction].token_count(target) * effect.resources[0][1]
+                        )
+                        card_vp[card_name] += resource_count / 3
+
+                else:
+                    card_vp[card_name] += effect.resources[0][1] / 3
+            if resource == "m":
+                # not possible to have military points without might
+                military_percent = effect.resources[0][1] / self._tableau.tokens[MILITARY_MIGHT]
+                card_vp[card_name] += self.military_points() * military_percent
+
         vp[COINS] = self.coins() // 3
 
         # covers wonder, civil, guild, and commercial cards
@@ -274,5 +300,10 @@ class Player:
                 vp["science"],
                 min_count * 7 + sum(count * count for count in curr_counts.values()),
             )
+        for effect in self.effects["research"]:
+            card_name = self.effects_id_to_card[effect.effect_id].name \
+                if effect.effect_id in self.effects_id_to_card \
+                else "other"
+            card_vp[card_name] += vp["science"] / len(self.effects["research"])
 
         return dict(vp), dict(card_vp)
