@@ -124,6 +124,29 @@ def _activate_card(player: Player, card: Card):
 def _do_payment(player: Player, payment_option: PaymentOption):
     player.neighbors[LEFT].handle_next_coins(payment_option.left_payment, RIGHT)
     player.neighbors[RIGHT].handle_next_coins(payment_option.right_payment, LEFT)
+
+    for owned in payment_option.common_owned:
+        player.coins_gained[owned] += 2
+    for owned in payment_option.lux_owned:
+        player.coins_gained[owned] += 2
+
+    for lux in payment_option.left_lux:
+        player.neighbors[LEFT].coins_gained[lux] += payment_option.left_lux_cost
+        if payment_option.left_lux_cost == 1:
+            player.discount_coins_saved["luxury"][LEFT] += len(payment_option.left_lux) * payment_option.left_lux_cost
+    for common in payment_option.left_common:
+        player.neighbors[LEFT].coins_gained[common] += payment_option.left_common_cost
+        if payment_option.left_common_cost == 1:
+            player.discount_coins_saved["common"][LEFT] += len(payment_option.left_common) * payment_option.left_common_cost
+    for lux in payment_option.right_lux:
+        player.neighbors[RIGHT].coins_gained[lux] += payment_option.right_lux_cost
+        if payment_option.right_lux_cost == 1:
+            player.discount_coins_saved["luxury"][RIGHT] += len(payment_option.right_lux) * payment_option.right_lux_cost
+    for common in payment_option.right_common:
+        player.neighbors[RIGHT].coins_gained[common] += payment_option.right_common_cost
+        if payment_option.right_common_cost == 1:
+            player.discount_coins_saved["common"][RIGHT] += len(payment_option.right_common) * payment_option.right_common_cost
+
     # -1 for decrement own coins
     player.handle_next_coins(-1 * payment_option.total(), "spent")
 

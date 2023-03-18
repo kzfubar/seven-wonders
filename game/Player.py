@@ -41,6 +41,10 @@ class Player:
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
         self.effects_id_to_card: Dict[int, Card] = dict()
         self.cards_played: Dict[Card, Dict] = dict()
+        self.coins_gained: Dict[str, int] = defaultdict(int)
+        self.discount_coins_saved: Dict[str, Dict[str, int]] = {"luxury": {"left": 0, "right": 0},
+                                                                "common": {"left": 0, "right": 0}
+                                                                }
         self.flags: Dict[Flag, bool] = dict()
         self.add_token(COINS, 3)
         self.neighbors: Dict[str, Optional[Player]] = {
@@ -95,10 +99,10 @@ class Player:
 
     def short_info(self) -> str:
         return (
-            f"{self.name} on {self.wonder.name} at level {self.wonder.level}\n"
-            + f"{self._tableau.token_info()}\n"
-            + f"{self._tableau.card_type_info()}\n"
-            + f"{self.consolidated_effects()}"
+                f"{self.name} on {self.wonder.name} at level {self.wonder.level}\n"
+                + f"{self._tableau.token_info()}\n"
+                + f"{self._tableau.card_type_info()}\n"
+                + f"{self.consolidated_effects()}"
         )
 
     def token_count(self, token: str) -> int:
@@ -134,8 +138,8 @@ class Player:
                 complicated = []
                 for effect in effects:
                     if (
-                        effect.card_type in TRADABLE_TYPES
-                        and len(effect.resources) == 1
+                            effect.card_type in TRADABLE_TYPES
+                            and len(effect.resources) == 1
                     ):
                         resource = effect.resources[0]
                         d[resource.key] += resource.amount
@@ -233,6 +237,28 @@ class Player:
             if card.card_type != "military":
                 card_vp[card.name] -= self.defeat() / len(self.cards_played)
 
+        for effect in self.effects["discount"]:
+            card_name = self.effects_id_to_card[effect.effect_id].name \
+                if effect.effect_id in self.effects_id_to_card \
+                else "other"
+            for resource_type, saved_by_direction in self.discount_coins_saved.items():
+                for direction, coins_saved in saved_by_direction.items():
+                    points = coins_saved / 3
+                    if resource_type in effect.target and direction in effect.direction:
+                        card_vp[card_name] += points
+
+        for resource, coins_gained in self.coins_gained.items():
+            card_names = []
+            points = coins_gained / 3
+            for effect in self.effects["produce"]:
+                if resource in [r.key for r in effect.resources]:
+                    name = self.effects_id_to_card[effect.effect_id].name \
+                        if effect.effect_id in self.effects_id_to_card \
+                        else "other"
+                    card_names.append(name)
+            for card_name in card_names:
+                card_vp[card_name] += points / len(card_names)
+
         vp["military"] = self.military_points() - self.defeat()
         for effect in self.effects["generate"]:
             card_name = self.effects_id_to_card[effect.effect_id].name \
@@ -242,10 +268,10 @@ class Player:
             if resource == "c":
                 if effect.target:
                     for target, direction in itertools.product(
-                        effect.target, effect.direction
+                            effect.target, effect.direction
                     ):
                         resource_count = (
-                            self.neighbors[direction].token_count(target) * effect.resources[0].amount
+                                self.neighbors[direction].token_count(target) * effect.resources[0].amount
                         )
                         card_vp[card_name] += resource_count / 3
 
@@ -265,11 +291,11 @@ class Player:
                 else "other"
             if effect.target:
                 for target, direction in itertools.product(
-                    effect.target, effect.direction
+                        effect.target, effect.direction
                 ):
                     effect_vp = (
-                        self.neighbors[direction].token_count(target)
-                        * effect.resources[0].amount
+                            self.neighbors[direction].token_count(target)
+                            * effect.resources[0].amount
                     )
                     vp[effect.card_type] += effect_vp
                     card_vp[card_name] += effect_vp

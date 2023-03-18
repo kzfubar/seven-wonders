@@ -129,8 +129,10 @@ class Game:
     def _end_game(self):
         player_points: List[Tuple[str, int]] = []
         for player in self.players:
+            card_values_dict = dict(sorted(player.get_victory()[1].items(), key=lambda x: x[1], reverse=True))
+            card_values = ', '.join(f"{k}: {v:.2}" for k, v in card_values_dict.items())
             self._message_players(f"{player.name} has {player.get_victory()[0]}")
-            self._message_players(f"{player.name} has {player.get_victory()[1]}")
+            self._message_players(f"{player.name} played [{card_values}]\n")
             player_points.append((player.name, sum(player.get_victory()[0].values())))
         player_points.sort(key=lambda x: x[1], reverse=True)
         self._message_players(f"{player_points} total point count")
