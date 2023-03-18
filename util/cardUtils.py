@@ -20,7 +20,7 @@ def get_effects(card_raw: Dict, effect_id: int) -> Tuple[List[Effect], int]:
                 effect_id=effect_id
             ))
         effect_id += 1
-        return effects, effect_id
+    return effects, effect_id
 
 
 def get_all_cards(num_players: int) -> List[Card]:
