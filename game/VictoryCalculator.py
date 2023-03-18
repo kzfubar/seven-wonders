@@ -39,6 +39,20 @@ class VictoryCalculator:
                 )
             else:
                 science_counts[effect.resources[0].key] += 1
+        # covers wonder, civil, guild, and commercial cards
+        for effect in player.effects["victory"]:
+            if effect.target:
+                for target, direction in itertools.product(
+                        effect.target, effect.direction
+                ):
+                    effect_vp = (
+                            player.neighbors[direction].token_count(target)
+                            * effect.resources[0].amount
+                    )
+                    vp[effect.card_type] += effect_vp
+
+            else:
+                vp[effect.card_type] += effect.resources[0].amount
 
         for options in itertools.product([""], *science_choices):
             curr_counts = copy.copy(science_counts)
@@ -112,11 +126,9 @@ class VictoryCalculator:
                             player.neighbors[direction].token_count(target)
                             * effect.resources[0].amount
                     )
-                    vp[effect.card_type] += effect_vp
                     card_vp[card_name] += effect_vp
 
             else:
-                vp[effect.card_type] += effect.resources[0].amount
                 card_vp[card_name] += effect.resources[0].amount
 
         for effect in player.effects["research"]:
