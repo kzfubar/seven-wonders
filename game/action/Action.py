@@ -101,7 +101,6 @@ def _display_payment_options(
 def _activate_card(player: Player, card: Card):
     player.add_coupons(set(card.coupons))
     for effect in card.effects:
-        player.effects_id_to_card[effect.effect_id] = card
         if effect.effect == "generate":
             resource_key, count = player.get_effect_resources(effect)
             player.effects[effect.effect].append(effect)

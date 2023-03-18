@@ -39,8 +39,8 @@ class Player:
         self.next_coins: DefaultDict[str, int] = defaultdict(int)
         self.coupons: Set[str] = set()
         self.effects: DefaultDict[str, List[Effect]] = defaultdict(list)
-        self.effects_id_to_card: Dict[int, Card] = dict()
         self.cards_played: Dict[Card, Dict] = dict()
+
         self.coins_gained: Dict[str, int] = defaultdict(int)
         self.discount_coins_saved: Dict[str, Dict[str, int]] = {"luxury": {"left": 0, "right": 0},
                                                                 "common": {"left": 0, "right": 0}
@@ -227,110 +227,3 @@ class Player:
             else:
                 count += effect.resources[0].amount
         return effect.resources[0].key, count
-
-    def get_victory(self) -> Tuple[Dict, Dict]:
-        vp = defaultdict(int)
-        card_vp = defaultdict(int)
-        # deduct coin cost from card value, and distribute defeat across non military cards
-        for card, play_data in self.cards_played.items():
-            card_vp[card.name] -= play_data["cost"] / 3
-            if card.card_type != "military":
-                card_vp[card.name] -= self.defeat() / len(self.cards_played)
-
-        for effect in self.effects["discount"]:
-            card_name = self.effects_id_to_card[effect.effect_id].name \
-                if effect.effect_id in self.effects_id_to_card \
-                else "other"
-            for resource_type, saved_by_direction in self.discount_coins_saved.items():
-                for direction, coins_saved in saved_by_direction.items():
-                    points = coins_saved / 3
-                    if resource_type in effect.target and direction in effect.direction:
-                        card_vp[card_name] += points
-
-        for resource, coins_gained in self.coins_gained.items():
-            card_names = []
-            points = coins_gained / 3
-            for effect in self.effects["produce"]:
-                if resource in [r.key for r in effect.resources]:
-                    name = self.effects_id_to_card[effect.effect_id].name \
-                        if effect.effect_id in self.effects_id_to_card \
-                        else "other"
-                    card_names.append(name)
-            for card_name in card_names:
-                card_vp[card_name] += points / len(card_names)
-
-        vp["military"] = self.military_points() - self.defeat()
-        for effect in self.effects["generate"]:
-            card_name = self.effects_id_to_card[effect.effect_id].name \
-                if effect.effect_id in self.effects_id_to_card \
-                else "other"
-            resource = effect.resources[0].key
-            if resource == "c":
-                if effect.target:
-                    for target, direction in itertools.product(
-                            effect.target, effect.direction
-                    ):
-                        resource_count = (
-                                self.neighbors[direction].token_count(target) * effect.resources[0].amount
-                        )
-                        card_vp[card_name] += resource_count / 3
-
-                else:
-                    card_vp[card_name] += effect.resources[0].amount / 3
-            if resource == "m":
-                # not possible to have military points without might
-                military_percent = effect.resources[0].amount / self._tableau.tokens[MILITARY_MIGHT]
-                card_vp[card_name] += self.military_points() * military_percent
-
-        vp[COINS] = self.coins() // 3
-
-        # covers wonder, civil, guild, and commercial cards
-        for effect in self.effects["victory"]:
-            card_name = self.effects_id_to_card[effect.effect_id].name \
-                if effect.effect_id in self.effects_id_to_card \
-                else "other"
-            if effect.target:
-                for target, direction in itertools.product(
-                        effect.target, effect.direction
-                ):
-                    effect_vp = (
-                            self.neighbors[direction].token_count(target)
-                            * effect.resources[0].amount
-                    )
-                    vp[effect.card_type] += effect_vp
-                    card_vp[card_name] += effect_vp
-
-            else:
-                vp[effect.card_type] += effect.resources[0].amount
-                card_vp[card_name] += effect.resources[0].amount
-
-        # calculate science
-        science_counts = {"x": 0, "y": 0, "z": 0}
-        science_choices = []
-
-        for effect in self.effects["research"]:
-            if len(effect.resources) > 1:
-                science_choices.append(
-                    tuple(resource.key for resource in effect.resources)
-                )
-            else:
-                science_counts[effect.resources[0].key] += 1
-
-        for options in itertools.product([""], *science_choices):
-            curr_counts = copy.copy(science_counts)
-
-            for option in options[1:]:
-                curr_counts[option] += 1
-
-            min_count = min(curr_counts.values(), default=0)
-            vp["science"] = max(
-                vp["science"],
-                min_count * 7 + sum(count * count for count in curr_counts.values()),
-            )
-        for effect in self.effects["research"]:
-            card_name = self.effects_id_to_card[effect.effect_id].name \
-                if effect.effect_id in self.effects_id_to_card \
-                else "other"
-            card_vp[card_name] += vp["science"] / len(self.effects["research"])
-
-        return dict(vp), dict(card_vp)
