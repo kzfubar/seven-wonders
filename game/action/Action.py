@@ -68,15 +68,20 @@ async def _select_payment_option(
         _display_payment_options(player, payment_options)
         player.client.clear_message_buffer()
         player.client.send_event(GAME, {"type": "payment", "options": [i for i, _ in enumerate(payment_options)]})
-        player_input = await player.get_input("select a payment option: ")
-        if player_input == "q":
+
+        try:
+            player_input = await player.get_input("select a payment option: ")
+            if player_input == "q":
+                return False
+            player_input = int(player_input)
+            payment = payment_options[player_input].total()
+        except ValueError:
+            player.display("invalid argument!")
             return False
-        player_input = int(player_input)
-        if player_input > len(payment_options):
-            player.display("out of range!")
+        except IndexError:
+            player.display(f"out of range!")
             return False
         try:
-            payment = payment_options[player_input].total()
             if not _valid_payment(player, payment):
                 player.display("Cannot afford this payment")
                 return False
