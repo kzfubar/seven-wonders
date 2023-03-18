@@ -93,8 +93,11 @@ def _display_payment_options(
 ):
     player.display("Payment options:")
     for i, option in enumerate(payment_options):
+        resources = option.resources()
         player.display(
-            f"({i}) {player.neighbors[LEFT].name} <- {option.left_payment}, {option.right_payment} -> {player.neighbors[RIGHT].name}"
+            f"({i}) {player.neighbors[LEFT].name} <- {option.left_payment}, "
+            f"{option.right_payment} -> {player.neighbors[RIGHT].name} : "
+            f"{resources[LEFT]} <---> {resources[RIGHT]}"
         )
 
 
