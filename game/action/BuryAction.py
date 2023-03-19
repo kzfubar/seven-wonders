@@ -7,7 +7,7 @@ from game.action.Action import (
     Action,
     _select_payment_option,
     _get_card,
-    _activate_card,
+    activate_card,
     _announce,
 )
 from game.action.Actionable import Actionable
@@ -21,7 +21,7 @@ def _take_action(
     players: List[Player],
 ) -> None:
     _announce(f"{player.name} buried a card", players)
-    _activate_card(player, wonder_card)
+    activate_card(player, wonder_card)
     player.wonder.increment_level()
     cards.remove(card)
 
@@ -44,12 +44,12 @@ class BuryAction(Action):
         if card is None:
             return None
         player.display(f"burying {card.name}")
-        wonder_power = player.wonder.get_next_power()
-        payment_options = calculate_payment_options(player, wonder_power)
-        successfully_played = await _select_payment_option(player, wonder_power, payment_options)
+        wonder_stage = player.wonder.get_next_stage()
+        payment_options = calculate_payment_options(player, wonder_stage)
+        successfully_played = await _select_payment_option(player, wonder_stage, payment_options)
 
         return (
-            Actionable(_take_action, [player, wonder_power, card, cards, players])
+            Actionable(_take_action, [player, wonder_stage, card, cards, players])
             if successfully_played
             else None
         )

@@ -37,7 +37,7 @@ def _hand_to_str(
 
 def _to_event(player: Player,
               bury_options: List[PaymentOption],
-              hand_options: Dict[Card, List[PaymentOption]]) -> Dict[str, Dict[int, List]]:
+              hand_options: Dict[Card, List[PaymentOption]]) -> Dict[str, Dict[str, List]]:
     play = {
         card.id: [p.as_tuple() for p in payments] for card, payments in hand_options.items()
     }
@@ -47,7 +47,7 @@ def _to_event(player: Player,
     bury = dict()
     if not player.wonder.is_max_level:
         bury = {
-            player.wonder.get_next_power().id: [p.as_tuple() for p in bury_options]
+            player.wonder.get_next_stage().id: [p.as_tuple() for p in bury_options]
         }
     return {"play": play,
             "discard": discard,
@@ -94,7 +94,7 @@ class PlayerActionPhase:
         wonder_payment_options: List[PaymentOption] = []
         if not player.wonder.is_max_level:
             wonder_payment_options = calculate_payment_options(
-                player, player.wonder.get_next_power()
+                player, player.wonder.get_next_stage()
             )
 
         player.cache_printout("\n".join(player.updates))

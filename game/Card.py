@@ -14,7 +14,7 @@ class Effect:
         target: List[str],
         direction: List[str],
         card_type: str,
-        effect_id: int = 0,
+        effect_id: str,
     ):
         self.effect_id = effect_id
         self.effect = effect
@@ -51,10 +51,14 @@ class Effect:
         return s
 
 
+def _to_id(name: str) -> str:
+    return name.replace(" ", "").lower()
+
+
 class Card:
     def __init__(
         self,
-        id: int,
+        card_id: str,
         name: str,
         age: int,
         card_type: str,
@@ -62,13 +66,13 @@ class Card:
         coupons: List[str],
         effects: List[Effect],
     ):
-        self.id = id
         self.name = name
         self.age = age
         self.card_type = card_type
         self.cost = cost
         self.coupons = coupons
         self.effects = effects
+        self.id: str = card_id
 
     def __repr__(self):
         return (

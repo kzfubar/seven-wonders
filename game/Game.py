@@ -8,6 +8,7 @@ from game.Player import Player
 from game.PlayerActionPhase import PlayerActionPhase
 from game.PlayerCreator import create_players
 from game.VictoryCalculator import VictoryCalculator
+from game.action import Action
 from networking.server.ClientConnection import ClientConnection
 from util.cardUtils import get_all_cards
 from util.constants import LEFT, RIGHT, MAX_PLAYERS
@@ -148,6 +149,8 @@ class Game:
 
     async def play(self):
         self._message_players("starting game!")
+        for player in self.players:
+            Action.activate_card(player, player.wonder.power)
         for age in range(1, 4):
             self.age = age
             self._message_players(f"begin age: {self.age}")

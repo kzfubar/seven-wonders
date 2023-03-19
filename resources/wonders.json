@@ -2,8 +2,15 @@
     {
         "name": "Rhodos",
         "id": 0,
-        "resources": ["o"],
-        "state": [
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["o", 1] ],
+                "target": [],
+                "direction": ["self"]
+            }
+        ],
+        "stages": [
             {
                 "cost": ["w", "w"],
                 "effects": [
@@ -42,8 +49,15 @@
     {
         "name": "Alexandria",
         "id": 1,
-        "resources": ["g"],
-        "state": [
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["g", 1] ],
+                "target": [],
+                "direction": ["self"]
+            }
+        ],
+        "stages": [
             {
                 "cost": ["s", "s"],
                 "effects": [
@@ -82,8 +96,15 @@
     {
         "name": "Ephesos",
         "id": 2,
-        "resources": ["p"],
-        "state": [
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["p", 1] ],
+                "target": [],
+                "direction": ["self"]
+            }
+        ],
+        "stages": [
             {
                 "cost": ["s", "s"],
                 "effects": [
@@ -122,8 +143,15 @@
     {
         "name": "Babylon",
         "id": 3,
-        "resources": ["b"],
-        "state": [
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["b", 1] ],
+                "target": [],
+                "direction": ["self"]
+            }
+        ],
+        "stages": [
             {
                 "cost": ["b", "b"],
                 "effects": [
@@ -162,8 +190,15 @@
     {
         "name": "Olympia",
         "id": 4,
-        "resources": ["w"],
-        "state": [
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["w", 1] ],
+                "target": [],
+                "direction": ["self"]
+            }
+        ],
+        "stages": [
             {
                 "cost": ["w", "w"],
                 "effects": [
@@ -197,8 +232,15 @@
     {
         "name": "Halicarnassus",
         "id": 5,
-        "resources": ["p"],
-        "state": [
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["p", 1] ],
+                "target": [],
+                "direction": ["self"]
+            }
+        ],
+        "stages": [
             {
                 "cost": ["b", "b"],
                 "effects": [
@@ -237,8 +279,15 @@
     {
         "name": "Gizah",
         "id": 6,
-        "resources": ["b"],
-        "state": [
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["b", 1] ],
+                "target": [],
+                "direction": ["self"]
+            }
+        ],
+        "stages": [
             {
                 "cost": ["s", "s"],
                 "effects": [

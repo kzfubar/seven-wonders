@@ -17,7 +17,7 @@ Handle duplicate player names: `handle duplicate player names`
 Add B side wonders
 - Add WondersB.json
 
-Support wonder power effects
+Support wonder stage effects
 - guild_copy (at the end of the age, copy a guild from either neighbor)
 - play_last_card (at the end of the age, you may play, discard, bury the last card in your hand, paying any resource costs required)
 

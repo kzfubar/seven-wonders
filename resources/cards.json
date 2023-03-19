@@ -13,8 +13,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 0
+        ]
     },
     {
         "name": "Stone Pit",
@@ -30,8 +29,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 1
+        ]
     },
     {
         "name": "Clay Pool",
@@ -47,8 +45,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 2
+        ]
     },
     {
         "name": "Ore Vein",
@@ -64,8 +61,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 3
+        ]
     },
     {
         "name": "Tree Farm",
@@ -81,8 +77,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 4
+        ]
     },
     {
         "name": "Excavation",
@@ -98,8 +93,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 5
+        ]
     },
     {
         "name": "Clay Pit",
@@ -115,8 +109,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 6
+        ]
     },
     {
         "name": "Timber Yard",
@@ -132,8 +125,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 7
+        ]
     },
     {
         "name": "Forest Cave",
@@ -149,8 +141,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 8
+        ]
     },
     {
         "name": "Mine",
@@ -166,8 +157,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 9
+        ]
     },
     {
         "name": "Loom",
@@ -183,8 +173,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 10
+        ]
     },
     {
         "name": "Glassworks",
@@ -200,8 +189,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 11
+        ]
     },
     {
         "name": "Press",
@@ -217,8 +205,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 12
+        ]
     },
     {
         "name": "Sawmill",
@@ -234,8 +221,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 13
+        ]
     },
     {
         "name": "Quarry",
@@ -251,8 +237,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 14
+        ]
     },
     {
         "name": "Brickyard",
@@ -268,8 +253,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 15
+        ]
     },
     {
         "name": "Foundry",
@@ -285,8 +269,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 16
+        ]
     },
     {
         "name": "Loom",
@@ -302,8 +285,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 17
+        ]
     },
     {
         "name": "Glassworks",
@@ -319,8 +301,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 18
+        ]
     },
     {
         "name": "Press",
@@ -336,8 +317,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 19
+        ]
     },
     {
         "name": "Pawnshop",
@@ -353,8 +333,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 20
+        ]
     },
     {
         "name": "Baths",
@@ -370,8 +349,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 21
+        ]
     },
     {
         "name": "Altar",
@@ -387,8 +365,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 22
+        ]
     },
     {
         "name": "Theater",
@@ -404,8 +381,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 23
+        ]
     },
     {
         "name": "Aqueduct",
@@ -421,8 +397,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 24
+        ]
     },
     {
         "name": "Temple",
@@ -438,8 +413,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 25
+        ]
     },
     {
         "name": "Statue",
@@ -455,8 +429,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 26
+        ]
     },
     {
         "name": "Pantheon",
@@ -472,8 +445,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 27
+        ]
     },
     {
         "name": "Gardens",
@@ -489,8 +461,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 28
+        ]
     },
     {
         "name": "Town Hall",
@@ -506,8 +477,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 29
+        ]
     },
     {
         "name": "Palace",
@@ -523,8 +493,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 30
+        ]
     },
     {
         "name": "Tavern",
@@ -540,8 +509,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 31
+        ]
     },
     {
         "name": "East Trading Post",
@@ -552,8 +520,7 @@
         "type": "commercial",
         "effects": [
             { "effect": "discount", "resources": [], "target": ["common"], "direction": ["right"] }
-        ],
-        "id": 32
+        ]
     },
     {
         "name": "West Trading Post",
@@ -564,8 +531,7 @@
         "type": "commercial",
         "effects": [
             { "effect": "discount", "resources": [], "target": ["common"], "direction": ["left"] }
-        ],
-        "id": 33
+        ]
     },
     {
         "name": "Marketplace",
@@ -581,8 +547,7 @@
                 "target": ["luxury"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 34
+        ]
     },
     {
         "name": "Forum",
@@ -599,8 +564,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 35
+        ]
     },
     {
         "name": "Caravansery",
@@ -617,8 +581,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 36
+        ]
     },
     {
         "name": "Vineyard",
@@ -634,8 +597,7 @@
                 "target": ["common"],
                 "direction": ["left", "right", "self"]
             }
-        ],
-        "id": 37
+        ]
     },
     {
         "name": "Bazar",
@@ -651,8 +613,7 @@
                 "target": ["luxury"],
                 "direction": ["left", "right", "self"]
             }
-        ],
-        "id": 38
+        ]
     },
     {
         "name": "Haven",
@@ -674,8 +635,7 @@
                 "target": ["common"],
                 "direction": ["self"]
             }
-        ],
-        "id": 39
+        ]
     },
     {
         "name": "Lighthouse",
@@ -697,8 +657,7 @@
                 "target": ["commercial"],
                 "direction": ["self"]
             }
-        ],
-        "id": 40
+        ]
     },
     {
         "name": "Chamber of Commerce",
@@ -720,8 +679,7 @@
                 "target": ["luxury"],
                 "direction": ["self"]
             }
-        ],
-        "id": 41
+        ]
     },
     {
         "name": "Stockade",
@@ -737,8 +695,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 42
+        ]
     },
     {
         "name": "Barracks",
@@ -754,8 +711,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 43
+        ]
     },
     {
         "name": "Guard Tower",
@@ -771,8 +727,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 44
+        ]
     },
     {
         "name": "Walls",
@@ -788,8 +743,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 45
+        ]
     },
     {
         "name": "Training Ground",
@@ -805,8 +759,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 46
+        ]
     },
     {
         "name": "Fortification",
@@ -822,8 +775,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 47
+        ]
     },
     {
         "name": "Circus",
@@ -839,8 +791,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 48
+        ]
     },
     {
         "name": "Arsenal",
@@ -856,8 +807,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 49
+        ]
     },
     {
         "name": "Apothecary",
@@ -873,8 +823,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 50
+        ]
     },
     {
         "name": "Workshop",
@@ -890,8 +839,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 51
+        ]
     },
     {
         "name": "Scriptorium",
@@ -907,8 +855,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 52
+        ]
     },
     {
         "name": "Stables",
@@ -924,8 +871,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 53
+        ]
     },
     {
         "name": "Dispensary",
@@ -941,8 +887,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 54
+        ]
     },
     {
         "name": "Archery Range",
@@ -958,8 +903,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 55
+        ]
     },
     {
         "name": "Laboratory",
@@ -975,8 +919,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 56
+        ]
     },
     {
         "name": "Courthouse",
@@ -992,8 +935,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 57
+        ]
     },
     {
         "name": "Library",
@@ -1009,8 +951,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 58
+        ]
     },
     {
         "name": "School",
@@ -1026,8 +967,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 59
+        ]
     },
     {
         "name": "Lodge",
@@ -1043,8 +983,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 60
+        ]
     },
     {
         "name": "Siege Workshop",
@@ -1060,8 +999,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 61
+        ]
     },
     {
         "name": "Observatory",
@@ -1077,8 +1015,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 62
+        ]
     },
     {
         "name": "Senate",
@@ -1094,8 +1031,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 63
+        ]
     },
     {
         "name": "University",
@@ -1111,8 +1047,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 64
+        ]
     },
     {
         "name": "Academy",
@@ -1128,8 +1063,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 65
+        ]
     },
     {
         "name": "Study",
@@ -1145,8 +1079,7 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 66
+        ]
     },
     {
         "name": "Arena",
@@ -1168,8 +1101,7 @@
                 "target": ["wonder_level"],
                 "direction": ["self"]
             }
-        ],
-        "id": 67
+        ]
     },
     {
         "name": "Workers Guild",
@@ -1185,8 +1117,7 @@
                 "target": ["common"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 68
+        ]
     },
     {
         "name": "Craftsmen Guild",
@@ -1202,8 +1133,7 @@
                 "target": ["luxury"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 69
+        ]
     },
     {
         "name": "Traders Guild",
@@ -1219,8 +1149,7 @@
                 "target": ["commercial"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 70
+        ]
     },
     {
         "name": "Philosophers Guild",
@@ -1236,8 +1165,7 @@
                 "target": ["science"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 71
+        ]
     },
     {
         "name": "Spies Guild",
@@ -1253,8 +1181,7 @@
                 "target": ["military"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 72
+        ]
     },
     {
         "name": "Strategists Guild",
@@ -1270,8 +1197,7 @@
                 "target": ["defeat"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 73
+        ]
     },
     {
         "name": "Shipowners Guild",
@@ -1287,8 +1213,7 @@
                 "target": ["common", "luxury", "guild"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 74
+        ]
     },
     {
         "name": "Magistrates Guild",
@@ -1304,8 +1229,7 @@
                 "target": ["civilian"],
                 "direction": ["left", "right"]
             }
-        ],
-        "id": 75
+        ]
     },
     {
         "name": "Builders Guild",
@@ -1321,8 +1245,7 @@
                 "target": ["wonder_level"],
                 "direction": ["left", "right", "self"]
             }
-        ],
-        "id": 76
+        ]
     },
     {
         "name": "Scientists Guild",
@@ -1338,7 +1261,6 @@
                 "target": [],
                 "direction": ["self"]
             }
-        ],
-        "id": 77
+        ]
     }
 ]

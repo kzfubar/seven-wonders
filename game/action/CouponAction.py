@@ -7,7 +7,7 @@ from game.action.Action import (
     Action,
     _select_payment_option,
     _get_card,
-    _activate_card,
+    activate_card,
     _announce,
 )
 from game.action.Actionable import Actionable
@@ -17,7 +17,7 @@ def _take_action(
     player: Player, card: Card, cards: List[Card], players: List[Player]
 ) -> None:
     _announce(f"{player.name} used a coupon for {card}", players)
-    _activate_card(player, card)
+    activate_card(player, card)
     cards.remove(card)
 
 

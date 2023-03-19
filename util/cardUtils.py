@@ -6,10 +6,14 @@ from game.Card import Card, Effect
 from game.Resource import Resource
 
 
-def get_effects(card_raw: Dict, effect_id: int) -> Tuple[List[Effect], int]:
+def to_card_id(name: str) -> str:
+    return name.replace(" ", "").lower()
+
+
+def get_effects(card_raw: Dict, card_id: str) -> List[Effect]:
     effects_raw = card_raw["effects"]
     effects = []
-    for effect in effects_raw:
+    for i, effect in enumerate(effects_raw):
         effects.append(
             Effect(
                 effect=effect["effect"],
@@ -17,10 +21,9 @@ def get_effects(card_raw: Dict, effect_id: int) -> Tuple[List[Effect], int]:
                 target=effect["target"],
                 direction=effect["direction"],
                 card_type=card_raw["type"],
-                effect_id=effect_id
+                effect_id=f"{card_id}_{i}"
             ))
-        effect_id += 1
-    return effects, effect_id
+    return effects
 
 
 def get_all_cards(num_players: int) -> List[Card]:
@@ -29,12 +32,12 @@ def get_all_cards(num_players: int) -> List[Card]:
 
     all_cards = []
     guilds = []
-    effect_id = 0
     for raw_card in all_cards_raw:
         if raw_card["type"] == "guild":
-            effects, effect_id = get_effects(raw_card, effect_id)
+            card_id = to_card_id(raw_card["name"])
+            effects = get_effects(raw_card, card_id)
             guilds.append(Card(
-                id=raw_card["id"],
+                card_id=card_id,
                 name=raw_card["name"],
                 age=raw_card["age"],
                 card_type=raw_card["type"],
@@ -45,10 +48,11 @@ def get_all_cards(num_players: int) -> List[Card]:
 
         for player_count in raw_card["players"]:
             if num_players >= player_count:
-                effects, effect_id = get_effects(raw_card, effect_id)
+                card_id = to_card_id(raw_card["name"])
+                effects = get_effects(raw_card, card_id)
                 all_cards.append(
                     Card(
-                        id=raw_card["id"],
+                        card_id=card_id,
                         name=raw_card["name"],
                         age=raw_card["age"],
                         card_type=raw_card["type"],

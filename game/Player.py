@@ -50,15 +50,6 @@ class Player:
             RIGHT: None,
             "self": self,
         }
-        self.effects["produce"].append(
-            Effect(
-                effect="produce",
-                resources=[Resource(wonder.resource, 1)],
-                target=[],
-                direction=["self"],
-                card_type=WONDER,
-            )
-        )
         self.hand_printouts = []
         self.toggles = {DISPLAY_TYPE: True, EOR_EFFECTS: True}
 
@@ -90,7 +81,7 @@ class Player:
     def event_update(self):
         hand = {
             "type": "update",
-            "hand": [str(card.id) for card in self.hand],
+            "hand": [card.id for card in self.hand],
             "coins": self._tableau.tokens[COINS]
         }
         self.client.send_event("game", hand)
