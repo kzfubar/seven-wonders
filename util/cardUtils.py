@@ -45,7 +45,6 @@ def get_all_cards(num_players: int) -> List[Card]:
                 cost=raw_card["cost"],
                 coupons=raw_card["coupon"],
                 effects=effects))
-            card_name.append(card_name)
             continue
 
         for player_count in raw_card["players"]:
