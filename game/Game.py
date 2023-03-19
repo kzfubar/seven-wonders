@@ -107,7 +107,7 @@ class Game:
             [player.discard_hand() for player in self.players]
         # do player end rounds synchronously, future expansions introduce end round effect order
         for player in self.players:
-            await self.player_action_phase.end_round(player)
+            await self.player_action_phase.end_round(player, self.players)
         for player in self.players:
             if player.toggles[EOR_EFFECTS]:
                 player.display(player.consolidated_effects())

@@ -138,12 +138,12 @@ class PlayerActionPhase:
         self.actions.append(actionable)
         player.display("turn over")
 
-    async def end_round(self, player: Player):
+    async def end_round(self, player: Player, players: List[Player]):
         player.clear_printouts()
         if Flag.DISCARD_BUILD in player.flags and player.flags[Flag.DISCARD_BUILD]:
-            await self._discard_build(player)
+            await self._discard_build(player, players)
 
-    async def _discard_build(self, player: Player):
+    async def _discard_build(self, player: Player, players: List[Player]):
         all_players: List[Player] = [player]
         cur = player
         while not cur.neighbors[LEFT] == player:
@@ -161,5 +161,5 @@ class PlayerActionPhase:
         )
         player.client.clear_message_buffer()
         arg = (await player.get_input("Free build from all previous discards: "))[0::]
-        await FREE_BUILD.select_card(player, all_discards, arg)
+        await FREE_BUILD.select_card(player, all_discards, arg, players)
         del player.flags[Flag.DISCARD_BUILD]
