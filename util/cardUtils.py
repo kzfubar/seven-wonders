@@ -6,7 +6,7 @@ from game.Card import Card, Effect
 from game.Resource import Resource
 
 
-def to_card_id(name: str, suffix='') -> str:
+def to_card_id(name: str, suffix: str = '') -> str:
     return name.replace(" ", "").lower() + suffix
 
 
@@ -50,7 +50,7 @@ def get_all_cards(num_players: int) -> List[Card]:
 
         for player_count in raw_card["players"]:
             if num_players >= player_count:
-                card_id = to_card_id(raw_card["name"], player_count)
+                card_id = to_card_id(raw_card["name"], str(player_count))
                 effects = get_effects(raw_card, card_id)
                 all_cards.append(
                     Card(
