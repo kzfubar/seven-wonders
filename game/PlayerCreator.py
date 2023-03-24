@@ -42,7 +42,7 @@ async def _create_player(
             continue
 
         matched_wonder_name = matched_wonder_names[0]
-        if matched_wonder_name in (player.wonder.name for player in players):
+        if matched_wonder_name in (player.wonder.base_name for player in players):
             client.send_message("Wonder in use")
         else:
             wonder_name = matched_wonder_name
