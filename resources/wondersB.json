@@ -1,7 +1,7 @@
 [
     {
-        "name": "Rhodos",
-        "id": 0,
+        "name": "RhodosB",
+        "id": 7,
         "power": [
             {
                 "effect": "produce",
@@ -12,21 +12,22 @@
         ],
         "stages": [
             {
-                "cost": ["w", "w"],
+                "cost": ["s", "s", "s", "s"],
                 "effects": [
+                    {
+                        "resources": [ ["m", 1] ],
+                        "direction": ["self"],
+                        "effect": "generate",
+                        "target": []
+                    },
                     {
                         "resources": [ ["v", 3] ],
                         "direction": ["self"],
                         "effect": "victory",
                         "target": []
-                    }
-                ]
-            },
-            {
-                "cost": ["b", "b", "b"],
-                "effects": [
+                    },
                     {
-                        "resources": [ ["m", 2] ],
+                        "resources": [ ["c", 3] ],
                         "direction": ["self"],
                         "effect": "generate",
                         "target": []
@@ -37,9 +38,21 @@
                 "cost": ["o", "o", "o", "o"],
                 "effects": [
                     {
-                        "resources": [ ["v", 7] ],
+                        "resources": [ ["m", 1] ],
+                        "direction": ["self"],
+                        "effect": "generate",
+                        "target": []
+                    },
+                    {
+                        "resources": [ ["v", 4] ],
                         "direction": ["self"],
                         "effect": "victory",
+                        "target": []
+                    },
+                    {
+                        "resources": [ ["c", 4] ],
+                        "direction": ["self"],
+                        "effect": "generate",
                         "target": []
                     }
                 ]
@@ -47,8 +60,8 @@
         ]
     },
     {
-        "name": "Alexandria",
-        "id": 1,
+        "name": "AlexandriaB",
+        "id": 8,
         "power": [
             {
                 "effect": "produce",
@@ -59,18 +72,7 @@
         ],
         "stages": [
             {
-                "cost": ["s", "s"],
-                "effects": [
-                    {
-                        "resources": [ ["v", 3] ],
-                        "direction": ["self"],
-                        "effect": "victory",
-                        "target": []
-                    }
-                ]
-            },
-            {
-                "cost": ["o", "o"],
+                "cost": ["b", "b"],
                 "effects": [
                     {
                         "resources": [ ["b", 1], ["o", 1], ["w", 1], ["s", 1] ],
@@ -81,7 +83,18 @@
                 ]
             },
             {
-                "cost": ["g", "g"],
+                "cost": ["w", "w"],
+                "effects": [
+                    {
+                        "resources": [ ["p", 1], ["g", 1], ["l", 1] ],
+                        "direction": ["self"],
+                        "effect": "produce",
+                        "target": []
+                    }
+                ]
+            },
+            {
+                "cost": ["s", "s", "s"],
                 "effects": [
                     {
                         "resources": [ ["v", 7] ],
@@ -94,8 +107,8 @@
         ]
     },
     {
-        "name": "Ephesos",
-        "id": 2,
+        "name": "EphesosB",
+        "id": 9,
         "power": [
             {
                 "effect": "produce",
@@ -109,9 +122,15 @@
                 "cost": ["s", "s"],
                 "effects": [
                     {
-                        "resources": [ ["v", 3] ],
+                        "resources": [ ["v", 2] ],
                         "direction": ["self"],
                         "effect": "victory",
+                        "target": []
+                    },
+                    {
+                        "resources": [ ["c", 4] ],
+                        "direction": ["self"],
+                        "effect": "generate",
                         "target": []
                     }
                 ]
@@ -120,7 +139,13 @@
                 "cost": ["w", "w"],
                 "effects": [
                     {
-                        "resources": [ ["c", 9] ],
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    },
+                    {
+                        "resources": [ ["c", 4] ],
                         "direction": ["self"],
                         "effect": "generate",
                         "target": []
@@ -128,12 +153,18 @@
                 ]
             },
             {
-                "cost": ["p", "p"],
+                "cost": ["p", "g", "l"],
                 "effects": [
                     {
-                        "resources": [ ["v", 7] ],
+                        "resources": [ ["v", 5] ],
                         "direction": ["self"],
                         "effect": "victory",
+                        "target": []
+                    },
+                    {
+                        "resources": [ ["c", 4] ],
+                        "direction": ["self"],
+                        "effect": "generate",
                         "target": []
                     }
                 ]
@@ -141,8 +172,8 @@
         ]
     },
     {
-        "name": "Babylon",
-        "id": 3,
+        "name": "BabylonB",
+        "id": 10,
         "power": [
             {
                 "effect": "produce",
@@ -153,7 +184,7 @@
         ],
         "stages": [
             {
-                "cost": ["b", "b"],
+                "cost": ["b", "l"],
                 "effects": [
                     {
                         "resources": [ ["v", 3] ],
@@ -164,7 +195,18 @@
                 ]
             },
             {
-                "cost": ["w", "w"],
+                "cost": ["w", "w", "g"],
+                "effects": [
+                    {
+                        "resources": [],
+                        "direction": ["self"],
+                        "effect": "play_last",
+                        "target": []
+                    }
+                ]
+            },
+            {
+                "cost": ["b", "b", "b", "p"],
                 "effects": [
                     {
                         "resources": [ ["x", 1], ["y", 1], ["z", 1] ],
@@ -173,23 +215,12 @@
                         "target": []
                     }
                 ]
-            },
-            {
-                "cost": ["b", "b", "b", "b"],
-                "effects": [
-                    {
-                        "resources": [ ["v", 7] ],
-                        "direction": ["self"],
-                        "effect": "victory",
-                        "target": []
-                    }
-                ]
             }
         ]
     },
     {
-        "name": "Olympia",
-        "id": 4,
+        "name": "OlympiaB",
+        "id": 11,
         "power": [
             {
                 "effect": "produce",
@@ -203,104 +234,15 @@
                 "cost": ["w", "w"],
                 "effects": [
                     {
-                        "resources": [ ["v", 3] ],
-                        "direction": ["self"],
-                        "effect": "victory",
-                        "target": []
-                    }
-                ]
-            },
-            {
-                "cost": ["s", "s"],
-                "effects": [
-                    { "resources": [], "direction": ["self"], "effect": "free_build", "target": [] }
-                ]
-            },
-            {
-                "cost": ["o", "o"],
-                "effects": [
-                    {
-                        "resources": [ ["v", 7] ],
-                        "direction": ["self"],
-                        "effect": "victory",
-                        "target": []
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Halicarnassus",
-        "id": 5,
-        "power": [
-            {
-                "effect": "produce",
-                "resources": [ ["l", 1] ],
-                "target": [],
-                "direction": ["self"]
-            }
-        ],
-        "stages": [
-            {
-                "cost": ["b", "b"],
-                "effects": [
-                    {
-                        "resources": [ ["v", 3] ],
-                        "direction": ["self"],
-                        "effect": "victory",
-                        "target": []
-                    }
-                ]
-            },
-            {
-                "cost": ["w", "w"],
-                "effects": [
-                    {
+                        "effect": "discount",
                         "resources": [],
-                        "direction": ["self"],
-                        "effect": "discard_build",
-                        "target": []
+                        "target": ["common"],
+                        "direction": ["left", "right"]
                     }
                 ]
             },
-            {
-                "cost": ["l", "l"],
-                "effects": [
-                    {
-                        "resources": [ ["v", 7] ],
-                        "direction": ["self"],
-                        "effect": "victory",
-                        "target": []
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Gizah",
-        "id": 6,
-        "power": [
-            {
-                "effect": "produce",
-                "resources": [ ["s", 1] ],
-                "target": [],
-                "direction": ["self"]
-            }
-        ],
-        "stages": [
             {
                 "cost": ["s", "s"],
-                "effects": [
-                    {
-                        "resources": [ ["v", 3] ],
-                        "direction": ["self"],
-                        "effect": "victory",
-                        "target": []
-                    }
-                ]
-            },
-            {
-                "cost": ["w", "w", "w"],
                 "effects": [
                     {
                         "resources": [ ["v", 5] ],
@@ -311,7 +253,133 @@
                 ]
             },
             {
-                "cost": ["s", "s", "s", "s"],
+                "cost": ["o", "o", "l"],
+                "effects": [
+                    {
+                        "resources": [],
+                        "direction": ["self"],
+                        "effect": "guild_copy",
+                        "target": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "HalicarnassusB",
+        "id": 12,
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["l", 1] ],
+                "target": [],
+                "direction": ["self"]
+
+            }
+        ],
+        "stages": [
+            {
+                "cost": ["o", "o"],
+                "effects": [
+                    {
+                        "effect": "victory",
+                        "resources": [ ["v", 2] ],
+                        "target": [],
+                        "direction": ["self"]
+
+                    },
+                    {
+                        "resources": [],
+                        "direction": [
+                            "self"
+                        ],
+                        "effect": "discard_build",
+                        "target": []
+                    }
+                ]
+            },
+            {
+                "cost": ["b", "b", "b"],
+                "effects": [
+                    {
+                        "effect": "victory",
+                        "resources": [ ["v", 1] ],
+                        "target": [],
+                        "direction": ["self"]
+
+                    },
+                    {
+                        "resources": [],
+                        "direction": [
+                            "self"
+                        ],
+                        "effect": "discard_build",
+                        "target": []
+                    }
+                ]
+            },
+            {
+                "cost": ["p", "g", "l"],
+                "effects": [
+                    {
+                        "resources": [],
+                        "direction": [
+                            "self"
+                        ],
+                        "effect": "discard_build",
+                        "target": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "GizahB",
+        "id": 13,
+        "power": [
+            {
+                "effect": "produce",
+                "resources": [ ["s", 1] ],
+                "target": [],
+                "direction": ["self"]
+            }
+        ],
+        "stages": [
+            {
+                "cost": ["w", "w"],
+                "effects": [
+                    {
+                        "resources": [ ["v", 3] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
+            },
+            {
+                "cost": ["s", "s", "s"],
+                "effects": [
+                    {
+                        "resources": [ ["v", 5] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
+            },
+            {
+                "cost": ["b", "b", "b"],
+                "effects": [
+                    {
+                        "resources": [ ["v", 5] ],
+                        "direction": ["self"],
+                        "effect": "victory",
+                        "target": []
+                    }
+                ]
+            },
+            {
+                "cost": ["s", "s", "s", "s", "p"],
                 "effects": [
                     {
                         "resources": [ ["v", 7] ],
