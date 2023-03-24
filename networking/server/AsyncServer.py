@@ -1,22 +1,21 @@
 import asyncio
-from asyncio import StreamWriter
+from asyncio import StreamWriter, StreamReader
 from typing import Dict, Optional, List
 
 from networking.Config import Config
-from networking.server.command.Command import Command
 from networking.messaging.RemoteReceiver import RemoteReceiver
 from networking.messaging.RemoteSender import RemoteSender
 from networking.messaging.messageTypes import MESSAGE, COMMAND, LOGON
 from networking.messaging.messageUtil import MSG_TYPE, DATA
 from networking.server.ClientConnection import ClientConnection
 from networking.server.GameServer import GameServer
+from networking.server.command.Command import Command
 from networking.server.command.RoomCommand import RoomCommand
 from networking.server.command.StartCommand import StartCommand
 from util.constants import KNOWN_IP
 
 
 async def _close_connection(addr, writer: StreamWriter) -> None:
-    print(f"Closing connection {addr}")
     writer.close()
     await writer.wait_closed()
 
@@ -51,7 +50,7 @@ class AsyncServer:
         self.config.add(KNOWN_IP, ip)
 
     async def _handle_command(
-        self, msg: Optional[Dict], client: ClientConnection
+            self, msg: Optional[Dict], client: ClientConnection
     ) -> None:
         args: List = msg["data"].split()
         cmd = args.pop(0)
@@ -63,8 +62,7 @@ class AsyncServer:
         if not self.game_server.handle_command(cmd, args, client):
             client.send_message(f"Command [{cmd}] not found")
 
-    async def handle(self, reader, writer: StreamWriter):
-        addr = writer.get_extra_info("peername")
+    async def _handle_connection(self, addr, writer: StreamWriter):
         print(f"Received Connection from {addr}")
         ip = addr[0]
         if not self._verify_ip(ip):
@@ -80,36 +78,44 @@ class AsyncServer:
         else:
             print("connection recognized!")
 
+    async def _handle_kernel(self, addr, reader: StreamReader, writer: StreamWriter):
         receiver = RemoteReceiver(reader)
         sender = RemoteSender(writer)
         logon = await receiver.get_message()
 
-        connection_open = True
         if not logon[MSG_TYPE] == LOGON:
             sender.send_error("Logon expected", -1)
             await _close_connection(addr, writer)
-            connection_open = False
+            return
 
         print(f"Received logon: {logon}")
         player_name = logon[DATA].strip("\n")
         client = ClientConnection(player_name, sender)
         client.send_message(f"{player_name} logged on")
 
-        while connection_open:
+        while True:
             msg = await receiver.get_message()
             print(f"Received {msg} from {client.name}")
-            if msg == "":
+            if msg is None or msg == "":
                 await _close_connection(addr, writer)
-                connection_open = False
-            if msg[MSG_TYPE] == MESSAGE:
+                print(f"{player_name} :: {addr} connection closed")
+                return
+            elif msg[MSG_TYPE] == MESSAGE:
                 _handle_message(msg, client)
             elif msg[MSG_TYPE] == COMMAND:
                 asyncio.create_task(self._handle_command(msg, client))
             await writer.drain()
-        print(f"{addr} connection closed")
+
+    async def _handle(self, reader: StreamReader, writer: StreamWriter):
+        addr = writer.get_extra_info("peername")
+        await self._handle_connection(addr, writer)
+        try:
+            await self._handle_kernel(addr, reader, writer)
+        except ConnectionResetError:
+            print("Connection reset")
 
     async def start(self):
-        server = await asyncio.start_server(self.handle, self.host, 9999)
+        server = await asyncio.start_server(self._handle, self.host, 9999)
         addrs = ", ".join(str(sock.getsockname()) for sock in server.sockets)
         print(f"Serving on {addrs}")
         async with server:
