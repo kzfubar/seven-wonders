@@ -5,3 +5,7 @@ staging commits:
 2. git commit -m <Message in double quotations>
 3. git push
 
+ctrl + z = pause application, does not kill
+if ctrl + z, resume with 'fg'
+
+ctrl + c = kill application
