@@ -44,7 +44,6 @@ class CouponAction(Action):
 
         player.display(f"playing {card.name} with coupon")
         successfully_played = await _select_payment_option(player, card, [NO_PAYMENT])
-        player.add_card_type(card.card_type)
 
         return (
             Actionable(_take_action, [player, card, cards, players])

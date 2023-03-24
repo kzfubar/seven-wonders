@@ -6,6 +6,8 @@ MAX_PLAYERS: int = 7
 LUXURY_GOODS = set("lgp")
 COMMON_GOODS = set("wsbo")
 
+WONDER_POWER = "wonder_power"
+WONDER_STAGE = "wonder_stage"
 COMMON = "common"
 LUXURY = "luxury"
 CIVILIAN = "civilian"
@@ -26,7 +28,7 @@ TYPE_COLOR_MAP = {
     GUILD: ANSI.PURPLE,
 }
 
-TRADABLE_TYPES = set((COMMON, LUXURY))
+TRADABLE_TYPES = set((COMMON, LUXURY, ))
 
 LEFT = "left"
 RIGHT = "right"
