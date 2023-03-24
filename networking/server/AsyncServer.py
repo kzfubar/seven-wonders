@@ -10,6 +10,7 @@ from networking.messaging.messageUtil import MSG_TYPE, DATA
 from networking.server.ClientConnection import ClientConnection
 from networking.server.GameServer import GameServer
 from networking.server.command.Command import Command
+from networking.server.command.LeaveCommand import LeaveCommand
 from networking.server.command.RoomCommand import RoomCommand
 from networking.server.command.StartCommand import StartCommand
 from util.constants import KNOWN_IP
@@ -27,14 +28,14 @@ def _handle_message(msg: Dict, client: ClientConnection):
 
 
 def _server_commands(server: GameServer) -> Dict[str, Command]:
-    commands = [RoomCommand(server), StartCommand(server)]
+    commands = [RoomCommand(server), StartCommand(server), LeaveCommand(server)]
     return {cmd.name: cmd for cmd in commands}
 
 
 class AsyncServer:
     def __init__(self):
-        self.game_server: GameServer = GameServer()
-        self.commands: Dict[str, Command] = _server_commands(self.game_server)
+        self._game_server: GameServer = GameServer()
+        self.commands: Dict[str, Command] = _server_commands(self._game_server)
 
         self.config = Config()
         self.known_ip = self.config.get(KNOWN_IP)
@@ -98,6 +99,7 @@ class AsyncServer:
             print(f"Received {msg} from {client.name}")
             if msg is None or msg == "":
                 await _close_connection(writer)
+                self._game_server.cleanup(client)
                 print(f"{player_name} :: {addr} connection closed")
                 return
             elif msg[MSG_TYPE] == MESSAGE:

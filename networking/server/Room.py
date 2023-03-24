@@ -33,6 +33,9 @@ class Room:
         self.commands: Dict[str, Command] = _game_commands(self.game)
         self.clients: List[ClientConnection] = list()
 
+    def size(self) -> int:
+        return len(self.clients)
+
     def start_game(self) -> bool:
         if self.game.running:
             return False
@@ -58,3 +61,9 @@ class Room:
         for c in self.clients:
             c.send_message(f"{client.name} has joined the room")
         client.send_event("room", {"type": "room", "clients": [c.name for c in self.clients]})
+
+    def leave(self, client: ClientConnection):
+        self.clients.remove(client)
+        for c in self.clients:
+            c.send_message(f"{client.name} has left the room")
+
