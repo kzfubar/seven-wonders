@@ -12,7 +12,7 @@
         ],
         "stages": [
             {
-                "cost": ["s", "s", "s", "s"],
+                "cost": ["s", "s", "s"],
                 "effects": [
                     {
                         "resources": [ ["m", 1] ],
