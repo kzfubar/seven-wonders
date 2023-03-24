@@ -9,6 +9,7 @@ class WondersCommand(GameCommand):
     name: str = "wonders"
 
     def execute(self, args: List, client: ClientConnection):
-        for wonder in create_wonders():
-            client.send_message(wonder)
-            client.send_message("\n")
+        for _, sides in create_wonders():
+            for wonder, side in sides:
+                client.send_message(wonder)
+                client.send_message("\n")

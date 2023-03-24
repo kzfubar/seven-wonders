@@ -1,13 +1,15 @@
 from typing import List
 
 from game.Card import Card
-from util.constants import RESOURCE_MAP
+from game.Side import Side
 from util.utils import cards_as_string
 
 
 class Wonder:
-    def __init__(self, name: str, power: Card, stages: List[Card]):
-        self.name = name
+    def __init__(self, name: str, base_name: str, side: Side, power: Card, stages: List[Card]):
+        self.name: str = name
+        self.base_name: str = base_name
+        self.side: Side = side
         self.power = power
         self.stages = stages
         self.level = 0
