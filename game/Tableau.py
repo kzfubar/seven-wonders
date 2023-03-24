@@ -11,7 +11,7 @@ from util.constants import (
     MILITARY,
     SCIENCE,
     GUILD,
-    TYPE_COLOR_MAP,
+    TYPE_COLOR_MAP, WONDER_STAGE, WONDER_POWER,
 )
 
 
@@ -19,6 +19,8 @@ class Tableau:
     def __init__(self):
         self.tokens = {COINS: 0, MILITARY_MIGHT: 0, MILITARY_POINTS: 0, DEFEAT: 0}
         self.card_types_played = {
+            WONDER_STAGE: 0,
+            WONDER_POWER: 0,
             COMMON: 0,
             LUXURY: 0,
             CIVILIAN: 0,
