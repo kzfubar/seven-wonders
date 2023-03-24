@@ -15,7 +15,7 @@ from networking.server.command.StartCommand import StartCommand
 from util.constants import KNOWN_IP
 
 
-async def _close_connection(addr, writer: StreamWriter) -> None:
+async def _close_connection(writer: StreamWriter) -> None:
     writer.close()
     await writer.wait_closed()
 
@@ -73,7 +73,7 @@ class AsyncServer:
                 print(f"Connection {addr} accepted")
             if user_input == "n":
                 print(f"Connection {addr} not accepted, closing connection")
-                await _close_connection(addr, writer)
+                await _close_connection(writer)
                 return
         else:
             print("connection recognized!")
@@ -85,7 +85,7 @@ class AsyncServer:
 
         if not logon[MSG_TYPE] == LOGON:
             sender.send_error("Logon expected", -1)
-            await _close_connection(addr, writer)
+            await _close_connection(writer)
             return
 
         print(f"Received logon: {logon}")
@@ -97,7 +97,7 @@ class AsyncServer:
             msg = await receiver.get_message()
             print(f"Received {msg} from {client.name}")
             if msg is None or msg == "":
-                await _close_connection(addr, writer)
+                await _close_connection(writer)
                 print(f"{player_name} :: {addr} connection closed")
                 return
             elif msg[MSG_TYPE] == MESSAGE:
