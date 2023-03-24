@@ -86,6 +86,7 @@ class PlayerActionPhase:
                 player.display(f"you drew against {neighbor.name}!")
 
     async def _select_action(self, player: Player, players: List[Player]):
+        player.status = "is taking their turn"
         player.event_update()
         hand_payment_options = {
             card: calculate_payment_options(player, card) for card in player.hand
@@ -136,6 +137,7 @@ class PlayerActionPhase:
             if not found_action:
                 player.display(f"Invalid action! {action}")
         self.actions.append(actionable)
+        player.status = "has ended their turn"
         player.display("turn over")
 
     async def end_round(self, player: Player, players: List[Player]):

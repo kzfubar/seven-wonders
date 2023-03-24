@@ -32,7 +32,7 @@ class Game:
         self.running = True
         self.player_clients += [client for client in clients if client not in self.spectate_clients]
         await self._start()
-        await self.play()
+        await self._play()
 
     async def _start(self):
         num_players = len(self.player_clients)
@@ -46,7 +46,7 @@ class Game:
                 f"more players than wonders, cannot start the game with {num_players}"
             )
 
-        self.players = []
+        self.players: List[Player] = []
         self.players = await create_players(self.player_clients)
         self.players_by_client: Dict[ClientConnection, Player] = {
             p.client: p for p in self.players
@@ -147,7 +147,7 @@ class Game:
         )
         self.running = False
 
-    async def play(self):
+    async def _play(self):
         self._message_players("starting game!")
         for player in self.players:
             Action.activate_card(player, player.wonder.power)

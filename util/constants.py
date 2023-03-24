@@ -16,8 +16,6 @@ MILITARY = "military"
 SCIENCE = "science"
 GUILD = "guild"
 
-WONDER = "wonder"
-
 TYPE_COLOR_MAP = {
     COMMON: ANSI.BROWN,
     LUXURY: ANSI.WHITE,

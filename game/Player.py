@@ -12,7 +12,6 @@ from util.constants import (
     LEFT,
     RIGHT,
     COINS,
-    WONDER,
     TRADABLE_TYPES,
     DEFEAT,
     MILITARY_POINTS,
@@ -52,7 +51,7 @@ class Player:
         }
         self.hand_printouts = []
         self.toggles = {DISPLAY_TYPE: True, EOR_EFFECTS: True}
-
+        self.status: str = "is waiting around"
         self.display(f"Created player {client.name} with {wonder.name}")
 
     def __repr__(self):

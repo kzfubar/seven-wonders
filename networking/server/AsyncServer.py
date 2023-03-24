@@ -60,7 +60,7 @@ class AsyncServer:
             self.commands[cmd].execute(args, client)
             return
 
-        if not self.game_server.handle_command(cmd, args, client):
+        if not self._game_server.handle_command(cmd, args, client):
             client.send_message(f"Command [{cmd}] not found")
 
     async def _handle_connection(self, addr, writer: StreamWriter):
