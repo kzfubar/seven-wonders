@@ -104,6 +104,8 @@ class Game:
 
     async def _end_round(self, round_number: int, age: int):
         if round_number == self.NUM_ROUNDS - 1:
+            for player in self.players:
+                await self.player_action_phase.last_round(player, self.players)
             [player.discard_hand() for player in self.players]
         # do player end rounds synchronously, future expansions introduce end round effect order
         for player in self.players:

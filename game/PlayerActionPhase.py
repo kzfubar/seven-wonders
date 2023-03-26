@@ -140,6 +140,11 @@ class PlayerActionPhase:
         player.status = "has ended their turn"
         player.display("turn over")
 
+    async def last_round(self, player: Player, players: List[Player]):
+        player.clear_printouts()
+        if Flag.PLAY_LAST in player.flags and player.flags[Flag.PLAY_LAST]:
+            await self._select_action(player, players)
+
     async def end_round(self, player: Player, players: List[Player]):
         player.clear_printouts()
         if Flag.DISCARD_BUILD in player.flags and player.flags[Flag.DISCARD_BUILD]:

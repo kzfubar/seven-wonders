@@ -125,6 +125,9 @@ def activate_card(player: Player, card: Card):
         elif effect.effect == "discard_build":
             player.flags[Flag.DISCARD_BUILD] = True
 
+        elif effect.effect == "play_last":
+            player.flags[Flag.PLAY_LAST] = True
+
         else:
             player.effects[effect.effect].append(effect)
 
