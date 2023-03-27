@@ -409,7 +409,7 @@
         "effects": [
             {
                 "effect": "victory",
-                "resources": [ ["v", 4] ],
+                "resources": [ ["v", 3] ],
                 "target": [],
                 "direction": ["self"]
             }
@@ -552,7 +552,6 @@
     {
         "name": "Forum",
         "players": [3, 6, 7],
-        "resources": ["l", "g", "p"],
         "cost": ["b", "b"],
         "coupon": ["Haven"],
         "age": 2,
@@ -569,7 +568,6 @@
     {
         "name": "Caravansery",
         "players": [3, 5, 6],
-        "resources": ["w", "b", "s", "o"],
         "cost": ["w", "w"],
         "coupon": ["Lighthouse"],
         "age": 2,
@@ -1091,13 +1089,13 @@
         "effects": [
             {
                 "effect": "generate",
-                "resources": [ ["c", 1] ],
+                "resources": [ ["c", 3] ],
                 "target": ["wonder_level"],
                 "direction": ["self"]
             },
             {
                 "effect": "victory",
-                "resources": [ ["v", 3] ],
+                "resources": [ ["v", 1] ],
                 "target": ["wonder_level"],
                 "direction": ["self"]
             }
