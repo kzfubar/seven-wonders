@@ -24,23 +24,27 @@ def cards_as_string(
     typ = ANSI.use(ANSI.ANSI.BOLD, "Type")
     effect = ANSI.use(ANSI.ANSI.BOLD, "Effect")
     resource = ANSI.use(ANSI.ANSI.BOLD, "Resource")
+    coupon = ANSI.use(ANSI.ANSI.BOLD, "Coupons")
 
     max_name_len = ANSI.linelen(name)
     max_type_len = ANSI.linelen(typ)
     max_eff_len = ANSI.linelen(effect)
     max_res_len = ANSI.linelen(resource)
+    max_coup_len = ANSI.linelen(coupon)
 
     for card in cards:
         max_name_len = max(max_name_len, len(card.name))
         max_type_len = max(max_type_len, len(card.card_type))
         max_eff_len = max(max_eff_len, ANSI.linelen(card.effects_to_str()))
         max_res_len = max(max_res_len, len(card.resource_to_str()))
+        max_coup_len = max(max_coup_len, len(', '.join([c.name for c in card.coupons])))
 
     header = (
         f"{name:{max_name_len + ANSI.ansilen(name)}} | "
         + (f"{typ:{max_type_len + ANSI.ansilen(typ)}} | " if display_type else "")
         + f"{effect:{max_eff_len + ANSI.ansilen(effect)}} | "
-        + f"{resource:{max_res_len + ANSI.ansilen(resource)}}"
+        + f"{resource:{max_res_len + ANSI.ansilen(resource)}} | "
+        + f"{coupon:{max_coup_len + ANSI.ansilen(coupon)}}"
     )
     card_str_dict = dict()
     for card in cards:
@@ -59,7 +63,8 @@ def cards_as_string(
                 else ""
             )
             + f"{card.effects_to_str():{max_eff_len + ANSI.ansilen(card.effects_to_str())}} | "
-            + f"{card.resource_to_str():{max_res_len}} "
+            + f"{card.resource_to_str():{max_res_len}} | "
+            + f"{', '.join([c.name for c in card.coupons]):{max_coup_len}} "
         )
         card_str_dict[card] = card_str
     return header, card_str_dict

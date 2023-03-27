@@ -1,6 +1,5 @@
 from collections import defaultdict
-from typing import ItemsView, List, Tuple, DefaultDict, Union
-
+from typing import List, DefaultDict
 from game.Resource import Resource
 from util.ANSI import ANSI, use
 from util.constants import RESOURCE_MAP, TYPE_COLOR_MAP
@@ -63,16 +62,15 @@ class Card:
         age: int,
         card_type: str,
         cost: List[str],
-        coupons: List[str],
         effects: List[Effect],
     ):
-        self.name = name
-        self.age = age
-        self.card_type = card_type
-        self.cost = cost
-        self.coupons = coupons
-        self.effects = effects
+        self.name: str = name
+        self.age: int = age
+        self.card_type: str = card_type
+        self.cost: List[str] = cost
+        self.effects: List[Effect] = effects
         self.id: str = card_id
+        self.coupons: List['Card'] = []
 
     def __repr__(self):
         return (
@@ -91,6 +89,9 @@ class Card:
             else ANSI.BRIGHT_WHITE
         )
         return f"{use(color, self.name)} - {self.effects_to_str()}"
+
+    def set_coupons(self, coupons: List['Card']):
+        self.coupons = coupons
 
     def effects_to_str(self) -> str:
         effects = [str(e) for e in self.effects]

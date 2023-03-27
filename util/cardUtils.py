@@ -30,6 +30,8 @@ def get_all_cards(num_players: int) -> List[Card]:
     with open("./resources/cards.json", "r") as f:
         all_cards_raw = json.load(f)
 
+    cards_by_name: Dict[str, Card] = {}
+    coupons_by_card: Dict[str, List[str]] = {}
     all_cards = []
     guilds = []
     for raw_card in all_cards_raw:
@@ -43,7 +45,6 @@ def get_all_cards(num_players: int) -> List[Card]:
                 age=raw_card["age"],
                 card_type=raw_card["type"],
                 cost=raw_card["cost"],
-                coupons=raw_card["coupon"],
                 effects=effects))
             continue
 
@@ -51,15 +52,20 @@ def get_all_cards(num_players: int) -> List[Card]:
             if num_players >= player_count:
                 card_id = to_card_id(raw_card["name"], str(player_count))
                 effects = get_effects(raw_card, card_id)
-                all_cards.append(
-                    Card(
-                        card_id=card_id,
-                        name=raw_card["name"],
-                        age=raw_card["age"],
-                        card_type=raw_card["type"],
-                        cost=raw_card["cost"],
-                        coupons=raw_card["coupon"],
-                        effects=effects,
-                    )
+                card = Card(
+                    card_id=card_id,
+                    name=raw_card["name"],
+                    age=raw_card["age"],
+                    card_type=raw_card["type"],
+                    cost=raw_card["cost"],
+                    effects=effects,
                 )
+                all_cards.append(card)
+                coupons_by_card[raw_card["name"]] = raw_card["coupon"]
+                cards_by_name[raw_card["name"]] = card
+
+    for card in all_cards:
+        coupons = [cards_by_name[coupon] for coupon in coupons_by_card[card.name]]
+        card.set_coupons(coupons)
+
     return all_cards + random.sample(guilds, num_players + 2)

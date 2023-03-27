@@ -31,7 +31,6 @@ def _create_wonders(wonders_data: dict) -> List[Wonder]:
                 age=0,
                 card_type=WONDER_STAGE,
                 cost=card["cost"],
-                coupons=[],
                 effects=get_effects({"effects": card["effects"], "type": WONDER_STAGE}, stage_id),
             ))
         wonders.append(Wonder(
@@ -43,7 +42,6 @@ def _create_wonders(wonders_data: dict) -> List[Wonder]:
                        age=0,
                        card_type=WONDER_POWER,
                        cost=[],
-                       coupons=[],
                        effects=get_effects({"effects": wonder_data["power"], "type": WONDER_POWER}, wonder_name)),
             stages=wonder_stages,
         ))

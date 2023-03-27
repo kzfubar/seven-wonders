@@ -760,7 +760,7 @@
         ]
     },
     {
-        "name": "Fortification",
+        "name": "Fortifications",
         "players": [3, 7],
         "cost": ["s", "o", "o", "o"],
         "coupon": [],
