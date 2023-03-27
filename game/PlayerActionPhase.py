@@ -13,7 +13,7 @@ from game.action.DiscardAction import DISCARD
 from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
 from util import ANSI
-from util.constants import LEFT, RIGHT, MILITARY_POINTS_PER_AGE, DEFEAT, MILITARY_POINTS
+from util.constants import LEFT, RIGHT, MILITARY_POINTS_PER_AGE, DEFEAT, MILITARY_POINTS, GUILD
 from util.toggles import DISPLAY_TYPE
 from util.utils import min_cost, cards_as_string
 
@@ -150,6 +150,29 @@ class PlayerActionPhase:
         if Flag.DISCARD_BUILD in player.flags and player.flags[Flag.DISCARD_BUILD]:
             await self._discard_build(player)
 
+    async def end_age(self, player: Player, age: int) -> None:
+        if age == 3 and Flag.GUILD_COPY in player.flags and player.flags[Flag.GUILD_COPY]:
+            await self._guild_copy(player)
+        player.enable_flags()
+
+    async def _guild_copy(self, player: Player) -> None:
+        left_guilds = [card for card in player.neighbors[LEFT].cards_played.keys() if card.card_type == GUILD]
+        right_guilds = [card for card in player.neighbors[RIGHT].cards_played.keys() if card.card_type == GUILD]
+        neighbor_guilds: List[Card] = left_guilds + right_guilds
+        header, guild_str = cards_as_string(
+            neighbor_guilds, player.toggles[DISPLAY_TYPE]
+        )
+        player.display("    " + header)
+        player.display(
+            "\n".join(
+                f"({i}) {guild_str[card]:80}" for i, card in enumerate(neighbor_guilds)
+            )
+        )
+        player.client.clear_message_buffer()
+        arg = (await player.get_input("Copy a guild from your neighbors: "))[0::]
+        await FREE_BUILD.select_card(player, neighbor_guilds, arg, self.players)
+        del player.flags[Flag.GUILD_COPY]
+
     async def _discard_build(self, player: Player):
         all_discards: List[Card] = [card for p in self.players for card in p.discards]
         header, discard_str = cards_as_string(
@@ -163,5 +186,5 @@ class PlayerActionPhase:
         )
         player.client.clear_message_buffer()
         arg = (await player.get_input("Free build from all previous discards: "))[0::]
-        await FREE_BUILD.select_card(player, all_discards, arg)
+        await FREE_BUILD.select_card(player, all_discards, arg, self.players)
         del player.flags[Flag.DISCARD_BUILD]

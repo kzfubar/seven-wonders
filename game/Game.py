@@ -120,14 +120,14 @@ class Game:
         for player in self.players:
             self.player_action_phase.run_military(player, age)
 
-    def _end_age(self, age: int):
+    async def _end_age(self, age: int):
         self._update_military(age)
         for player in self.players:
             self._message_players(
                 f"{player.name} has {player.military_points()} military points!"
             )
             self._message_players(f"{player.name} has {player.defeat()} defeats!\n")
-            player.enable_flags()
+            await self.player_action_phase.end_age(player, age)
 
     def _end_game(self):
         player_points: List[Tuple[str, int]] = []
@@ -160,5 +160,5 @@ class Game:
                 await self.player_action_phase.select_actions()
                 self.player_action_phase.execute_actions()
                 await self._end_round(round_number, self.age)
-            self._end_age(self.age)
+            await self._end_age(self.age)
         self._end_game()

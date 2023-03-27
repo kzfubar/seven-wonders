@@ -128,6 +128,9 @@ def activate_card(player: Player, card: Card):
         elif effect.effect == "play_last":
             player.flags[Flag.PLAY_LAST] = True
 
+        elif effect.effect == "guild_copy":
+            player.flags[Flag.GUILD_COPY] = True
+
         else:
             player.effects[effect.effect].append(effect)
 
