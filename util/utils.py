@@ -4,8 +4,8 @@ from typing import Tuple, List, Dict
 
 from game.Card import Card, Effect
 from game.PaymentOption import PaymentOption
-from util import ANSI
-from util.constants import COMMON, LUXURY, TYPE_COLOR_MAP
+from util.ANSI import ansilen, linelen, use, ANSI
+from util.constants import COMMON, LUXURY
 
 
 def is_resource(effect: Effect) -> bool:
@@ -20,51 +20,47 @@ def min_cost(payment_options: List[PaymentOption]) -> str:
 def cards_as_string(
     cards: List[Card], display_type: bool
 ) -> Tuple[str, Dict[Card, str]]:
-    name = ANSI.use(ANSI.ANSI.BOLD, "Name")
-    typ = ANSI.use(ANSI.ANSI.BOLD, "Type")
-    effect = ANSI.use(ANSI.ANSI.BOLD, "Effect")
-    resource = ANSI.use(ANSI.ANSI.BOLD, "Resource")
-    coupon = ANSI.use(ANSI.ANSI.BOLD, "Coupons")
+    name = use(ANSI.BOLD, "Name")
+    typ = use(ANSI.BOLD, "Type")
+    effect = use(ANSI.BOLD, "Effect")
+    resource = use(ANSI.BOLD, "Resource")
+    coupon = use(ANSI.BOLD, "Coupons")
 
-    max_name_len = ANSI.linelen(name)
-    max_type_len = ANSI.linelen(typ)
-    max_eff_len = ANSI.linelen(effect)
-    max_res_len = ANSI.linelen(resource)
-    max_coup_len = ANSI.linelen(coupon)
+    max_name_len = linelen(name)
+    max_type_len = linelen(typ)
+    max_eff_len = linelen(effect)
+    max_res_len = linelen(resource)
+    max_coup_len = linelen(coupon)
 
     for card in cards:
         max_name_len = max(max_name_len, len(card.name))
         max_type_len = max(max_type_len, len(card.card_type))
-        max_eff_len = max(max_eff_len, ANSI.linelen(card.effects_to_str()))
+        max_eff_len = max(max_eff_len, linelen(card.effects_to_str()))
         max_res_len = max(max_res_len, len(card.resource_to_str()))
         max_coup_len = max(max_coup_len, len(', '.join([c.name for c in card.coupons])))
 
     header = (
-        f"{name:{max_name_len + ANSI.ansilen(name)}} | "
-        + (f"{typ:{max_type_len + ANSI.ansilen(typ)}} | " if display_type else "")
-        + f"{effect:{max_eff_len + ANSI.ansilen(effect)}} | "
-        + f"{resource:{max_res_len + ANSI.ansilen(resource)}} | "
-        + f"{coupon:{max_coup_len + ANSI.ansilen(coupon)}}"
+        f"{name:{max_name_len + ansilen(name)}} | "
+        + (f"{typ:{max_type_len + ansilen(typ)}} | " if display_type else "")
+        + f"{effect:{max_eff_len + ansilen(effect)}} | "
+        + f"{resource:{max_res_len + ansilen(resource)}} | "
+        + f"{coupon:{max_coup_len + ansilen(coupon)}}"
     )
     card_str_dict = dict()
     for card in cards:
-        color = (
-            TYPE_COLOR_MAP[card.card_type]
-            if card.card_type in TYPE_COLOR_MAP
-            else ANSI.ANSI.BRIGHT_WHITE
-        )
-        ansi_card_name = ANSI.use(color, card.name)
-        ansi_card_type = ANSI.use(color, card.card_type)
+        card_name = card.with_color(card.name)
+        type_name = card.with_color(card.card_type)
+        coupon_names = ', '.join([c.with_color(c.name) for c in card.coupons])
         card_str = (
-            f"{ansi_card_name:{max_name_len + ANSI.ansilen(ansi_card_name)}} | "
+            f"{card_name:{max_name_len + ansilen(card_name)}} | "
             + (
-                f"{ansi_card_type:{max_type_len + ANSI.ansilen(ansi_card_type)}} | "
+                f"{type_name:{max_type_len + ansilen(type_name)}} | "
                 if display_type
                 else ""
             )
-            + f"{card.effects_to_str():{max_eff_len + ANSI.ansilen(card.effects_to_str())}} | "
+            + f"{card.effects_to_str():{max_eff_len + ansilen(card.effects_to_str())}} | "
             + f"{card.resource_to_str():{max_res_len}} | "
-            + f"{', '.join([c.name for c in card.coupons]):{max_coup_len}} "
+            + f"{coupon_names:{max_coup_len + ansilen(coupon_names)}} "
         )
         card_str_dict[card] = card_str
     return header, card_str_dict

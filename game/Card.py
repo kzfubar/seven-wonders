@@ -64,6 +64,11 @@ class Card:
         cost: List[str],
         effects: List[Effect],
     ):
+        self._color = (
+            TYPE_COLOR_MAP[card_type]
+            if card_type in TYPE_COLOR_MAP
+            else ANSI.BRIGHT_WHITE
+        )
         self.name: str = name
         self.age: int = age
         self.card_type: str = card_type
@@ -83,12 +88,10 @@ class Card:
         )
 
     def __str__(self):
-        color = (
-            TYPE_COLOR_MAP[self.card_type]
-            if self.card_type in TYPE_COLOR_MAP
-            else ANSI.BRIGHT_WHITE
-        )
-        return f"{use(color, self.name)} - {self.effects_to_str()}"
+        return f"{self.with_color(self.name)} - {self.effects_to_str()}"
+
+    def with_color(self, s: str) -> str:
+        return use(self._color, s)
 
     def set_coupons(self, coupons: List['Card']):
         self.coupons = coupons
