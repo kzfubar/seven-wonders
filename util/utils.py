@@ -32,19 +32,22 @@ def cards_as_string(
     max_res_len = linelen(resource)
     max_coup_len = linelen(coupon)
 
+    has_coupons = False
     for card in cards:
         max_name_len = max(max_name_len, len(card.name))
         max_type_len = max(max_type_len, len(card.card_type))
         max_eff_len = max(max_eff_len, linelen(card.effects_to_str()))
         max_res_len = max(max_res_len, len(card.resource_to_str()))
         max_coup_len = max(max_coup_len, len(', '.join([c.name for c in card.coupons])))
+        if len(card.coupons) != 0:
+            has_coupons = True
 
     header = (
         f"{name:{max_name_len + ansilen(name)}} | "
         + (f"{typ:{max_type_len + ansilen(typ)}} | " if display_type else "")
         + f"{effect:{max_eff_len + ansilen(effect)}} | "
-        + f"{resource:{max_res_len + ansilen(resource)}} | "
-        + f"{coupon:{max_coup_len + ansilen(coupon)}}"
+        + (f"{coupon:{max_coup_len + ansilen(coupon)}} | " if has_coupons else "")
+        + f"{resource:{max_res_len + ansilen(resource)}}"
     )
     card_str_dict = dict()
     for card in cards:
@@ -59,8 +62,12 @@ def cards_as_string(
                 else ""
             )
             + f"{card.effects_to_str():{max_eff_len + ansilen(card.effects_to_str())}} | "
-            + f"{card.resource_to_str():{max_res_len}} | "
-            + f"{coupon_names:{max_coup_len + ansilen(coupon_names)}} "
+            + (
+                f"{coupon_names:{max_coup_len + ansilen(coupon_names)}} | "
+                if has_coupons
+                else ""
+            )
+            + f"{card.resource_to_str():{max_res_len}} "
         )
         card_str_dict[card] = card_str
     return header, card_str_dict
