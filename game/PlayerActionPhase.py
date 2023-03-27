@@ -61,7 +61,7 @@ class PlayerActionPhase:
 
     async def select_actions(self):
         await asyncio.gather(
-            *(self._select_action(player, self.players) for player in self.players)
+            *(self._select_action(player) for player in self.players)
         )
 
     def execute_actions(self):
@@ -85,7 +85,7 @@ class PlayerActionPhase:
             else:
                 player.display(f"you drew against {neighbor.name}!")
 
-    async def _select_action(self, player: Player, players: List[Player]):
+    async def _select_action(self, player: Player):
         player.status = "is taking their turn"
         player.event_update()
         hand_payment_options = {
@@ -132,7 +132,7 @@ class PlayerActionPhase:
             for ac in actions:
                 if action == ac.get_symbol():
                     found_action = True
-                    actionable = await ac.select_card(player, player.hand, arg, players)
+                    actionable = await ac.select_card(player, player.hand, arg, self.players)
                     break
             if not found_action:
                 player.display(f"Invalid action! {action}")
@@ -140,23 +140,18 @@ class PlayerActionPhase:
         player.status = "has ended their turn"
         player.display("turn over")
 
-    async def last_round(self, player: Player, players: List[Player]):
+    async def last_round(self, player: Player):
         player.clear_printouts()
         if Flag.PLAY_LAST in player.flags and player.flags[Flag.PLAY_LAST]:
-            await self._select_action(player, players)
+            await self._select_action(player)
 
-    async def end_round(self, player: Player, players: List[Player]):
+    async def end_round(self, player: Player):
         player.clear_printouts()
         if Flag.DISCARD_BUILD in player.flags and player.flags[Flag.DISCARD_BUILD]:
-            await self._discard_build(player, players)
+            await self._discard_build(player)
 
-    async def _discard_build(self, player: Player, players: List[Player]):
-        all_players: List[Player] = [player]
-        cur = player
-        while not cur.neighbors[LEFT] == player:
-            all_players.append(cur.neighbors[LEFT])
-            cur = cur.neighbors[LEFT]
-        all_discards: List[Card] = [card for p in all_players for card in p.discards]
+    async def _discard_build(self, player: Player):
+        all_discards: List[Card] = [card for p in self.players for card in p.discards]
         header, discard_str = cards_as_string(
             all_discards, player.toggles[DISPLAY_TYPE]
         )
@@ -168,5 +163,5 @@ class PlayerActionPhase:
         )
         player.client.clear_message_buffer()
         arg = (await player.get_input("Free build from all previous discards: "))[0::]
-        await FREE_BUILD.select_card(player, all_discards, arg, players)
+        await FREE_BUILD.select_card(player, all_discards, arg)
         del player.flags[Flag.DISCARD_BUILD]

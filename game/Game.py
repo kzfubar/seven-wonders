@@ -105,11 +105,11 @@ class Game:
     async def _end_round(self, round_number: int, age: int):
         if round_number == self.NUM_ROUNDS - 1:
             for player in self.players:
-                await self.player_action_phase.last_round(player, self.players)
+                await self.player_action_phase.last_round(player)
             [player.discard_hand() for player in self.players]
         # do player end rounds synchronously, future expansions introduce end round effect order
         for player in self.players:
-            await self.player_action_phase.end_round(player, self.players)
+            await self.player_action_phase.end_round(player)
         for player in self.players:
             if player.toggles[EOR_EFFECTS]:
                 player.display(player.consolidated_effects())
@@ -127,9 +127,7 @@ class Game:
                 f"{player.name} has {player.military_points()} military points!"
             )
             self._message_players(f"{player.name} has {player.defeat()} defeats!\n")
-            # todo add more?
             player.enable_flags()
-        pass
 
     def _end_game(self):
         player_points: List[Tuple[str, int]] = []
