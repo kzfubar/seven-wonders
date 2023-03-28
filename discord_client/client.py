@@ -4,6 +4,8 @@ import queue
 from discord import app_commands
 from discord_client.DiscordClient import DiscordClient
 
+# guild=discord.Object(id=681633844151189554)
+
 def create_client():
     intents = discord.Intents.default()
     intents.message_content = True
@@ -51,15 +53,15 @@ def create_client():
             await interaction.user.send(f'```ansi\n{output}\n```')
 
 
-    # @client.event
-    # async def help(message):
-    #     if message.author == client.user:
-    #         return
+    # Slash command to join game
+    @tree.command(name="help", description="Shows game help commands and instructions")
+    async def help(interaction):
 
-    #     info = "Type /info to obtain board information on self and neighbors"
+        info = "Type /info to obtain board information on self and neighbors"
+        wonders = "The seven available wonders are: Rhodos, Olympia, Gizah, Babylon, Alexandria, Halicarnassus, and Ephesus"
+        pdf = "https://cdn.1j1ju.com/medias/c8/d6/88-7-wonders-rule.pdf"
 
-    #     if message.content == "/help":
-    #         await message.author.send(info)
+        await interaction.user.send(f'```ansi\n{info}\n{wonders}\n{pdf}```')
 
     # Slash command to show players in lobby
     @tree.command(name="show_players", description="Show current players")
