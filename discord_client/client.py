@@ -16,9 +16,8 @@ def create_client():
     @client.event
     async def on_ready():
         print(f'We have logged in as {client.user}')
-        await tree.sync(guild=discord.Object(id=681633844151189554))
+        await tree.sync()
 
-    # test
     @client.event
     async def on_message(message):
         if message.author == client.user:
@@ -33,7 +32,7 @@ def create_client():
 
 
     # Slash command to join game
-    @tree.command(name="login", description="Join 7 Wonders Game", guild=discord.Object(id=681633844151189554))
+    @tree.command(name="login", description="Join 7 Wonders Game")
     async def login(interaction):
         user = f'{interaction.user} | ID: {interaction.user.id}'
         
@@ -52,14 +51,18 @@ def create_client():
             await interaction.user.send(f'```ansi\n{output}\n```')
 
 
-    # Slash command for help commands
-    @tree.command(name="help", description="Show available commands", guild=discord.Object(id=681633844151189554))
-    async def help(interaction):
-        
-        info = "Type /info to obtain board information on self and neighbors"
+    # @client.event
+    # async def help(message):
+    #     if message.author == client.user:
+    #         return
+
+    #     info = "Type /info to obtain board information on self and neighbors"
+
+    #     if message.content == "/help":
+    #         await message.author.send(info)
 
     # Slash command to show players in lobby
-    @tree.command(name="show_players", description="Show current players", guild=discord.Object(id=681633844151189554))
+    @tree.command(name="show_players", description="Show current players")
     async def show(interaction):
         await interaction.channel.send(players)
 
