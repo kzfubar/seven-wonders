@@ -1,3 +1,5 @@
+import queue
+
 import discord
 from discord import app_commands
 from DiscordClient import DiscordClient

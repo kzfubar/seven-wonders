@@ -9,7 +9,7 @@ from networking.messaging.messageUtil import MSG_TYPE
 
 
 class DiscordClient:
-    def __init__(self, input_queue: queue.Queue[str], output_queue: queue.Queue[str]):
+    def __init__(self, input_queue: queue.Queue, output_queue: queue.Queue):
         print("Client created")
 
         self._input_queue: queue.Queue[str] = input_queue
