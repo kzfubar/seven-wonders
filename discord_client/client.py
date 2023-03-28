@@ -49,17 +49,15 @@ def create_client():
                 await asyncio.sleep(1)
 
             output = user_output.get()
-            print(output)
-            await interaction.user.send(output)
+            await interaction.user.send(f'```ansi\n{output}\n```')
 
 
     # Slash command for help commands
     @tree.command(name="help", description="Show available commands", guild=discord.Object(id=681633844151189554))
     async def help(interaction):
         
-        info = "Type /info to obtain board information "
+        info = "Type /info to obtain board information on self and neighbors"
 
-        
     # Slash command to show players in lobby
     @tree.command(name="show_players", description="Show current players", guild=discord.Object(id=681633844151189554))
     async def show(interaction):

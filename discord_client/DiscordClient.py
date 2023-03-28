@@ -46,8 +46,6 @@ class DiscordClient:
 
     def _handle_message(self, msg: dict):
         self._output_queue.put(msg["data"])  # queue output message
-        print("handle message")
-        print(msg["data"])
 
     async def _recv(self):
         # receive data back from the server
