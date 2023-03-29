@@ -53,7 +53,7 @@ def create_client():
             await interaction.user.send(f'```ansi\n{output}\n```')
 
 
-    # Slash command to join game
+    # Slash command to get help
     @tree.command(name="help", description="Shows game help commands and instructions")
     async def help(interaction):
 
