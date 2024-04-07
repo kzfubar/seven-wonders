@@ -6,6 +6,7 @@ from game.CostCalculator import calculate_payment_options
 from game.Card import Card, Effect
 from game.Player import Player
 from game.Resource import Resource
+from game.Side import Side
 from game.Wonder import Wonder
 from util.cardUtils import get_all_cards
 from util.constants import COMMON, LEFT, RIGHT
@@ -19,9 +20,9 @@ class CostCalculatorTest(TestCase):
 
     @patch("networking.server.ClientConnection")
     def setUp(self, connection) -> None:
-        self.victim = Player(Wonder("", "", []), connection)
-        self.left = Player(Wonder("", "", []), connection)
-        self.right = Player(Wonder("", "", []), connection)
+        self.victim = Player(Wonder("", "", Side("A"), "", []), connection)
+        self.left = Player(Wonder("", "", Side("A"), "", []), connection)
+        self.right = Player(Wonder("", "", Side("A"), "", []), connection)
 
         self.victim.neighbors[LEFT] = self.left
         self.victim.neighbors[RIGHT] = self.right
@@ -55,7 +56,9 @@ class CostCalculatorTest(TestCase):
         self._clear_effects()
 
         self.victim.effects["produce"].append(
-            Effect("produce", [Resource("w", 1), Resource("b", 1)], [], ["self"], COMMON)
+            Effect(
+                "produce", [Resource("w", 1), Resource("b", 1)], [], ["self"], COMMON
+            )
         )
         self.victim.effects["produce"].append(
             Effect("produce", [Resource("w", 1)], [], ["self"], COMMON)
