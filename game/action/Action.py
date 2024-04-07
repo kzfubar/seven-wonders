@@ -22,13 +22,13 @@ class Action:
 
     @abstractmethod
     async def select_card(
-            self, player: Player, cards: List[Card], arg: str, players: List[Player]
+        self, player: Player, cards: List[Card], arg: str, players: List[Player]
     ) -> bool:
         pass
 
 
 async def _get_card(
-        player: Player, cards: List[Card], arg: Optional[str]
+    player: Player, cards: List[Card], arg: Optional[str]
 ) -> Optional[Card]:
     if arg is None:
         player.client.clear_message_buffer()
@@ -45,9 +45,7 @@ async def _get_card(
 
 
 async def _select_payment_option(
-        player: Player,
-        played_card: Card,
-        payment_options: List[PaymentOption]
+    player: Player, played_card: Card, payment_options: List[PaymentOption]
 ) -> bool:
     if len(payment_options) == 0:
         player.display("card cannot be purchased")
@@ -67,7 +65,10 @@ async def _select_payment_option(
         # something has to be paid to a different player
         _display_payment_options(player, payment_options)
         player.client.clear_message_buffer()
-        player.client.send_event(GAME, {"type": "payment", "options": [i for i, _ in enumerate(payment_options)]})
+        player.client.send_event(
+            GAME,
+            {"type": "payment", "options": [i for i, _ in enumerate(payment_options)]},
+        )
 
         try:
             player_input = await player.get_input("select a payment option: ")
@@ -93,9 +94,7 @@ async def _select_payment_option(
     return True
 
 
-def _display_payment_options(
-        player: Player, payment_options: List[PaymentOption]
-):
+def _display_payment_options(player: Player, payment_options: List[PaymentOption]):
     player.display("Payment options:")
     for i, option in enumerate(payment_options):
         resources = option.resources()
@@ -147,19 +146,27 @@ def _do_payment(player: Player, payment_option: PaymentOption):
     for lux in payment_option.left_lux:
         player.neighbors[LEFT].coins_gained[lux] += payment_option.left_lux_cost
         if payment_option.left_lux_cost == 1:
-            player.discount_coins_saved["luxury"][LEFT] += len(payment_option.left_lux) * payment_option.left_lux_cost
+            player.discount_coins_saved["luxury"][LEFT] += (
+                len(payment_option.left_lux) * payment_option.left_lux_cost
+            )
     for common in payment_option.left_common:
         player.neighbors[LEFT].coins_gained[common] += payment_option.left_common_cost
         if payment_option.left_common_cost == 1:
-            player.discount_coins_saved["common"][LEFT] += len(payment_option.left_common) * payment_option.left_common_cost
+            player.discount_coins_saved["common"][LEFT] += (
+                len(payment_option.left_common) * payment_option.left_common_cost
+            )
     for lux in payment_option.right_lux:
         player.neighbors[RIGHT].coins_gained[lux] += payment_option.right_lux_cost
         if payment_option.right_lux_cost == 1:
-            player.discount_coins_saved["luxury"][RIGHT] += len(payment_option.right_lux) * payment_option.right_lux_cost
+            player.discount_coins_saved["luxury"][RIGHT] += (
+                len(payment_option.right_lux) * payment_option.right_lux_cost
+            )
     for common in payment_option.right_common:
         player.neighbors[RIGHT].coins_gained[common] += payment_option.right_common_cost
         if payment_option.right_common_cost == 1:
-            player.discount_coins_saved["common"][RIGHT] += len(payment_option.right_common) * payment_option.right_common_cost
+            player.discount_coins_saved["common"][RIGHT] += (
+                len(payment_option.right_common) * payment_option.right_common_cost
+            )
 
     # -1 for decrement own coins
     player.handle_next_coins(-1 * payment_option.total(), "spent")

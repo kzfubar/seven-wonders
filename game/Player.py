@@ -39,9 +39,10 @@ class Player:
         self.cards_played: Dict[Card, Dict] = dict()
 
         self.coins_gained: Dict[str, int] = defaultdict(int)
-        self.discount_coins_saved: Dict[str, Dict[str, int]] = {"luxury": {"left": 0, "right": 0},
-                                                                "common": {"left": 0, "right": 0}
-                                                                }
+        self.discount_coins_saved: Dict[str, Dict[str, int]] = {
+            "luxury": {"left": 0, "right": 0},
+            "common": {"left": 0, "right": 0},
+        }
         self.flags: Dict[Flag, bool] = dict()
         self.add_token(COINS, 3)
         self.neighbors: Dict[str, Optional[Player]] = {
@@ -81,16 +82,16 @@ class Player:
         hand = {
             "type": "update",
             "hand": [card.id for card in self.hand],
-            "coins": self._tableau.tokens[COINS]
+            "coins": self._tableau.tokens[COINS],
         }
         self.client.send_event("game", hand)
 
     def short_info(self) -> str:
         return (
-                f"{self.name} on {self.wonder.name} at level {self.wonder.level}\n"
-                + f"{self._tableau.token_info()}\n"
-                + f"{self._tableau.card_type_info()}\n"
-                + f"{self.consolidated_effects()}"
+            f"{self.name} on {self.wonder.name} at level {self.wonder.level}\n"
+            + f"{self._tableau.token_info()}\n"
+            + f"{self._tableau.card_type_info()}\n"
+            + f"{self.consolidated_effects()}"
         )
 
     def token_count(self, token: str) -> int:
@@ -126,8 +127,8 @@ class Player:
                 complicated = []
                 for effect in effects:
                     if (
-                            effect.card_type in TRADABLE_TYPES
-                            and len(effect.resources) == 1
+                        effect.card_type in TRADABLE_TYPES
+                        and len(effect.resources) == 1
                     ):
                         resource = effect.resources[0]
                         d[resource.key] += resource.amount
@@ -153,11 +154,15 @@ class Player:
                     t_multi.append(effect)
                 else:
                     nt_multi.append(effect)
-        tradeable = resource_to_human([Resource(key, amount) for key, amount in t_simple.items()])
+        tradeable = resource_to_human(
+            [Resource(key, amount) for key, amount in t_simple.items()]
+        )
         tradeable.extend([str(e) for e in t_multi])
         if tradeable:
             consolidated.append(f'Tradeable Production : {", ".join(tradeable)}')
-        nontradeable = resource_to_human([Resource(key, amount) for key, amount in nt_simple.items()])
+        nontradeable = resource_to_human(
+            [Resource(key, amount) for key, amount in nt_simple.items()]
+        )
         nontradeable.extend([str(e) for e in nt_multi])
         if nontradeable:
             consolidated.append(f'Non-Tradeable Production: {", ".join(nontradeable)}')

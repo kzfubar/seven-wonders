@@ -11,7 +11,9 @@ from util.constants import (
     MILITARY,
     SCIENCE,
     GUILD,
-    TYPE_COLOR_MAP, WONDER_STAGE, WONDER_POWER,
+    TYPE_COLOR_MAP,
+    WONDER_STAGE,
+    WONDER_POWER,
 )
 
 
@@ -31,7 +33,7 @@ class Tableau:
         }
 
     def __str__(self):
-        return self.token_info() + '\n' + self.card_type_info()
+        return self.token_info() + "\n" + self.card_type_info()
 
     def token_info(self) -> str:
         tok_l = []

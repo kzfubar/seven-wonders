@@ -22,5 +22,6 @@ async def main():
     await client.logon()
     await client.start()
 
+
 if __name__ == "__main__":
     asyncio.run(main())

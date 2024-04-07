@@ -30,7 +30,9 @@ class Game:
 
     async def start(self, clients: List[ClientConnection]):
         self.running = True
-        self.player_clients += [client for client in clients if client not in self.spectate_clients]
+        self.player_clients += [
+            client for client in clients if client not in self.spectate_clients
+        ]
         await self._start()
         await self._play()
 
@@ -82,7 +84,7 @@ class Game:
         card_list = self._get_cards_for_age(age)
         random.shuffle(card_list)
         for i, player in enumerate(self.players):
-            player.hand = card_list[i:: len(self.players)]
+            player.hand = card_list[i :: len(self.players)]
             player.hand = sorted(player.hand, key=lambda card: card.card_type)
 
     def _get_cards_for_age(self, age: int) -> List[Card]:
@@ -133,8 +135,12 @@ class Game:
         player_points: List[Tuple[str, int]] = []
         for player in self.players:
             vp_per_card = self.victory_calculator.get_vp_per_card(player)
-            card_values_dict = dict(sorted(vp_per_card.items(), key=lambda x: x[1], reverse=True))
-            card_values = ', '.join(f"{k}: {v:4.2f}" for k, v in card_values_dict.items())
+            card_values_dict = dict(
+                sorted(vp_per_card.items(), key=lambda x: x[1], reverse=True)
+            )
+            card_values = ", ".join(
+                f"{k}: {v:4.2f}" for k, v in card_values_dict.items()
+            )
 
             player_vp = self.victory_calculator.get_victory(player)
             self._message_players(f"{player.name} has {player_vp}")

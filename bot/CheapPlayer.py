@@ -5,7 +5,7 @@ from bot.GamePlayer import GamePlayer
 
 class CheapPlayer(GamePlayer):
     def _handle_input(self, data: dict) -> str:
-        cards: Dict = data['options']['play']
+        cards: Dict = data["options"]["play"]
         payment_option = 0
         index = 0
         payment_cost = 999  # big number to start

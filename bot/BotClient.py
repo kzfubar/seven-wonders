@@ -9,7 +9,9 @@ from networking.messaging.messageUtil import MSG_TYPE, DATA, EVENT_TYPE, ROOM, G
 
 
 class BotClient:
-    def __init__(self, player_name: str, sender: MessageSender, receiver: MessageReceiver):
+    def __init__(
+        self, player_name: str, sender: MessageSender, receiver: MessageReceiver
+    ):
         self.player_name: str = player_name
         self.sender: MessageSender = sender
         self.receiver: MessageReceiver = receiver
@@ -59,7 +61,7 @@ class BotClient:
                         print()
                         break
                     if (
-                            msg[MSG_TYPE] == MESSAGE
+                        msg[MSG_TYPE] == MESSAGE
                     ):  # todo handle error message from the server
                         self._handle_message(msg)
                     elif msg[MSG_TYPE] == EVENT:

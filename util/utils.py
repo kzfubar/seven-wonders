@@ -17,6 +17,7 @@ def min_cost(payment_options: List[PaymentOption]) -> str:
         return ""
     return str(min(payment.total() for payment in payment_options))
 
+
 def cards_as_string(
     cards: List[Card], display_type: bool
 ) -> Tuple[str, Dict[Card, str]]:
@@ -38,7 +39,7 @@ def cards_as_string(
         max_type_len = max(max_type_len, len(card.card_type))
         max_eff_len = max(max_eff_len, linelen(card.effects_to_str()))
         max_res_len = max(max_res_len, len(card.resource_to_str()))
-        max_coup_len = max(max_coup_len, len(', '.join([c.name for c in card.coupons])))
+        max_coup_len = max(max_coup_len, len(", ".join([c.name for c in card.coupons])))
         if len(card.coupons) != 0:
             has_coupons = True
 
@@ -53,7 +54,7 @@ def cards_as_string(
     for card in cards:
         card_name = card.with_color(card.name)
         type_name = card.with_color(card.card_type)
-        coupon_names = ', '.join([c.with_color(c.name) for c in card.coupons])
+        coupon_names = ", ".join([c.with_color(c.name) for c in card.coupons])
         card_str = (
             f"{card_name:{max_name_len + ansilen(card_name)}} | "
             + (

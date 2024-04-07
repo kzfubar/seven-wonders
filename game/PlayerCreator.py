@@ -29,16 +29,24 @@ async def _create_player(
     client.send_message("Enter your wonder")
     while wonder_name == "":
         # todo wonder options should be client side
-        client.send_event("game", {"type": "wonder_selection", "options": ["r", "b", "g", "e", "a"]})
+        client.send_event(
+            "game", {"type": "wonder_selection", "options": ["r", "b", "g", "e", "a"]}
+        )
         msg = await client.get_message()
         args: List[str] = msg.split()
         selected_wonder_name = args.pop(0)
-        matched_wonder_names = [wn for wn in all_wonder_names if wn.lower().startswith(selected_wonder_name.lower())]
+        matched_wonder_names = [
+            wn
+            for wn in all_wonder_names
+            if wn.lower().startswith(selected_wonder_name.lower())
+        ]
         if len(matched_wonder_names) == 0:
             client.send_message("Invalid wonder name")
             continue
         elif len(matched_wonder_names) > 1:
-            client.send_message(f"Please specify wonder: '{selected_wonder_name}' matched to {matched_wonder_names}")
+            client.send_message(
+                f"Please specify wonder: '{selected_wonder_name}' matched to {matched_wonder_names}"
+            )
             continue
 
         matched_wonder_name = matched_wonder_names[0]
@@ -68,4 +76,3 @@ def _set_neighbors(players: List[Player]):
         player.neighbors[LEFT] = left
         player.neighbors[LEFT].neighbors[RIGHT] = player
         left = player
-

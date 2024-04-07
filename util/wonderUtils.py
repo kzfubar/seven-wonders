@@ -25,26 +25,37 @@ def _create_wonders(wonders_data: dict) -> List[Wonder]:
         for i, card in enumerate(wonder_data["stages"]):
             stage_name = f"{wonder_name} Stage {i}"
             stage_id = to_card_id(stage_name)
-            wonder_stages.append(Card(
-                card_id=stage_id,
-                name=stage_name,
-                age=0,
-                card_type=WONDER_STAGE,
-                cost=card["cost"],
-                effects=get_effects({"effects": card["effects"], "type": WONDER_STAGE}, stage_id),
-            ))
-        wonders.append(Wonder(
-            name=wonder_name,
-            base_name=wonder_data["name"],
-            side=Side(wonder_data["side"]),
-            power=Card(card_id=wonder_name,
-                       name=wonder_name,
-                       age=0,
-                       card_type=WONDER_POWER,
-                       cost=[],
-                       effects=get_effects({"effects": wonder_data["power"], "type": WONDER_POWER}, wonder_name)),
-            stages=wonder_stages,
-        ))
+            wonder_stages.append(
+                Card(
+                    card_id=stage_id,
+                    name=stage_name,
+                    age=0,
+                    card_type=WONDER_STAGE,
+                    cost=card["cost"],
+                    effects=get_effects(
+                        {"effects": card["effects"], "type": WONDER_STAGE}, stage_id
+                    ),
+                )
+            )
+        wonders.append(
+            Wonder(
+                name=wonder_name,
+                base_name=wonder_data["name"],
+                side=Side(wonder_data["side"]),
+                power=Card(
+                    card_id=wonder_name,
+                    name=wonder_name,
+                    age=0,
+                    card_type=WONDER_POWER,
+                    cost=[],
+                    effects=get_effects(
+                        {"effects": wonder_data["power"], "type": WONDER_POWER},
+                        wonder_name,
+                    ),
+                ),
+                stages=wonder_stages,
+            )
+        )
     return wonders
 
 

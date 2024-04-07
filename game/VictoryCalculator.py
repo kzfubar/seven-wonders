@@ -21,7 +21,11 @@ class VictoryCalculator:
         self.effect_id_to_card: Dict[int, Card] = _to_effect_mapping(cards)
 
     def _to_card_name(self, effect_id) -> str:
-        return self.effect_id_to_card[effect_id].name if effect_id in self.effect_id_to_card else "other"
+        return (
+            self.effect_id_to_card[effect_id].name
+            if effect_id in self.effect_id_to_card
+            else "other"
+        )
 
     def get_victory(self, player: Player) -> Dict:
         vp = defaultdict(int)
@@ -43,11 +47,11 @@ class VictoryCalculator:
         for effect in player.effects["victory"]:
             if effect.target:
                 for target, direction in itertools.product(
-                        effect.target, effect.direction
+                    effect.target, effect.direction
                 ):
                     effect_vp = (
-                            player.neighbors[direction].token_count(target)
-                            * effect.resources[0].amount
+                        player.neighbors[direction].token_count(target)
+                        * effect.resources[0].amount
                     )
                     vp[effect.card_type] += effect_vp
 
@@ -78,10 +82,11 @@ class VictoryCalculator:
             if resource == "c":
                 if effect.target:
                     for target, direction in itertools.product(
-                            effect.target, effect.direction
+                        effect.target, effect.direction
                     ):
                         resource_count = (
-                                player.neighbors[direction].token_count(target) * effect.resources[0].amount
+                            player.neighbors[direction].token_count(target)
+                            * effect.resources[0].amount
                         )
                         card_vp[card_name] += resource_count / 3
 
@@ -89,7 +94,9 @@ class VictoryCalculator:
                     card_vp[card_name] += effect.resources[0].amount / 3
             if resource == "m":
                 # not possible to have military points without might
-                military_percent = effect.resources[0].amount / player._tableau.tokens[MILITARY_MIGHT]
+                military_percent = (
+                    effect.resources[0].amount / player._tableau.tokens[MILITARY_MIGHT]
+                )
                 card_vp[card_name] += player.military_points() * military_percent
 
         for card, play_data in player.cards_played.items():
@@ -99,7 +106,10 @@ class VictoryCalculator:
 
         for effect in player.effects["discount"]:
             card_name = self._to_card_name(effect.effect_id)
-            for resource_type, saved_by_direction in player.discount_coins_saved.items():
+            for (
+                resource_type,
+                saved_by_direction,
+            ) in player.discount_coins_saved.items():
                 for direction, coins_saved in saved_by_direction.items():
                     points = coins_saved / 3
                     if resource_type in effect.target and direction in effect.direction:
@@ -120,11 +130,11 @@ class VictoryCalculator:
             card_name = self._to_card_name(effect.effect_id)
             if effect.target:
                 for target, direction in itertools.product(
-                        effect.target, effect.direction
+                    effect.target, effect.direction
                 ):
                     effect_vp = (
-                            player.neighbors[direction].token_count(target)
-                            * effect.resources[0].amount
+                        player.neighbors[direction].token_count(target)
+                        * effect.resources[0].amount
                     )
                     card_vp[card_name] += effect_vp
 

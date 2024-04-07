@@ -6,7 +6,9 @@ from util.utils import cards_as_string
 
 
 class Wonder:
-    def __init__(self, name: str, base_name: str, side: Side, power: Card, stages: List[Card]):
+    def __init__(
+        self, name: str, base_name: str, side: Side, power: Card, stages: List[Card]
+    ):
         self.name: str = name
         self.base_name: str = base_name
         self.side: Side = side
@@ -34,11 +36,7 @@ class Wonder:
                 for i, stage in enumerate(self.stages)
             )
         )
-        return (
-            f"{self.name} \n"
-            f"power = {self.power} \n"
-            f"{stages} "
-        )
+        return f"{self.name} \n" f"power = {self.power} \n" f"{stages} "
 
     def get_next_stage(self) -> Card:
         return self.stages[self.level]

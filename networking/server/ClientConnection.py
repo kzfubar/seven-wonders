@@ -16,7 +16,7 @@ class ClientConnection:
     def __repr__(self):
         return f"{self.name}"
 
-    def clear_message_buffer(self, ):
+    def clear_message_buffer(self,):
         while not self.msg_queue.empty():
             self.msg_queue.get()
 

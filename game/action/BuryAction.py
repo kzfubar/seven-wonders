@@ -46,7 +46,9 @@ class BuryAction(Action):
         player.display(f"burying {card.name}")
         wonder_stage = player.wonder.get_next_stage()
         payment_options = calculate_payment_options(player, wonder_stage)
-        successfully_played = await _select_payment_option(player, wonder_stage, payment_options)
+        successfully_played = await _select_payment_option(
+            player, wonder_stage, payment_options
+        )
 
         return (
             Actionable(_take_action, [player, wonder_stage, card, cards, players])

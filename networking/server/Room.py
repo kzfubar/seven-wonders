@@ -23,7 +23,7 @@ def _game_commands(game: Game) -> Dict[str, Command]:
         ToggleCommand(game),
         BotCommand(game),
         SpectateCommand(game),
-        StatusCommand(game)
+        StatusCommand(game),
     ]
     return {cmd.name: cmd for cmd in commands}
 
@@ -62,10 +62,11 @@ class Room:
         client.send_message(f"Currently in room: {[c.name for c in self.clients]}")
         for c in self.clients:
             c.send_message(f"{client.name} has joined the room")
-        client.send_event("room", {"type": "room", "clients": [c.name for c in self.clients]})
+        client.send_event(
+            "room", {"type": "room", "clients": [c.name for c in self.clients]}
+        )
 
     def leave(self, client: ClientConnection):
         self.clients.remove(client)
         for c in self.clients:
             c.send_message(f"{client.name} has left the room")
-

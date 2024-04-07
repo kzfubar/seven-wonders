@@ -6,7 +6,7 @@ from game.Card import Card, Effect
 from game.Resource import Resource
 
 
-def to_card_id(name: str, suffix: str = '') -> str:
+def to_card_id(name: str, suffix: str = "") -> str:
     return name.replace(" ", "").lower() + suffix
 
 
@@ -21,8 +21,9 @@ def get_effects(card_raw: Dict, card_id: str) -> List[Effect]:
                 target=effect["target"],
                 direction=effect["direction"],
                 card_type=card_raw["type"],
-                effect_id=f"{card_id}_{i}"
-            ))
+                effect_id=f"{card_id}_{i}",
+            )
+        )
     return effects
 
 
@@ -39,13 +40,16 @@ def get_all_cards(num_players: int) -> List[Card]:
             card_name = raw_card["name"]
             card_id = to_card_id(card_name)
             effects = get_effects(raw_card, card_id)
-            guilds.append(Card(
-                card_id=card_id,
-                name=card_name,
-                age=raw_card["age"],
-                card_type=raw_card["type"],
-                cost=raw_card["cost"],
-                effects=effects))
+            guilds.append(
+                Card(
+                    card_id=card_id,
+                    name=card_name,
+                    age=raw_card["age"],
+                    card_type=raw_card["type"],
+                    cost=raw_card["cost"],
+                    effects=effects,
+                )
+            )
             continue
 
         for player_count in raw_card["players"]:

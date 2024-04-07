@@ -13,7 +13,7 @@ class Effect:
         target: List[str],
         direction: List[str],
         card_type: str,
-        effect_id: str,
+        effect_id: str = "",
     ):
         self.effect_id = effect_id
         self.effect = effect
@@ -75,7 +75,7 @@ class Card:
         self.cost: List[str] = cost
         self.effects: List[Effect] = effects
         self.id: str = card_id
-        self.coupons: List['Card'] = []
+        self.coupons: List["Card"] = []
 
     def __repr__(self):
         return (
@@ -93,7 +93,7 @@ class Card:
     def with_color(self, s: str) -> str:
         return use(self._color, s)
 
-    def set_coupons(self, coupons: List['Card']):
+    def set_coupons(self, coupons: List["Card"]):
         self.coupons = coupons
 
     def effects_to_str(self) -> str:
@@ -109,9 +109,5 @@ class Card:
         return "-" if resources_str == "" else resources_str
 
 
-def resource_to_human(
-    resources: List[Resource]
-) -> List[str]:
-    return [
-        f"{resource.amount} {RESOURCE_MAP[resource.key]}" for resource in resources
-    ]
+def resource_to_human(resources: List[Resource]) -> List[str]:
+    return [f"{resource.amount} {RESOURCE_MAP[resource.key]}" for resource in resources]

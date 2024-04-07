@@ -51,7 +51,7 @@ class AsyncServer:
         self.config.add(KNOWN_IP, ip)
 
     async def _handle_command(
-            self, msg: Optional[Dict], client: ClientConnection
+        self, msg: Optional[Dict], client: ClientConnection
     ) -> None:
         args: List = msg["data"].split()
         cmd = args.pop(0)

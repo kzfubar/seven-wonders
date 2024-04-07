@@ -13,45 +13,49 @@ from game.action.DiscardAction import DISCARD
 from game.action.FreeBuildAction import FREE_BUILD
 from game.action.PlayAction import PLAY
 from util import ANSI
-from util.constants import LEFT, RIGHT, MILITARY_POINTS_PER_AGE, DEFEAT, MILITARY_POINTS, GUILD
+from util.constants import (
+    LEFT,
+    RIGHT,
+    MILITARY_POINTS_PER_AGE,
+    DEFEAT,
+    MILITARY_POINTS,
+    GUILD,
+)
 from util.toggles import DISPLAY_TYPE
 from util.utils import min_cost, cards_as_string
 
 
 def _hand_to_str(
-        player: Player, hand_payment_options: Dict[Card, List[PaymentOption]]
+    player: Player, hand_payment_options: Dict[Card, List[PaymentOption]]
 ) -> str:
     header, hand_str = cards_as_string(player.hand, player.toggles[DISPLAY_TYPE])
     max_len = ANSI.linelen(header)
     return (
-            "    "
-            + header
-            + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n"
-            + "\n".join(
-        f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| "
-        + f"{'-' if min_cost(hand_payment_options[card]) == '' else min_cost(hand_payment_options[card]) + ' coins'}"
-        for i, (card, card_str) in enumerate(hand_str.items())
-    )
+        "    "
+        + header
+        + f" | {ANSI.use(ANSI.ANSI.BOLD, 'Cost')} \n"
+        + "\n".join(
+            f"({i}) {card_str:{max_len + ANSI.ansilen(card_str)}}| "
+            + f"{'-' if min_cost(hand_payment_options[card]) == '' else min_cost(hand_payment_options[card]) + ' coins'}"
+            for i, (card, card_str) in enumerate(hand_str.items())
+        )
     )
 
 
-def _to_event(player: Player,
-              bury_options: List[PaymentOption],
-              hand_options: Dict[Card, List[PaymentOption]]) -> Dict[str, Dict[str, List]]:
+def _to_event(
+    player: Player,
+    bury_options: List[PaymentOption],
+    hand_options: Dict[Card, List[PaymentOption]],
+) -> Dict[str, Dict[str, List]]:
     play = {
-        card.id: [p.as_tuple() for p in payments] for card, payments in hand_options.items()
+        card.id: [p.as_tuple() for p in payments]
+        for card, payments in hand_options.items()
     }
-    discard = {
-        card.id: [] for card, _ in hand_options.items()
-    }
+    discard = {card.id: [] for card, _ in hand_options.items()}
     bury = dict()
     if not player.wonder.is_max_level:
-        bury = {
-            player.wonder.get_next_stage().id: [p.as_tuple() for p in bury_options]
-        }
-    return {"play": play,
-            "discard": discard,
-            "bury": bury}
+        bury = {player.wonder.get_next_stage().id: [p.as_tuple() for p in bury_options]}
+    return {"play": play, "discard": discard, "bury": bury}
 
 
 class PlayerActionPhase:
@@ -60,9 +64,7 @@ class PlayerActionPhase:
         self.actions: List[Actionable] = []
 
     async def select_actions(self):
-        await asyncio.gather(
-            *(self._select_action(player) for player in self.players)
-        )
+        await asyncio.gather(*(self._select_action(player) for player in self.players))
 
     def execute_actions(self):
         for actionable in self.actions:
@@ -119,10 +121,15 @@ class PlayerActionPhase:
         actionable = None
         while actionable is None:
             player.client.clear_message_buffer()
-            player.client.send_event("game", {"type": "input",
-                                              "options": _to_event(player,
-                                                                   wonder_payment_options,
-                                                                   hand_payment_options)})
+            player.client.send_event(
+                "game",
+                {
+                    "type": "input",
+                    "options": _to_event(
+                        player, wonder_payment_options, hand_payment_options
+                    ),
+                },
+            )
             player_input = await player.get_input(
                 ", ".join([a.get_name() for a in actions]) + " a card: "
             )
@@ -132,7 +139,9 @@ class PlayerActionPhase:
             for ac in actions:
                 if action == ac.get_symbol():
                     found_action = True
-                    actionable = await ac.select_card(player, player.hand, arg, self.players)
+                    actionable = await ac.select_card(
+                        player, player.hand, arg, self.players
+                    )
                     break
             if not found_action:
                 player.display(f"Invalid action! {action}")
@@ -151,13 +160,25 @@ class PlayerActionPhase:
             await self._discard_build(player)
 
     async def end_age(self, player: Player, age: int) -> None:
-        if age == 3 and Flag.GUILD_COPY in player.flags and player.flags[Flag.GUILD_COPY]:
+        if (
+            age == 3
+            and Flag.GUILD_COPY in player.flags
+            and player.flags[Flag.GUILD_COPY]
+        ):
             await self._guild_copy(player)
         player.enable_flags()
 
     async def _guild_copy(self, player: Player) -> None:
-        left_guilds = [card for card in player.neighbors[LEFT].cards_played.keys() if card.card_type == GUILD]
-        right_guilds = [card for card in player.neighbors[RIGHT].cards_played.keys() if card.card_type == GUILD]
+        left_guilds = [
+            card
+            for card in player.neighbors[LEFT].cards_played.keys()
+            if card.card_type == GUILD
+        ]
+        right_guilds = [
+            card
+            for card in player.neighbors[RIGHT].cards_played.keys()
+            if card.card_type == GUILD
+        ]
         neighbor_guilds: List[Card] = left_guilds + right_guilds
         header, guild_str = cards_as_string(
             neighbor_guilds, player.toggles[DISPLAY_TYPE]
