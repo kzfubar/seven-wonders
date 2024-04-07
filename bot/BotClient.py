@@ -1,7 +1,7 @@
 import asyncio
 
 from bot.CheapPlayer import CheapPlayer
-from bot.GamePlayer import GamePlayer
+from bot.BasePlayer import BasePlayer
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
 from networking.messaging.messageTypes import MESSAGE, EVENT
@@ -16,7 +16,7 @@ class BotClient:
         self.sender: MessageSender = sender
         self.receiver: MessageReceiver = receiver
 
-        self._game_player: GamePlayer = CheapPlayer()
+        self._game_player: BasePlayer = CheapPlayer()
         print("Client created")
 
     async def start(self):

@@ -1,9 +1,9 @@
 from typing import Dict
 
-from bot.GamePlayer import GamePlayer
+from bot.BasePlayer import BasePlayer
 
 
-class CheapPlayer(GamePlayer):
+class CheapPlayer(BasePlayer):
     def _handle_input(self, data: dict) -> str:
         cards: Dict = data["options"]["play"]
         payment_option = 0

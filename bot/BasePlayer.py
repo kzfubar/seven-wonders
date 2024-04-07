@@ -5,7 +5,7 @@ from typing import Dict, Optional
 from networking.messaging.messageUtil import GAME, EVENT_TYPE, DATA
 
 
-class GamePlayer(ABC):
+class BasePlayer(ABC):
     _valid_event_type = GAME
 
     def __init__(self):
