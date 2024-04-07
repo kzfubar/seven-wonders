@@ -134,17 +134,8 @@ class Game:
     def _end_game(self):
         player_points: List[Tuple[str, int]] = []
         for player in self.players:
-            vp_per_card = self.victory_calculator.get_vp_per_card(player)
-            card_values_dict = dict(
-                sorted(vp_per_card.items(), key=lambda x: x[1], reverse=True)
-            )
-            card_values = ", ".join(
-                f"{k}: {v:4.2f}" for k, v in card_values_dict.items()
-            )
-
             player_vp = self.victory_calculator.get_victory(player)
             self._message_players(f"{player.name} has {player_vp}")
-            self._message_players(f"{player.name} played [{card_values}]\n")
             player_points.append((player.name, sum(player_vp.values())))
         player_points.sort(key=lambda x: x[1], reverse=True)
         self._message_players(f"{player_points} total point count")
