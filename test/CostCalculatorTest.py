@@ -34,7 +34,6 @@ class CostCalculatorTest(TestCase):
         self.assertFalse(cost)
 
     def test_caravansery_playable_when_self_production(self):
-        self.assertTrue(False)
         caravansery = self._get_card("Caravansery")
 
         self.victim.effects["produce"].append(
