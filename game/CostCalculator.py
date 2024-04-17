@@ -14,8 +14,6 @@ from util.constants import (
     TRADABLE_TYPES,
     RIGHT,
 )
-
-
 def calculate_payment_options(player: Player, card: Card) -> List[PaymentOption]:
     # this depends on the assumption that if a card has a cost, then there is no resource cost
     if "c" in card.cost:
