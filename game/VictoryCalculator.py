@@ -71,4 +71,3 @@ class VictoryCalculator:
             )
 
         return dict(vp)
-

@@ -1,9 +1,8 @@
 import asyncio
-from typing import List, Optional
+from typing import List
 
 from game.Player import Player
 from game.Side import Side
-from game.Wonder import Wonder
 from networking.server.ClientConnection import ClientConnection
 from util.constants import LEFT, RIGHT
 from util.wonderUtils import create_wonders

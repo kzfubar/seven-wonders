@@ -7,10 +7,8 @@ def payment(cost: int, resources: List[str]) -> int:
     return cost * len(resources)
 
 
-def to_list(l):
-    if l is None:
-        return []
-    return l
+def to_list(input_list):
+    return input_list or []
 
 
 class PaymentOption:

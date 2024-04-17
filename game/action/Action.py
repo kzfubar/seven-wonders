@@ -80,7 +80,7 @@ async def _select_payment_option(
             player.display("invalid argument!")
             return False
         except IndexError:
-            player.display(f"out of range!")
+            player.display("out of range!")
             return False
         try:
             if not _valid_payment(player, payment):

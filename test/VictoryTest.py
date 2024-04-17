@@ -21,7 +21,6 @@ class VictoryPointsTest(TestCase):
 
     @patch("networking.server.ClientConnection")
     def test_points_from_three_science(self, connection):
-
         self.victim = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
         self.victim.effects["research"].append(
             Effect("research", [Resource("x", 1)], [], ["self"], SCIENCE)
@@ -39,7 +38,6 @@ class VictoryPointsTest(TestCase):
 
     @patch("networking.server.ClientConnection")
     def test_points_from_three_science_one_choice(self, connection):
-
         self.victim = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
         self.victim.effects["research"].append(
             Effect("research", [Resource("x", 1)], [], ["self"], SCIENCE)
@@ -63,7 +61,6 @@ class VictoryPointsTest(TestCase):
 
     @patch("networking.server.ClientConnection")
     def test_points_four_science_choices(self, connection):
-
         self.victim = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
         self.victim.effects["research"].append(
             Effect(
@@ -109,7 +106,6 @@ class VictoryPointsTest(TestCase):
 
     @patch("networking.server.ClientConnection")
     def test_points_ten_science_choices(self, connection):
-
         self.victim = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
         for _ in range(10):
             self.victim.effects["research"].append(

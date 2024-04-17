@@ -60,7 +60,7 @@ def _create_wonders(wonders_data: dict) -> List[Wonder]:
 
 
 def create_wonders() -> Dict[str, Dict[str, Wonder]]:
-    """ wonder base name lowercase : Side : Wonder """
+    """wonder base name lowercase : Side : Wonder"""
     wonders: List[Wonder] = []
     with open("resources/wondersA.json") as f:
         data = json.load(f)

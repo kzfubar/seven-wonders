@@ -75,7 +75,6 @@ def find_resource_outcomes(
 ) -> Set[Tuple[Tuple[str], Tuple[str]]]:
     outcomes = list()
     for options in itertools.product([""], *choices):
-
         reqs_curr = reqs[:]
 
         for option in options[1:]:
@@ -110,7 +109,6 @@ def find_resource_outcomes(
 
 def valid_resources(choices, reqs):
     for options in itertools.product([""], *choices):
-
         reqs_curr = reqs[:]
 
         for option in options[1:]:
