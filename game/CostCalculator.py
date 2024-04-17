@@ -14,9 +14,11 @@ from util.constants import (
     TRADABLE_TYPES,
     RIGHT,
 )
+
+
 def calculate_payment_options(player: Player, card: Card) -> List[PaymentOption]:
     # this depends on the assumption that if a card has a cost, then there is no resource cost
-    if "c" in card.cost:
+    if f"c" in card.cost:
         return [PaymentOption(bank_payment=card.cost.count("c"))]
 
     luxury_reqs = [good for good in card.cost if good in LUXURY_GOODS]
