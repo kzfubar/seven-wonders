@@ -11,7 +11,7 @@ from networking.server.ClientConnection import ClientConnection
 
 
 class BotCommand(GameCommand):
-    name: str = "bot"
+    name: str = f"bot"
 
     def execute(self, args: List, client: ClientConnection):
         bot_name = args[0]
