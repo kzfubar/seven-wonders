@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import defaultdict
 from typing import DefaultDict
 from typing import Dict, Set, Any, List, Optional, Tuple
@@ -78,13 +80,28 @@ class Player:
             f"{self.neighbors[RIGHT].name if self.neighbors[RIGHT] is not None else 'NONE'} \n"
         )
 
-    def event_update(self):
-        hand = {
-            "type": "update",
-            "hand": [card.id for card in self.hand],
-            "coins": self._tableau.tokens[COINS],
+    def _to_update_data(self, player: Player) -> dict:
+        return {
+            "cards_played": [card.id for card in player.cards_played],
+            "tokens": player._tableau.tokens,
         }
-        self.client.send_event("game", hand)
+
+    def event_update(self):
+        update_data = []
+        player = self.neighbors[RIGHT]
+        while player != self:
+            update_data.append(self._to_update_data(player))
+            player = player.neighbors[RIGHT]
+        data = {
+            "type": "update",
+            "self": {
+                "hand": [card.id for card in self.hand],
+                "cards_played": [card.id for card in self.cards_played],
+                "tokens": self._tableau.tokens,
+            },
+            "opponents": update_data,
+        }
+        self.client.send_event("game", data)
 
     def short_info(self) -> str:
         return (
