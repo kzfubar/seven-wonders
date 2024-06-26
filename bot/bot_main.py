@@ -17,8 +17,7 @@ async def main():
     reader, writer = await asyncio.open_connection(host=host, port=port)
     receiver = RemoteReceiver(reader)
     sender = RemoteSender(writer)
-
-    client = BotClient(sys.argv[1], sender, receiver)
+    client = BotClient(sys.argv[1], sender, receiver, sys.argv[2])
     await client.logon()
     await client.start()
 

@@ -2,6 +2,8 @@ import asyncio
 
 from bot.CheapPlayer import CheapPlayer
 from bot.BasePlayer import BasePlayer
+from bot.RandomPlayer import RandomPlayer
+from bot.SciencePlayer import SciencePlayer
 from networking.messaging.MessageReceiver import MessageReceiver
 from networking.messaging.MessageSender import MessageSender
 from networking.messaging.messageTypes import MESSAGE, EVENT
@@ -10,13 +12,24 @@ from networking.messaging.messageUtil import MSG_TYPE, DATA, EVENT_TYPE, ROOM, G
 
 class BotClient:
     def __init__(
-        self, player_name: str, sender: MessageSender, receiver: MessageReceiver
+        self,
+        player_name: str,
+        sender: MessageSender,
+        receiver: MessageReceiver,
+        bot_type: str,
     ):
         self.player_name: str = player_name
         self.sender: MessageSender = sender
         self.receiver: MessageReceiver = receiver
 
-        self._game_player: BasePlayer = CheapPlayer()
+        self._game_player: BasePlayer
+        if bot_type == "science":
+            self._game_player = SciencePlayer()
+        elif bot_type == "cheap":
+            self._game_player = CheapPlayer()
+        else:
+            self._game_player = RandomPlayer()
+
         print("Client created")
 
     async def start(self):
