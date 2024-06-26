@@ -12,6 +12,7 @@ from networking.server.ClientConnection import ClientConnection
 
 class BotCommand(GameCommand):
     name: str = "bot"
+    bot_type: str = "cheap"
 
     def execute(self, args: List, client: ClientConnection):
         bot_name = args[0]
@@ -24,7 +25,7 @@ class BotCommand(GameCommand):
         bot_sender = LocalParsingSender(bot_queue)
 
         bot_client = ClientConnection(bot_name, client_sender)
-        bot = BotClient(bot_name, bot_sender, client_receiver)
+        bot = BotClient(bot_name, bot_sender, client_receiver, self.bot_type)
 
         bot_client.msg_queue = bot_queue
         self.game.player_clients.append(bot_client)

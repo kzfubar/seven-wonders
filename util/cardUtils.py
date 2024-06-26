@@ -4,6 +4,7 @@ from typing import List, Dict
 
 from game.Card import Card, Effect
 from game.Resource import Resource
+from util.constants import MAX_PLAYERS
 
 
 def to_card_id(name: str, suffix: str = "") -> str:
@@ -25,6 +26,12 @@ def get_effects(card_raw: Dict, card_id: str) -> List[Effect]:
             )
         )
     return effects
+
+
+def get_all_cards_dict() -> Dict[str, Card]:
+    all_cards = get_all_cards(MAX_PLAYERS)
+    all_cards_dict = {card.id: card for card in all_cards}
+    return all_cards_dict
 
 
 def get_all_cards(num_players: int) -> List[Card]:
