@@ -1,37 +1,37 @@
 from util.constants import LEFT, RIGHT
 
 
-def payment(cost: int, resources: list[str]) -> int:
+def payment(cost: int, resources: tuple[str, ...]) -> int:
     return cost * len(resources)
 
 
 class PaymentOption:
     def __init__(
         self,
-        common_owned: list[str] | None = None,
-        lux_owned: list[str] | None = None,
+        common_owned: tuple[str, ...] | None = None,
+        lux_owned: tuple[str, ...] | None = None,
         left_lux_cost: int = 2,
         right_lux_cost: int = 2,
         left_common_cost: int = 2,
         right_common_cost: int = 2,
-        left_lux: list[str] | None = None,
-        right_lux: list[str] | None = None,
-        left_common: list[str] | None = None,
-        right_common: list[str] | None = None,
+        left_lux: tuple[str, ...] | None = None,
+        right_lux: tuple[str, ...] | None = None,
+        left_common: tuple[str, ...] | None = None,
+        right_common: tuple[str, ...] | None = None,
         bank_payment: int = 0,
     ) -> None:
-        self.common_owned = common_owned or []
-        self.lux_owned = lux_owned or []
+        self.common_owned = common_owned or ()
+        self.lux_owned = lux_owned or ()
 
         self.left_lux_cost = left_lux_cost
         self.right_lux_cost = right_lux_cost
         self.left_common_cost = left_common_cost
         self.right_common_cost = right_common_cost
 
-        self.left_lux = left_lux or []
-        self.right_lux = right_lux or []
-        self.left_common = left_common or []
-        self.right_common = right_common or []
+        self.left_lux = left_lux or ()
+        self.right_lux = right_lux or ()
+        self.left_common = left_common or ()
+        self.right_common = right_common or ()
 
         self.left_payment: int = payment(left_lux_cost, self.left_lux) + payment(
             left_common_cost, self.left_common
@@ -83,7 +83,7 @@ class PaymentOption:
     def total(self) -> int:
         return self.left_payment + self.right_payment + self.bank_payment
 
-    def resources(self) -> dict[str, list]:
+    def resources(self) -> dict[str, tuple[str, ...]]:
         return {
             LEFT: self.left_common + self.left_lux,
             RIGHT: self.right_common + self.right_lux,

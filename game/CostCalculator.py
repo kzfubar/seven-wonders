@@ -55,16 +55,16 @@ def calculate_payment_options(player: Player, card: Card) -> list[PaymentOption]
     options: set[PaymentOption] = set()
     options.update(
         PaymentOption(
-            common_owned=common_owned,
-            lux_owned=luxury_owned,
+            common_owned=tuple(common_owned),
+            lux_owned=tuple(luxury_owned),
             left_lux_cost=1 if LUXURY in player.discounts[LEFT] else 2,
             right_lux_cost=1 if LUXURY in player.discounts[RIGHT] else 2,
             left_common_cost=1 if COMMON in player.discounts[LEFT] else 2,
             right_common_cost=1 if COMMON in player.discounts[RIGHT] else 2,
-            left_lux=list(left_lux),
-            right_lux=list(right_lux),
-            left_common=list(left_common),
-            right_common=list(right_common),
+            left_lux=left_lux,
+            right_lux=right_lux,
+            left_common=left_common,
+            right_common=right_common,
         )
         for (left_lux, right_lux), (left_common, right_common) in itertools.product(
             luxury_spread, common_spread
