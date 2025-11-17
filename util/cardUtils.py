@@ -1,6 +1,6 @@
 import json
+import pathlib
 import random
-from typing import List, Dict
 
 from game.Card import Card, Effect
 from game.Resource import Resource
@@ -10,7 +10,7 @@ def to_card_id(name: str, suffix: str = "") -> str:
     return name.replace(" ", "").lower() + suffix
 
 
-def get_effects(card_raw: Dict, card_id: str) -> List[Effect]:
+def get_effects(card_raw: dict, card_id: str) -> list[Effect]:
     effects_raw = card_raw["effects"]
     effects = []
     for i, effect in enumerate(effects_raw):
@@ -27,12 +27,12 @@ def get_effects(card_raw: Dict, card_id: str) -> List[Effect]:
     return effects
 
 
-def get_all_cards(num_players: int) -> List[Card]:
-    with open("./resources/cards.json", "r") as f:
+def get_all_cards(num_players: int) -> list[Card]:
+    with pathlib.Path("./resources/cards.json").open(encoding="utf-8") as f:
         all_cards_raw = json.load(f)
 
-    cards_by_name: Dict[str, Card] = {}
-    coupons_by_card: Dict[str, List[str]] = {}
+    cards_by_name: dict[str, Card] = {}
+    coupons_by_card: dict[str, list[str]] = {}
     all_cards = []
     guilds = []
     for raw_card in all_cards_raw:

@@ -2,24 +2,24 @@ import asyncio
 import sys
 
 from networking.Config import Config
+from networking.messaging.messageTypes import EVENT, MESSAGE
+from networking.messaging.messageUtil import MSG_TYPE
 from networking.messaging.RemoteReceiver import RemoteReceiver
 from networking.messaging.RemoteSender import RemoteSender
-from networking.messaging.messageTypes import MESSAGE, EVENT
-from networking.messaging.messageUtil import MSG_TYPE
 
 
 class AsyncClient:
-    def __init__(self):
+    def __init__(self) -> None:
         print("Client created")
 
-        self.receiver = None
-        self.sender = None
+        self.receiver: RemoteReceiver | None = None
+        self.sender: RemoteSender | None = None
         self.config = Config()
 
         self.host = self.config.get("server_ip")
         self.port = self.config.get("server_port")
 
-    async def start(self, player_name=None):
+    async def start(self, player_name: str | None = None) -> None:
         print(f"Connecting to {self.host}:{self.port}")
         reader, writer = await asyncio.open_connection(host=self.host, port=self.port)
         self.receiver = RemoteReceiver(reader)
@@ -35,20 +35,24 @@ class AsyncClient:
         except KeyboardInterrupt:
             self._close()
 
-    def _close(self):
+    def _close(self) -> None:
         print("\nShutting down!")
         # TODO close reader and writer
 
-    async def _do_logon(self, player_name):
+    async def _do_logon(self, player_name: str | None) -> None:
+        if self.sender is None:
+            raise Exception("Sender is None")
         if player_name is None:
             player_name = await self.ainput("player name: ")
         self.sender.send_logon(player_name=player_name)
 
-    def _handle_message(self, msg: dict):
+    def _handle_message(self, msg: dict) -> None:
         print(msg["data"])  # Print output msg
 
-    async def _recv(self):
+    async def _recv(self) -> None:
         # receive data back from the server
+        if self.receiver is None:
+            return
         try:
             while True:
                 if self.receiver.is_empty():
@@ -65,14 +69,16 @@ class AsyncClient:
                     elif msg[MSG_TYPE] == EVENT:
                         continue
                     else:
-                        print("Received unknown msg" + msg)
+                        print(f"Received unknown msg {msg}")
         except OSError:
             print("\nClosing recv thread")
 
-    async def _receive_input(self):
+    async def _receive_input(self) -> None:
+        if self.sender is None:
+            raise Exception("Sender is None")
         while True:
             message = await self.ainput()
-            if message == "":
+            if not message:
                 return
             if message[0] == "/":
                 self.sender.send_command(message[1:])

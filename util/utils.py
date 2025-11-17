@@ -1,26 +1,28 @@
 from __future__ import annotations
 
-from typing import Tuple, List, Dict
+from typing import TYPE_CHECKING
 
-from game.Card import Card, Effect
-from game.PaymentOption import PaymentOption
-from util.ANSI import ansilen, linelen, use, ANSI
+from util.ANSI import ANSI, ansilen, linelen, use
 from util.constants import COMMON, LUXURY
+
+if TYPE_CHECKING:
+    from game.Card import Card, Effect
+    from game.PaymentOption import PaymentOption
 
 
 def is_resource(effect: Effect) -> bool:
-    return effect.card_type == COMMON or effect.card_type == LUXURY
+    return effect.card_type in {COMMON, LUXURY}
 
 
-def min_cost(payment_options: List[PaymentOption]) -> str:
+def min_cost(payment_options: list[PaymentOption]) -> str:
     if len(payment_options) == 0:
         return ""
     return str(min(payment.total() for payment in payment_options))
 
 
 def cards_as_string(
-    cards: List[Card], display_type: bool
-) -> Tuple[str, Dict[Card, str]]:
+    cards: list[Card], display_type: bool
+) -> tuple[str, dict[Card, str]]:
     name = use(ANSI.BOLD, "Name")
     typ = use(ANSI.BOLD, "Type")
     effect = use(ANSI.BOLD, "Effect")
@@ -50,7 +52,7 @@ def cards_as_string(
         + (f"{coupon:{max_coup_len + ansilen(coupon)}} | " if has_coupons else "")
         + f"{resource:{max_res_len + ansilen(resource)}}"
     )
-    card_str_dict = dict()
+    card_str_dict = {}
     for card in cards:
         card_name = card.with_color(card.name)
         type_name = card.with_color(card.card_type)

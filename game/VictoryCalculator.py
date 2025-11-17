@@ -1,15 +1,14 @@
 import copy
 import itertools
 from collections import defaultdict
-from typing import Dict, List
 
 from game.Card import Card
 from game.Player import Player
 from util.constants import COINS
 
 
-def _to_effect_mapping(cards: List[Card]) -> Dict[int, Card]:
-    effect_id_to_card = dict()
+def _to_effect_mapping(cards: list[Card]) -> dict[str, Card]:
+    effect_id_to_card: dict[str, Card] = {}
     for card in cards:
         for effect in card.effects:
             effect_id_to_card[effect.effect_id] = card
@@ -17,17 +16,17 @@ def _to_effect_mapping(cards: List[Card]) -> Dict[int, Card]:
 
 
 class VictoryCalculator:
-    def __init__(self, cards: List[Card]):
-        self.effect_id_to_card: Dict[int, Card] = _to_effect_mapping(cards)
+    def __init__(self, cards: list[Card]) -> None:
+        self.effect_id_to_card: dict[str, Card] = _to_effect_mapping(cards)
 
-    def _to_card_name(self, effect_id) -> str:
+    def _to_card_name(self, effect_id: str) -> str:
         return (
             self.effect_id_to_card[effect_id].name
             if effect_id in self.effect_id_to_card
             else "other"
         )
 
-    def get_victory(self, player: Player) -> Dict:
+    def get_victory(self, player: Player) -> dict:
         vp = defaultdict(int)
         vp["military"] = player.military_points() - player.defeat()
         vp[COINS] = player.coins() // 3
@@ -49,9 +48,11 @@ class VictoryCalculator:
                 for target, direction in itertools.product(
                     effect.target, effect.direction
                 ):
+                    neighbor = player.neighbors[direction]
+                    if neighbor is None:
+                        continue
                     effect_vp = (
-                        player.neighbors[direction].token_count(target)
-                        * effect.resources[0].amount
+                        neighbor.token_count(target) * effect.resources[0].amount
                     )
                     vp[effect.card_type] += effect_vp
 

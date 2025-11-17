@@ -1,5 +1,6 @@
 from collections import defaultdict
-from typing import List, DefaultDict
+from itertools import starmap
+
 from game.Resource import Resource
 from util.ANSI import ANSI, use
 from util.constants import RESOURCE_MAP, TYPE_COLOR_MAP
@@ -9,12 +10,12 @@ class Effect:
     def __init__(
         self,
         effect: str,
-        resources: List[Resource],
-        target: List[str],
-        direction: List[str],
+        resources: list[Resource],
+        target: list[str],
+        direction: list[str],
         card_type: str,
         effect_id: str = "",
-    ):
+    ) -> None:
         self.effect_id = effect_id
         self.effect = effect
         self.resources = resources
@@ -22,7 +23,7 @@ class Effect:
         self.direction = direction
         self.card_type = card_type
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             f"Effect{{effect = {self.effect}, "
             f"resources = {self.resources}, "
@@ -31,16 +32,12 @@ class Effect:
             f"card_type = {self.card_type}}}"
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         s = f"{self.effect}"
         targets = []
         if self.target:
             for target in self.target:
-                color = (
-                    TYPE_COLOR_MAP[target]
-                    if target in TYPE_COLOR_MAP
-                    else ANSI.BRIGHT_WHITE
-                )
+                color = TYPE_COLOR_MAP.get(target, ANSI.BRIGHT_WHITE)
                 targets.append(use(color, target))
         if self.resources:
             resources = " or ".join(resource_to_human(self.resources))
@@ -61,23 +58,19 @@ class Card:
         name: str,
         age: int,
         card_type: str,
-        cost: List[str],
-        effects: List[Effect],
-    ):
-        self._color = (
-            TYPE_COLOR_MAP[card_type]
-            if card_type in TYPE_COLOR_MAP
-            else ANSI.BRIGHT_WHITE
-        )
+        cost: list[str],
+        effects: list[Effect],
+    ) -> None:
+        self._color = TYPE_COLOR_MAP.get(card_type, ANSI.BRIGHT_WHITE)
         self.name: str = name
         self.age: int = age
         self.card_type: str = card_type
-        self.cost: List[str] = cost
-        self.effects: List[Effect] = effects
+        self.cost: list[str] = cost
+        self.effects: list[Effect] = effects
         self.id: str = card_id
-        self.coupons: List["Card"] = []
+        self.coupons: list[Card] = []
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             f"Card{{name = {self.name}, "
             f"age = {self.age}, "
@@ -87,13 +80,13 @@ class Card:
             f"effects = {self.effects}}}"
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.with_color(self.name)} - {self.effects_to_str()}"
 
     def with_color(self, s: str) -> str:
         return use(self._color, s)
 
-    def set_coupons(self, coupons: List["Card"]):
+    def set_coupons(self, coupons: list["Card"]) -> None:
         self.coupons = coupons
 
     def effects_to_str(self) -> str:
@@ -101,13 +94,13 @@ class Card:
         return " & ".join(effects)
 
     def resource_to_str(self) -> str:
-        resource_dict: DefaultDict[str, int] = defaultdict(int)
+        resource_dict: defaultdict[str, int] = defaultdict(int)
         for resource in self.cost:
             resource_dict[resource] += 1
-        resources = [Resource(key, amount) for key, amount in resource_dict.items()]
+        resources = list(starmap(Resource, resource_dict.items()))
         resources_str = ", ".join(resource_to_human(resources))
-        return "-" if resources_str == "" else resources_str
+        return resources_str if not resources_str else "-"
 
 
-def resource_to_human(resources: List[Resource]) -> List[str]:
+def resource_to_human(resources: list[Resource]) -> list[str]:
     return [f"{resource.amount} {RESOURCE_MAP[resource.key]}" for resource in resources]

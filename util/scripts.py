@@ -1,22 +1,23 @@
+# ruff: noqa
 import json
+import pathlib
 
 from util.constants import COMMON, LUXURY
 
 
-def give_effect(c, name, effect):
-    if c["type"] == name:
-        if c.get("effect") is None:
-            e = {}
-            e["effect"] = effect
-            e["resources"] = c["resources"]
-            e["target"] = []
-            e["direction"] = ["self"]
-            c["effects"] = [e]
-            del c["resources"]
+def give_effect(c, name, effect) -> None:
+    if c["type"] == name and c.get("effect") is None:
+        e = {}
+        e["effect"] = effect
+        e["resources"] = c["resources"]
+        e["target"] = []
+        e["direction"] = ["self"]
+        c["effects"] = [e]
+        del c["resources"]
 
 
-def give_effects():
-    with open("../resources/cards.json") as f:
+def give_effects() -> None:
+    with pathlib.Path("../resources/cards.json").open(encoding="utf-8") as f:
         cards = json.load(f)
 
     for card in cards:
@@ -27,17 +28,17 @@ def give_effects():
         # tmp(card, 'commercial') ignore commercial b/c wacky-doodle
         give_effect(card, "science", "produce")
 
-    with open("../resources/cards.json", "w") as f:
+    with pathlib.Path("../resources/cards.json").open("w", encoding="utf-8") as f:
         json.dump(cards, f, indent=2)
 
 
-def tmp(c):
+def tmp(c) -> None:
     if c.get("effect") is not None:
         c_effect = c.get("effect")
         effects = []
         for i, effect in enumerate(c_effect):
             d = {}
-            d["effect"] = c_effect[i]
+            d["effect"] = effect
             if c["name"] == "Scientists Guild":
                 d["resources"] = c["resources"]
             elif len(c["resources"]) > 0:
@@ -55,18 +56,18 @@ def tmp(c):
         del c["resources"]
 
 
-def effect_to_effects():
-    with open("../resources/cards.json") as f:
+def effect_to_effects() -> None:
+    with pathlib.Path("../resources/cards.json").open(encoding="utf-8") as f:
         cards = json.load(f)
 
     for card in cards:
         tmp(card)
 
-    with open("../resources/cards.json", "w") as f:
+    with pathlib.Path("../resources/cards.json").open("w", encoding="utf-8") as f:
         json.dump(cards, f, indent=2)
 
 
-def modify(c):
+def modify(c) -> None:
     if c.get("effects") is None:
         print(c)
         return
@@ -88,14 +89,14 @@ def modify(c):
         print(e)
 
 
-def modify_effects():
-    with open("../resources/cards.json") as f:
+def modify_effects() -> None:
+    with pathlib.Path("../resources/cards.json").open(encoding="utf-8") as f:
         cards = json.load(f)
 
     for card in cards:
         modify(card)
 
-    with open("../resources/cards.json", "w") as f:
+    with pathlib.Path("../resources/cards.json").open("w", encoding="utf-8") as f:
         json.dump(cards, f, indent=2)
 
 
@@ -103,8 +104,8 @@ def to_tuple(resource_raw):
     return resource_raw[0], len(resource_raw)
 
 
-def tuplify():
-    with open("../resources/cards.json") as f:
+def tuplify() -> None:
+    with pathlib.Path("../resources/cards.json").open(encoding="utf-8") as f:
         cards = json.load(f)
 
     for card in cards:
@@ -115,7 +116,7 @@ def tuplify():
                 r.append(to_tuple(resource))
             effect["resources"] = r
 
-    with open("../resources/cards.json", "w") as f:
+    with pathlib.Path("../resources/cards.json").open("w", encoding="utf-8") as f:
         json.dump(cards, f, indent=2)
 
 

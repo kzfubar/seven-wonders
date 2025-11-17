@@ -3,3 +3,4 @@ __pycache__
 */config.json
 .vscode
 .ruff_cache
+.venv

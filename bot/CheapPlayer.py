@@ -1,11 +1,9 @@
-from typing import Dict
-
 from bot.BasePlayer import BasePlayer
 
 
 class CheapPlayer(BasePlayer):
     def _handle_input(self, data: dict) -> str:
-        cards: Dict = data["options"]["play"]
+        cards: dict = data["options"]["play"]
         payment_option = 0
         index = 0
         payment_cost = 999  # big number to start
@@ -20,9 +18,7 @@ class CheapPlayer(BasePlayer):
                 index = own_data["hand"].index(str(card))
         if payment_cost > own_data["tokens"]["coins"]:
             return "d0"
-        else:
-            response = "p" + str(index)
-            return response
+        return "p" + str(index)
 
-    def _handle_payment(self, data: dict) -> str:
+    def _handle_payment(self, data: dict) -> str:  # noqa: ARG002
         return "0"

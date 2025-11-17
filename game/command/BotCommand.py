@@ -1,6 +1,5 @@
 import asyncio
 import queue
-from typing import List
 
 from bot.BotClient import BotClient
 from game.command.GameCommand import GameCommand
@@ -13,7 +12,7 @@ from networking.server.ClientConnection import ClientConnection
 class BotCommand(GameCommand):
     name: str = "bot"
 
-    def execute(self, args: List, client: ClientConnection):
+    def execute(self, args: list, client: ClientConnection) -> None:  # noqa: ARG002
         bot_name = args[0]
         client_queue: queue.Queue[dict] = queue.Queue()
         client_sender = LocalSender(client_queue)
@@ -26,7 +25,7 @@ class BotCommand(GameCommand):
         bot_client = ClientConnection(bot_name, client_sender)
         bot = BotClient(bot_name, bot_sender, client_receiver)
 
-        bot_client.msg_queue = bot_queue
+        bot_client.msg_queue = bot_queue  # TODO fix this
         self.game.player_clients.append(bot_client)
         asyncio.create_task(bot.start())
         print(self.game.player_clients)

@@ -1,43 +1,37 @@
-from typing import Tuple, List, Dict
-
 from util.constants import LEFT, RIGHT
 
 
-def payment(cost: int, resources: List[str]) -> int:
+def payment(cost: int, resources: tuple[str, ...]) -> int:
     return cost * len(resources)
-
-
-def to_list(input_list):
-    return input_list or []
 
 
 class PaymentOption:
     def __init__(
         self,
-        common_owned: List[str] = None,
-        lux_owned: List[str] = None,
+        common_owned: tuple[str, ...] | None = None,
+        lux_owned: tuple[str, ...] | None = None,
         left_lux_cost: int = 2,
         right_lux_cost: int = 2,
         left_common_cost: int = 2,
         right_common_cost: int = 2,
-        left_lux: List[str] = None,
-        right_lux: List[str] = None,
-        left_common: List[str] = None,
-        right_common: List[str] = None,
+        left_lux: tuple[str, ...] | None = None,
+        right_lux: tuple[str, ...] | None = None,
+        left_common: tuple[str, ...] | None = None,
+        right_common: tuple[str, ...] | None = None,
         bank_payment: int = 0,
-    ):
-        self.common_owned = to_list(common_owned)
-        self.lux_owned = to_list(lux_owned)
+    ) -> None:
+        self.common_owned = common_owned or ()
+        self.lux_owned = lux_owned or ()
 
         self.left_lux_cost = left_lux_cost
         self.right_lux_cost = right_lux_cost
         self.left_common_cost = left_common_cost
         self.right_common_cost = right_common_cost
 
-        self.left_lux = to_list(left_lux)
-        self.right_lux = to_list(right_lux)
-        self.left_common = to_list(left_common)
-        self.right_common = to_list(right_common)
+        self.left_lux = left_lux or ()
+        self.right_lux = right_lux or ()
+        self.left_common = left_common or ()
+        self.right_common = right_common or ()
 
         self.left_payment: int = payment(left_lux_cost, self.left_lux) + payment(
             left_common_cost, self.left_common
@@ -48,30 +42,29 @@ class PaymentOption:
 
         self.bank_payment: int = bank_payment
 
-    def __eq__(self, other):
-        if not isinstance(other, PaymentOption):
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, PaymentOption):
             return NotImplemented
-        elif self is other:
+        if self is value:
             return True
-        else:
-            return (
-                self.common_owned == other.common_owned
-                and self.lux_owned == other.lux_owned
-                and self.left_lux_cost == other.left_lux_cost
-                and self.right_lux_cost == other.right_lux_cost
-                and self.left_common_cost == other.left_common_cost
-                and self.right_common_cost == other.right_common_cost
-                and self.left_lux == other.left_lux
-                and self.right_lux == other.right_lux
-                and self.left_common == other.left_common
-                and self.right_common == other.right_common
-                and self.left_payment == other.left_payment
-                and self.right_payment == other.right_payment
-                and self.bank_payment == other.bank_payment
-            )
+        return (
+            self.common_owned == value.common_owned
+            and self.lux_owned == value.lux_owned
+            and self.left_lux_cost == value.left_lux_cost
+            and self.right_lux_cost == value.right_lux_cost
+            and self.left_common_cost == value.left_common_cost
+            and self.right_common_cost == value.right_common_cost
+            and self.left_lux == value.left_lux
+            and self.right_lux == value.right_lux
+            and self.left_common == value.left_common
+            and self.right_common == value.right_common
+            and self.left_payment == value.left_payment
+            and self.right_payment == value.right_payment
+            and self.bank_payment == value.bank_payment
+        )
 
-    def __hash__(self):
-        return super.__hash__(
+    def __hash__(self) -> int:
+        return hash(
             (
                 self.common_owned,
                 self.lux_owned,
@@ -90,13 +83,13 @@ class PaymentOption:
     def total(self) -> int:
         return self.left_payment + self.right_payment + self.bank_payment
 
-    def resources(self) -> Dict[str, List]:
+    def resources(self) -> dict[str, tuple[str, ...]]:
         return {
             LEFT: self.left_common + self.left_lux,
             RIGHT: self.right_common + self.right_lux,
         }
 
-    def as_tuple(self) -> Tuple[int, int, int]:
+    def as_tuple(self) -> tuple[int, int, int]:
         return self.left_payment, self.right_payment, self.bank_payment
 
 

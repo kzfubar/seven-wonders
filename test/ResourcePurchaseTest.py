@@ -1,13 +1,14 @@
 from unittest import TestCase
 from unittest.mock import patch
 
+from game.action.Action import Action
 from game.Card import Card, Effect
 from game.CostCalculator import calculate_payment_options
 from game.Player import Player
 from game.Resource import Resource
 from game.Side import Side
 from game.Wonder import Wonder
-from game.action import Action
+from networking.server.ClientConnection import ClientConnection
 from util.cardUtils import get_all_cards
 from util.constants import COMMON, LEFT, RIGHT, WONDER_POWER
 
@@ -18,17 +19,28 @@ class ResourcePurchaseTest(TestCase):
     left: Player
     right: Player
 
-    @patch("networking.server.ClientConnection")
-    def setUp(self, connection) -> None:
-        self.victim = Player(Wonder("", "", Side("A"), "", []), connection)
-        self.left = Player(Wonder("", "", Side("A"), "", []), connection)
-        self.right = Player(Wonder("", "", Side("A"), "", []), connection)
+    def setUp(self) -> None:
+        connection = patch("networking.server.ClientConnection").start()
+        self.victim = Player(
+            Wonder("", "", Side("A"), Card("", "", 0, WONDER_POWER, [], []), []),
+            connection,
+        )
+        self.left = Player(
+            Wonder("", "", Side("A"), Card("", "", 0, WONDER_POWER, [], []), []),
+            connection,
+        )
+        self.right = Player(
+            Wonder("", "", Side("A"), Card("", "", 0, WONDER_POWER, [], []), []),
+            connection,
+        )
 
         self.victim.neighbors[LEFT] = self.left
         self.victim.neighbors[RIGHT] = self.right
 
     @patch("networking.server.ClientConnection")
-    def test_playable_when_self_wonder_production(self, connection):
+    def test_playable_when_self_wonder_production(
+        self, connection: ClientConnection
+    ) -> None:
         caravansery = self._get_card("Caravansery")
 
         self.victim = Player(
@@ -57,19 +69,26 @@ class ResourcePurchaseTest(TestCase):
         )
         Action.activate_card(self.victim, self.victim.wonder.power)
         cost = calculate_payment_options(self.victim, caravansery)
-        self.assertTrue(cost)
+        assert cost
 
     @patch("networking.server.ClientConnection")
-    def test_not_playable_when_neighbor_wonder_production(self, connection):
+    def test_not_playable_when_neighbor_wonder_production(
+        self, connection: ClientConnection
+    ) -> None:
         caravansery = self._get_card("Caravansery")
 
-        self.left = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
+        self.left = Player(
+            Wonder(
+                "wood_wonder", "", Side("A"), Card("", "", 0, WONDER_POWER, [], []), []
+            ),
+            connection,
+        )
         self.victim.neighbors[LEFT] = self.left
         self.victim.effects["produce"].append(
             Effect("produce", [Resource("w", 1)], [], ["self"], COMMON)
         )
         cost = calculate_payment_options(self.victim, caravansery)
-        self.assertFalse(cost)
+        assert not cost
 
     def _get_card(self, card_name: str) -> Card:
         for card in self.ALL_CARDS:

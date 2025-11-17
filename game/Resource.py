@@ -1,4 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class Resource:
-    def __init__(self, key: str, amount: int):
-        self.key = key
-        self.amount = amount
+    key: str
+    amount: int

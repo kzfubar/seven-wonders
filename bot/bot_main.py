@@ -7,7 +7,7 @@ from networking.messaging.RemoteReceiver import RemoteReceiver
 from networking.messaging.RemoteSender import RemoteSender
 
 
-async def main():
+async def main() -> None:
     print("Launching Bot...")
     config = Config()
 

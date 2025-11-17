@@ -1,22 +1,24 @@
 import itertools
-from typing import List, Set, Tuple
+from typing import TYPE_CHECKING
 
-from game.Card import Card
+from game.Card import Card, Effect
 from game.PaymentOption import PaymentOption
 from game.Player import Player
-from game.Resource import Resource
 from util.constants import (
     COMMON,
     COMMON_GOODS,
+    LEFT,
     LUXURY,
     LUXURY_GOODS,
-    LEFT,
-    TRADABLE_TYPES,
     RIGHT,
+    TRADABLE_TYPES,
 )
 
+if TYPE_CHECKING:
+    from game.Resource import Resource
 
-def calculate_payment_options(player: Player, card: Card) -> List[PaymentOption]:
+
+def calculate_payment_options(player: Player, card: Card) -> list[PaymentOption]:
     # this depends on the assumption that if a card has a cost, then there is no resource cost
     if "c" in card.cost:
         return [PaymentOption(bank_payment=card.cost.count("c"))]
@@ -30,15 +32,16 @@ def calculate_payment_options(player: Player, card: Card) -> List[PaymentOption]
     common_choices, common_owned, common_reqs = simplify_cost_search(
         player.effects["produce"], common_reqs, COMMON_GOODS
     )
+    left, right = player.get_neighbors()
 
     left_effects = [
         effect
-        for effect in player.neighbors[LEFT].effects["produce"]
+        for effect in left.effects["produce"]
         if effect.card_type in TRADABLE_TYPES
     ]
     right_effects = [
         effect
-        for effect in player.neighbors[RIGHT].effects["produce"]
+        for effect in right.effects["produce"]
         if effect.card_type in TRADABLE_TYPES
     ]
 
@@ -49,33 +52,37 @@ def calculate_payment_options(player: Player, card: Card) -> List[PaymentOption]
         left_effects, right_effects, common_choices, common_reqs, COMMON_GOODS
     )
 
-    options: Set[PaymentOption] = set()
-    for (left_lux, right_lux), (left_common, right_common) in itertools.product(
-        luxury_spread, common_spread
-    ):
-        options.add(
-            PaymentOption(
-                common_owned=common_owned,
-                lux_owned=luxury_owned,
-                left_lux_cost=1 if LUXURY in player.discounts[LEFT] else 2,
-                right_lux_cost=1 if LUXURY in player.discounts[RIGHT] else 2,
-                left_common_cost=1 if COMMON in player.discounts[LEFT] else 2,
-                right_common_cost=1 if COMMON in player.discounts[RIGHT] else 2,
-                left_lux=left_lux,
-                right_lux=right_lux,
-                left_common=left_common,
-                right_common=right_common,
-            )
+    options: set[PaymentOption] = set()
+    options.update(
+        PaymentOption(
+            common_owned=tuple(common_owned),
+            lux_owned=tuple(luxury_owned),
+            left_lux_cost=1 if LUXURY in player.discounts[LEFT] else 2,
+            right_lux_cost=1 if LUXURY in player.discounts[RIGHT] else 2,
+            left_common_cost=1 if COMMON in player.discounts[LEFT] else 2,
+            right_common_cost=1 if COMMON in player.discounts[RIGHT] else 2,
+            left_lux=left_lux,
+            right_lux=right_lux,
+            left_common=left_common,
+            right_common=right_common,
         )
-    return sorted(list(options), key=lambda p: p.total())
+        for (left_lux, right_lux), (left_common, right_common) in itertools.product(
+            luxury_spread, common_spread
+        )
+    )
+    return sorted(options, key=lambda p: p.total())
 
 
 def find_resource_outcomes(
-    left_effects, right_effects, choices, reqs, goods
-) -> Set[Tuple[Tuple[str], Tuple[str]]]:
-    outcomes = list()
+    left_effects: list[Effect],
+    right_effects: list[Effect],
+    choices: list[tuple[str, ...]],
+    reqs: list[str],
+    goods: set[str],
+) -> list[tuple[tuple[str, ...], tuple[str, ...]]]:
+    outcomes: list[tuple[tuple[str, ...], tuple[str, ...]]] = []
     for options in itertools.product([""], *choices):
-        reqs_curr = reqs[:]
+        reqs_curr: list[str] = reqs.copy()
 
         for option in options[1:]:
             if option in reqs_curr:
@@ -103,13 +110,13 @@ def find_resource_outcomes(
             if not valid_resources(right_purchase, updated_right_reqs):
                 continue
 
-            outcomes.append((left_reqs, right_reqs))
+            outcomes.append((tuple(left_reqs), tuple(right_reqs)))
     return outcomes
 
 
-def valid_resources(choices, reqs):
+def valid_resources(choices: list[tuple[str, ...]], reqs: list[str]) -> bool:
     for options in itertools.product([""], *choices):
-        reqs_curr = reqs[:]
+        reqs_curr: list[str] = reqs.copy()
 
         for option in options[1:]:
             if option in reqs_curr:
@@ -121,10 +128,12 @@ def valid_resources(choices, reqs):
     return False
 
 
-def simplify_cost_search(production_effects, reqs, goods):
-    updated_reqs = reqs.copy()
-    need_purchase = []
-    self_owned = []
+def simplify_cost_search(
+    production_effects: list[Effect], reqs: list[str], goods: set[str]
+) -> tuple[list[tuple[str, ...]], list[str], list[str]]:
+    updated_reqs: list[str] = reqs.copy()
+    need_purchase: list[tuple[str, ...]] = []
+    self_owned: list[str] = []
     for production in production_effects:
         resource: Resource = production.resources[0]
         if len(production.resources) != 1:

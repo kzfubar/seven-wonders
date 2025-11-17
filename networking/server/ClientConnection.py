@@ -2,23 +2,26 @@ from __future__ import annotations
 
 import asyncio
 import queue
-from typing import Any, Dict
+from typing import TYPE_CHECKING, Any
 
-from networking.messaging.MessageSender import MessageSender
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from networking.messaging.MessageSender import MessageSender
 
 
 class ClientConnection:
-    def __init__(self, name: str, sender: MessageSender):
+    def __init__(self, name: str, sender: MessageSender) -> None:
         self.name = name
         self.sender = sender
         self.msg_queue: queue.Queue[str] = queue.Queue()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.name}"
 
     def clear_message_buffer(
         self,
-    ):
+    ) -> None:
         while not self.msg_queue.empty():
             self.msg_queue.get()
 
@@ -27,14 +30,14 @@ class ClientConnection:
             await asyncio.sleep(1)
         return self.msg_queue.get()
 
-    def send_message(self, message: Any):
+    def send_message(self, message: Any) -> None:
         self.sender.send_message(message)
 
-    def send_event(self, event_type: str, data: Dict):
+    def send_event(self, event_type: str, data: dict) -> None:
         self.sender.send_event(event_type, data)
 
-    def _on_message(self, callback):
+    def _on_message(self, callback: Callable[[str], None]) -> None:
         msg = ""
-        while msg == "":
+        while not msg:
             msg = self.msg_queue.get(block=True)
         callback(msg)

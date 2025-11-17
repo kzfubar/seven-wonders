@@ -5,7 +5,7 @@ from networking.server.command.ServerCommand import ServerCommand
 class LeaveCommand(ServerCommand):
     name: str = "leave"
 
-    def execute(self, args: str, client: ClientConnection):
+    def execute(self, args: list[str], client: ClientConnection) -> None:  # noqa: ARG002
         if (
             client not in self.server.room_by_client
             or self.server.room_by_client[client] is None
@@ -14,4 +14,4 @@ class LeaveCommand(ServerCommand):
             return
         room = self.server.room_by_client[client]
         self.server.leave_room(client)
-        client.send_message(f"You have left {room.name}")
+        client.send_message(f"You have left {room.name if room is not None else ''}")

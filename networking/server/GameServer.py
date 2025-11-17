@@ -1,18 +1,16 @@
-from typing import Dict, Optional, List
-
 from networking.server.ClientConnection import ClientConnection
 from networking.server.Room import Room
 
 
 class GameServer:
-    def __init__(self):
-        self.room_by_name: Dict[str, Room] = {}
-        self.room_by_client: Dict[ClientConnection, Optional[Room]] = {}
+    def __init__(self) -> None:
+        self.room_by_name: dict[str, Room] = {}
+        self.room_by_client: dict[ClientConnection, Room | None] = {}
 
-    def cleanup(self, client: ClientConnection):
+    def cleanup(self, client: ClientConnection) -> None:
         self.leave_room(client)
 
-    def leave_room(self, client: ClientConnection):
+    def leave_room(self, client: ClientConnection) -> None:
         if client not in self.room_by_client:
             return
         client_room = self.room_by_client[client]
@@ -30,8 +28,11 @@ class GameServer:
         self.room_by_name[room_name] = room
         return room
 
-    def get_room(self, room_name: str) -> Optional[Room]:
+    def get_room(self, room_name: str) -> Room:
         return self.room_by_name[room_name]
 
-    def handle_command(self, cmd: str, args: List, client: ClientConnection) -> bool:
-        return self.room_by_client[client].handle_command(cmd, args, client)
+    def handle_command(self, cmd: str, args: list, client: ClientConnection) -> bool:
+        room = self.room_by_client.get(client)
+        if room is None:
+            return False
+        return room.handle_command(cmd, args, client)

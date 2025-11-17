@@ -1,20 +1,19 @@
 import asyncio
-from typing import List, Dict
 
-from game.Game import Game
 from game.command.BotCommand import BotCommand
-from game.command.SpectateCommand import SpectateCommand
-from game.command.StatusCommand import StatusCommand
-from game.command.ToggleCommand import ToggleCommand
 from game.command.HandCommand import HandCommand
 from game.command.InfoCommand import InfoCommand
+from game.command.SpectateCommand import SpectateCommand
+from game.command.StatusCommand import StatusCommand
 from game.command.TellCommand import TellCommand
+from game.command.ToggleCommand import ToggleCommand
 from game.command.WondersCommand import WondersCommand
-from networking.server.command.Command import Command
+from game.Game import Game
 from networking.server.ClientConnection import ClientConnection
+from networking.server.command.Command import Command
 
 
-def _game_commands(game: Game) -> Dict[str, Command]:
+def _game_commands(game: Game) -> dict[str, Command]:
     commands = [
         InfoCommand(game),
         TellCommand(game),
@@ -29,11 +28,11 @@ def _game_commands(game: Game) -> Dict[str, Command]:
 
 
 class Room:
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         self.name: str = name
         self.game: Game = Game()
-        self.commands: Dict[str, Command] = _game_commands(self.game)
-        self.clients: List[ClientConnection] = list()
+        self.commands: dict[str, Command] = _game_commands(self.game)
+        self.clients: list[ClientConnection] = []
 
     def size(self) -> int:
         return len(self.clients)
@@ -44,19 +43,18 @@ class Room:
         asyncio.create_task(self._start_game())
         return True
 
-    async def _start_game(self):
+    async def _start_game(self) -> None:
         await self.game.start(self.clients)
         for client in self.clients:
             client.send_message("game is over.")
 
-    def handle_command(self, cmd: str, args: List, client: ClientConnection) -> bool:
+    def handle_command(self, cmd: str, args: list, client: ClientConnection) -> bool:
         if cmd in self.commands:
             self.commands[cmd].execute(args, client)
             return True
-        else:
-            return False
+        return False
 
-    def join(self, client: ClientConnection):
+    def join(self, client: ClientConnection) -> None:
         self.clients.append(client)
         client.send_message(f"Joined room: {self.name}")
         client.send_message(f"Currently in room: {[c.name for c in self.clients]}")
@@ -66,7 +64,7 @@ class Room:
             "room", {"type": "room", "clients": [c.name for c in self.clients]}
         )
 
-    def leave(self, client: ClientConnection):
+    def leave(self, client: ClientConnection) -> None:
         self.clients.remove(client)
         for c in self.clients:
             c.send_message(f"{client.name} has left the room")
