@@ -1,15 +1,14 @@
 import random
 from abc import ABC, abstractmethod
-from typing import Dict, Optional
 
-from networking.messaging.messageUtil import GAME, EVENT_TYPE, DATA
+from networking.messaging.messageUtil import DATA, EVENT_TYPE, GAME
 
 
 class BasePlayer(ABC):
     _valid_event_type = GAME
 
-    def __init__(self):
-        self.game_state = dict()
+    def __init__(self) -> None:
+        self.game_state = {}
 
     @abstractmethod
     def _handle_input(self, data: dict) -> str:
@@ -19,25 +18,23 @@ class BasePlayer(ABC):
     def _handle_payment(self, data: dict) -> str:
         pass
 
-    def handle_event(self, event: Dict) -> Optional[str]:
+    def handle_event(self, event: dict) -> str | None:
         if not self._valid(event):
-            return
+            return None
         try:
             data = event[DATA]
             data_type = data["type"]
             if data_type == "update":
                 self.game_state = data
                 return None
-            elif data_type == "wonder_selection":
+            if data_type == "wonder_selection":
                 return random.choice(data["options"])
-            elif data_type == "input":
+            if data_type == "input":
                 return self._handle_input(data)
-            elif data_type == "payment":
+            if data_type == "payment":
                 return self._handle_payment(data)
         except KeyError:
-            return
+            return None
 
-    def _valid(self, event: Dict) -> bool:
-        if EVENT_TYPE in event and event[EVENT_TYPE] == self._valid_event_type:
-            return True
-        return False
+    def _valid(self, event: dict) -> bool:
+        return bool(EVENT_TYPE in event and event[EVENT_TYPE] == self._valid_event_type)

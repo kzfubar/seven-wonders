@@ -1,8 +1,7 @@
 import asyncio
+import sys
 
 from networking.client.AsyncClient import AsyncClient
-
-import sys
 
 if __name__ == "__main__":
     print("Launching WondersClient...")

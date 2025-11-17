@@ -1,14 +1,15 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from game.Card import Effect
+from game.Card import Card, Effect
 from game.Player import Player
 from game.Resource import Resource
 from game.Side import Side
 from game.VictoryCalculator import VictoryCalculator
 from game.Wonder import Wonder
+from networking.server.ClientConnection import ClientConnection
 from util.cardUtils import get_all_cards
-from util.constants import SCIENCE
+from util.constants import SCIENCE, WONDER_POWER
 
 
 class VictoryPointsTest(TestCase):
@@ -20,8 +21,13 @@ class VictoryPointsTest(TestCase):
     victory_calculator = VictoryCalculator(ALL_CARDS)
 
     @patch("networking.server.ClientConnection")
-    def test_points_from_three_science(self, connection):
-        self.victim = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
+    def test_points_from_three_science(self, connection: ClientConnection) -> None:
+        self.victim = Player(
+            Wonder(
+                "wood_wonder", "", Side("A"), Card("", "", 0, WONDER_POWER, [], []), []
+            ),
+            connection,
+        )
         self.victim.effects["research"].append(
             Effect("research", [Resource("x", 1)], [], ["self"], SCIENCE)
         )
@@ -34,11 +40,18 @@ class VictoryPointsTest(TestCase):
 
         vp = self.victory_calculator.get_victory(self.victim)
 
-        self.assertEqual(vp["science"], 10)
+        assert vp["science"] == 10
 
     @patch("networking.server.ClientConnection")
-    def test_points_from_three_science_one_choice(self, connection):
-        self.victim = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
+    def test_points_from_three_science_one_choice(
+        self, connection: ClientConnection
+    ) -> None:
+        self.victim = Player(
+            Wonder(
+                "wood_wonder", "", Side("A"), Card("", "", 0, WONDER_POWER, [], []), []
+            ),
+            connection,
+        )
         self.victim.effects["research"].append(
             Effect("research", [Resource("x", 1)], [], ["self"], SCIENCE)
         )
@@ -57,11 +70,16 @@ class VictoryPointsTest(TestCase):
 
         vp = self.victory_calculator.get_victory(self.victim)
 
-        self.assertEqual(vp["science"], 10)
+        assert vp["science"] == 10
 
     @patch("networking.server.ClientConnection")
-    def test_points_four_science_choices(self, connection):
-        self.victim = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
+    def test_points_four_science_choices(self, connection: ClientConnection) -> None:
+        self.victim = Player(
+            Wonder(
+                "wood_wonder", "", Side("A"), Card("", "", 0, WONDER_POWER, [], []), []
+            ),
+            connection,
+        )
         self.victim.effects["research"].append(
             Effect(
                 "research",
@@ -102,11 +120,16 @@ class VictoryPointsTest(TestCase):
 
         vp = self.victory_calculator.get_victory(self.victim)
 
-        self.assertEqual(vp["science"], 16)
+        assert vp["science"] == 16
 
     @patch("networking.server.ClientConnection")
-    def test_points_ten_science_choices(self, connection):
-        self.victim = Player(Wonder("wood_wonder", "", Side("A"), "w", []), connection)
+    def test_points_ten_science_choices(self, connection: ClientConnection) -> None:
+        self.victim = Player(
+            Wonder(
+                "wood_wonder", "", Side("A"), Card("", "", 0, WONDER_POWER, [], []), []
+            ),
+            connection,
+        )
         for _ in range(10):
             self.victim.effects["research"].append(
                 Effect(
@@ -120,4 +143,4 @@ class VictoryPointsTest(TestCase):
 
         vp = self.victory_calculator.get_victory(self.victim)
 
-        self.assertEqual(vp["science"], 100)
+        assert vp["science"] == 100

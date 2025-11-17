@@ -5,7 +5,7 @@ ANSI_ESCAPE = re.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]")
 
 
 class ANSI(Enum):
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.value)
 
     PURPLE = "\033[95m"

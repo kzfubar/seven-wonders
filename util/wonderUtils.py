@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import json
+import pathlib
 from collections import defaultdict
-from typing import List, Dict
 
 from game.Card import Card
 from game.Side import Side
 from game.Wonder import Wonder
 from util.cardUtils import get_effects, to_card_id
-from util.constants import WONDER_STAGE, WONDER_POWER
+from util.constants import WONDER_POWER, WONDER_STAGE
 
 
 def _to_wonder_name(wonder_data: dict) -> str:
@@ -17,7 +17,7 @@ def _to_wonder_name(wonder_data: dict) -> str:
     return f"{base_name} ({side})"
 
 
-def _create_wonders(wonders_data: dict) -> List[Wonder]:
+def _create_wonders(wonders_data: dict) -> list[Wonder]:
     wonders = []
     for wonder_data in wonders_data:
         wonder_name = _to_wonder_name(wonder_data)
@@ -59,13 +59,13 @@ def _create_wonders(wonders_data: dict) -> List[Wonder]:
     return wonders
 
 
-def create_wonders() -> Dict[str, Dict[str, Wonder]]:
+def create_wonders() -> dict[str, dict[str, Wonder]]:
     """wonder base name lowercase : Side : Wonder"""
-    wonders: List[Wonder] = []
-    with open("resources/wondersA.json") as f:
+    wonders: list[Wonder] = []
+    with pathlib.Path("resources/wondersA.json").open(encoding="utf-8") as f:
         data = json.load(f)
         wonders += _create_wonders(data["wonders"])
-    with open("resources/wondersB.json") as f:
+    with pathlib.Path("resources/wondersB.json").open(encoding="utf-8") as f:
         data = json.load(f)
         wonders += _create_wonders(data["wonders"])
 

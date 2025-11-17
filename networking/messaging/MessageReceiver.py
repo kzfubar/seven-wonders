@@ -1,23 +1,22 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 
 
 class MessageReceiver(ABC):
     @abstractmethod
-    def is_empty(self):
+    def is_empty(self) -> bool:
         pass
 
     @abstractmethod
-    async def get_message(self) -> Optional[dict]:
+    async def get_message(self) -> dict:
         pass
 
 
 class EmptyReceiver(MessageReceiver):
-    def is_empty(self):
-        pass
+    def is_empty(self) -> bool:
+        return True
 
-    async def get_message(self) -> Optional[dict]:
-        pass
+    async def get_message(self) -> dict:
+        return {}
 
 
 EMPTY_RECEIVER = EmptyReceiver()

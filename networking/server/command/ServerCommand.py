@@ -5,5 +5,5 @@ from networking.server.GameServer import GameServer
 
 
 class ServerCommand(Command, ABC):
-    def __init__(self, server: GameServer):
+    def __init__(self, server: GameServer) -> None:
         self.server = server

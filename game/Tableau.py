@@ -1,24 +1,24 @@
-from util.ANSI import use, ANSI
+from util.ANSI import ANSI, use
 from util.constants import (
+    CIVILIAN,
     COINS,
+    COMMERCIAL,
+    COMMON,
+    DEFEAT,
+    GUILD,
+    LUXURY,
+    MILITARY,
     MILITARY_MIGHT,
     MILITARY_POINTS,
-    DEFEAT,
-    COMMON,
-    LUXURY,
-    CIVILIAN,
-    COMMERCIAL,
-    MILITARY,
     SCIENCE,
-    GUILD,
     TYPE_COLOR_MAP,
-    WONDER_STAGE,
     WONDER_POWER,
+    WONDER_STAGE,
 )
 
 
 class Tableau:
-    def __init__(self):
+    def __init__(self) -> None:
         self.tokens = {COINS: 0, MILITARY_MIGHT: 0, MILITARY_POINTS: 0, DEFEAT: 0}
         self.card_types_played = {
             WONDER_STAGE: 0,
@@ -32,23 +32,19 @@ class Tableau:
             GUILD: 0,
         }
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.token_info() + "\n" + self.card_type_info()
 
     def token_info(self) -> str:
-        tok_l = []
+        tok_l: list[str] = []
         for token, count in self.tokens.items():
             tok_l.append(f"{token}: {count}")
         return ", ".join(tok_l)
 
     def card_type_info(self) -> str:
-        types_l = []
+        types_l: list[str] = []
         for card_type, count in self.card_types_played.items():
-            color = (
-                TYPE_COLOR_MAP[card_type]
-                if card_type in TYPE_COLOR_MAP
-                else ANSI.BRIGHT_WHITE
-            )
+            color = TYPE_COLOR_MAP.get(card_type, ANSI.BRIGHT_WHITE)
             types_l.append(f"{use(color, card_type)}: {count}")
         return ", ".join(types_l)
 

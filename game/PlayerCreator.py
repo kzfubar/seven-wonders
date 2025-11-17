@@ -1,5 +1,4 @@
 import asyncio
-from typing import List
 
 from game.Player import Player
 from game.Side import Side
@@ -8,7 +7,7 @@ from util.constants import LEFT, RIGHT
 from util.wonderUtils import create_wonders
 
 
-async def create_players(clients: List[ClientConnection]) -> List[Player]:
+async def create_players(clients: list[ClientConnection]) -> list[Player]:
     players = []
     await asyncio.gather(
         *(_create_player(client, players, clients) for client in clients)
@@ -18,7 +17,7 @@ async def create_players(clients: List[ClientConnection]) -> List[Player]:
 
 
 async def _create_player(
-    client: ClientConnection, players: List[Player], clients: List[ClientConnection]
+    client: ClientConnection, players: list[Player], clients: list[ClientConnection]
 ) -> None:
     wonders = create_wonders()
     all_wonder_names = wonders.keys()
@@ -26,13 +25,13 @@ async def _create_player(
     side = Side.A
     client.clear_message_buffer()
     client.send_message("Enter your wonder")
-    while wonder_name == "":
+    while not wonder_name:
         # todo wonder options should be client side
         client.send_event(
             "game", {"type": "wonder_selection", "options": ["r", "b", "g", "e", "a"]}
         )
         msg = await client.get_message()
-        args: List[str] = msg.split()
+        args: list[str] = msg.split()
         selected_wonder_name = args.pop(0)
         matched_wonder_names = [
             wn
@@ -42,7 +41,7 @@ async def _create_player(
         if len(matched_wonder_names) == 0:
             client.send_message("Invalid wonder name")
             continue
-        elif len(matched_wonder_names) > 1:
+        if len(matched_wonder_names) > 1:
             client.send_message(
                 f"Please specify wonder: '{selected_wonder_name}' matched to {matched_wonder_names}"
             )
@@ -61,7 +60,7 @@ async def _create_player(
             client.send_message(f"Invalid side {args[0]}")
             wonder_name = ""
 
-    wonder = wonders[wonder_name][side]
+    wonder = wonders[wonder_name][side.value]
     player = Player(wonder, client)
     players.append(player)
     for c in clients:
@@ -69,9 +68,9 @@ async def _create_player(
             c.send_message(f"{player.name} has selected {wonder.name}")
 
 
-def _set_neighbors(players: List[Player]):
+def _set_neighbors(players: list[Player]) -> None:
     left = players[-1]
     for player in players:
         player.neighbors[LEFT] = left
-        player.neighbors[LEFT].neighbors[RIGHT] = player
+        left.neighbors[RIGHT] = player
         left = player

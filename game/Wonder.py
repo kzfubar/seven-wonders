@@ -1,5 +1,3 @@
-from typing import List
-
 from game.Card import Card
 from game.Side import Side
 from util.utils import cards_as_string
@@ -7,8 +5,8 @@ from util.utils import cards_as_string
 
 class Wonder:
     def __init__(
-        self, name: str, base_name: str, side: Side, power: Card, stages: List[Card]
-    ):
+        self, name: str, base_name: str, side: Side, power: Card, stages: list[Card]
+    ) -> None:
         self.name: str = name
         self.base_name: str = base_name
         self.side: Side = side
@@ -17,7 +15,7 @@ class Wonder:
         self.level = 0
         self.is_max_level = False
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             f"Wonder{{name = {self.name}, "
             f"power = {self.power}, "
@@ -25,7 +23,7 @@ class Wonder:
             f"level = {self.level}"
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         header, stages_str = cards_as_string(self.stages, False)
         stages = (
             "    "
@@ -36,12 +34,12 @@ class Wonder:
                 for i, stage in enumerate(self.stages)
             )
         )
-        return f"{self.name} \n" f"power = {self.power} \n" f"{stages} "
+        return f"{self.name} \npower = {self.power} \n{stages} "
 
     def get_next_stage(self) -> Card:
         return self.stages[self.level]
 
-    def increment_level(self):
+    def increment_level(self) -> None:
         self.level += 1
         if self.level >= len(self.stages):
             self.is_max_level = True
